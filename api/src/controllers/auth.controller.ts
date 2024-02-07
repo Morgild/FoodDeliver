@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import { UserModel } from "../models";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import nodemailer from "nodemailer";
 
 export const signUp: RequestHandler = async (req, res) => {
   try {
@@ -41,7 +42,25 @@ export const login: RequestHandler = async (req, res) => {
     }
     const id = user._id;
     const token = jwt.sign({ id }, "secret-key");
-    return res.json({ token, message: "Logged in successfully" });
+    return res.json({ user, token, message: "Logged in successfully" });
+  } catch (err) {
+    res.json(err);
+  }
+};
+
+export const getUser: RequestHandler = async (req, res) => {
+  try {
+    const { authorization } = req.headers;
+    if (!authorization) {
+      return res.status(401).json({ message: "Unauthorized1" });
+    }
+    const { id: userId } = jwt.verify(
+      authorization,
+      "secret-key"
+    ) as JwtPayload;
+
+    const user = await UserModel.findOne({ _id: userId });
+    return res.json(user);
   } catch (err) {
     res.json(err);
   }

@@ -1,12 +1,30 @@
 "use client";
 import { Button, Stack, Typography } from "@mui/material";
 import { CustomInput } from "./CustomInput";
-import { useState } from "react";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { useAuth } from "./providers/AuthProvider";
+import { toast } from "react-toastify";
 
 type PasswordRefreshPropsCode = { stepChange: () => void };
+const validationSchema = yup.object({
+  code: yup.string().required(),
+});
 
 export const PasswordRefreshCode = (props: PasswordRefreshPropsCode) => {
+  const { setOtp } = useAuth();
   const { stepChange } = props;
+  const formik = useFormik({
+    initialValues: {
+      code: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      setOtp(values.code);
+      stepChange();
+    },
+  });
+
   return (
     <Stack
       gap={6}
@@ -25,11 +43,17 @@ export const PasswordRefreshCode = (props: PasswordRefreshPropsCode) => {
           label="Нууц үг сэргээх код"
           type="password"
           placeholder="********"
+          name="code"
+          value={formik.values.code}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.code && Boolean(formik.errors.code)}
+          helperText={formik.touched.code && formik.errors.code}
         />
       </Stack>
       <Button
         onClick={() => {
-          stepChange();
+          formik.handleSubmit();
         }}
         sx={{ py: "8px" }}
         variant="contained"

@@ -8,6 +8,7 @@ import { useState } from "react";
 type ForgotPasswordProps = {};
 export default function ForgotPassword(props: ForgotPasswordProps) {
   const [step, setStep] = useState("email");
+  const [newPassword, setNewPassword] = useState("");
   const stepChange = () => {
     if (step == "email") {
       setStep("code");

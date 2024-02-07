@@ -6,15 +6,21 @@ import { CloudQueue } from "@mui/icons-material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useAuth } from "./providers/AuthProvider";
+import { useRouter } from "next/navigation";
 const validationSchema = yup.object({
   name: yup.string().required(),
   email: yup.string().email().required(),
   address: yup.string().required(),
   password: yup.string().required(),
-  repassword: yup.string().required(),
+  repassword: yup
+    .string()
+    .oneOf([yup.ref("password"), ""], "Нууц үг адил биш байна!")
+    .required(),
 });
-type SignUpProps = { shadow?: String };
-export const SignUp = (props: SignUpProps) => {
+type SignUpProps = {};
+
+export const SignUp = (props: SignUpProps & SignUpProps) => {
+  const router = useRouter();
   const { signUp } = useAuth();
   const formik = useFormik({
     initialValues: {
@@ -100,16 +106,25 @@ export const SignUp = (props: SignUpProps) => {
           />
         </Stack>
         <Typography
+          onClick={() => {
+            router.push("/ForgotPassword");
+          }}
           fontSize={14}
           fontWeight={400}
           color={"#3F4145"}
           textAlign={"end"}
+          sx={{ cursor: "pointer" }}
         >
           Нууц үг сэргээх
         </Typography>
       </Stack>
       <Stack width={1} gap={4}>
-        <Stack gap={2} padding={"8px 16px 8px 0px"} flexDirection={"row"}>
+        <Stack
+          gap={2}
+          padding={"8px 16px 8px 0px"}
+          flexDirection={"row"}
+          sx={{ cursor: "pointer" }}
+        >
           <CloudQueue />
           <Typography
             fontSize={14}
@@ -132,7 +147,7 @@ export const SignUp = (props: SignUpProps) => {
             !formik.values.email ||
             !formik.values.address ||
             !formik.values.password ||
-            !formik.values.repassword
+            Boolean(formik.errors.repassword)
           }
         >
           <Typography>Бүртгүүлэх</Typography>

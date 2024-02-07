@@ -16,16 +16,18 @@ type SignInProps = { handleClose?: () => void };
 export const SignIn = (props: TextFieldProps & SignInProps) => {
   const { handleClose } = props;
   const router = useRouter();
-  const { signIn } = useAuth();
+  const { signIn, isLogged } = useAuth();
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      // console.log(values);
+    onSubmit: async (values) => {
       signIn(values.email, values.password);
+      if (handleClose) {
+        handleClose();
+      }
     },
   });
   return (

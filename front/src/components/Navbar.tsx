@@ -17,6 +17,7 @@ import { SignUp } from "./SignUp";
 import { usePathname, useRouter } from "next/navigation";
 import path from "path";
 import { Basket } from "./Basket";
+import { useAuth } from "./providers/AuthProvider";
 type NavBarProps = {
   open?: boolean;
   onClose?: () => void;
@@ -41,10 +42,12 @@ export const NavBar = (props: NavBarProps) => {
   const handleClose = () => setOpen(false);
   const router = useRouter();
   const pathname = usePathname();
+  const { user, isLogged } = useAuth();
   const [state, setState] = React.useState(false);
   const toggleDrawer = () => {
     setState((prev) => !prev);
   };
+  console.log(user);
   return (
     <Container maxWidth="lg">
       <AppBar
@@ -68,7 +71,7 @@ export const NavBar = (props: NavBarProps) => {
             height={26.76}
             alt="logo"
           />
-          <List sx={{ display: "flex", gap: "24px" }}>
+          <List sx={{ display: "flex", alignItems: "center", gap: "24px" }}>
             {menuItems.map((item) => (
               <Stack key={item}>
                 <Stack
@@ -104,7 +107,12 @@ export const NavBar = (props: NavBarProps) => {
               Сагс
             </Typography>
           </Stack>
-          <Stack gap={2} flexDirection={"row"} sx={{ p: "8px 16px" }}>
+          <Stack
+            gap={2}
+            alignItems={"center"}
+            flexDirection={"row"}
+            sx={{ p: "8px 16px" }}
+          >
             <Image alt="basket" src="/avatar.png" width={24} height={24} />
             <Typography
               onClick={() => {
@@ -119,7 +127,7 @@ export const NavBar = (props: NavBarProps) => {
               fontWeight={700}
               sx={{ cursor: "pointer" }}
             >
-              Нэвтрэх
+              {isLogged ? user.name : "Нэвтрэх"}
             </Typography>
           </Stack>
         </Stack>
