@@ -1,5 +1,6 @@
 import { api } from "@/app/common/axios";
 import { AxiosError, AxiosHeaders } from "axios";
+import { Url } from "next/dist/shared/lib/router/router";
 import {
   useContext,
   createContext,
@@ -10,6 +11,7 @@ import {
   useEffect,
 } from "react";
 import { toast } from "react-toastify";
+import { URL } from "url";
 
 type AuthContextType = {
   isLogged: boolean;
@@ -28,14 +30,31 @@ type AuthContextType = {
   email: string;
   setEmail: Dispatch<SetStateAction<string>>;
   user: object;
-  setUser: Dispatch<SetStateAction<object>>;
+  setUser: Dispatch<
+    SetStateAction<{
+      name: string;
+      email: string;
+      phone: string;
+      address: string;
+      password: string;
+      profilePic: string;
+    }>
+  >;
 };
 const AuthContext = createContext({} as AuthContextType);
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [isLogged, setIsLogged] = useState(false);
   const [otp, setOtp] = useState("");
   const [email, setEmail] = useState("");
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    password: "",
+    profilePic:
+      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+  });
 
   const signIn = async (email: string, password: string) => {
     try {

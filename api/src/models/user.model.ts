@@ -11,6 +11,10 @@ const userSchema = new Schema({
     required: true,
     defaultValue: "test@email.com",
   },
+  phone: {
+    type: String,
+    required: false,
+  },
   address: {
     type: String,
     required: true,
@@ -19,6 +23,12 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  // profilePic: {
+  //   type: URL,
+  //   required: false,
+  //   defaultValue:
+  //     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+  // },
   updatedAt: Date,
   createdAt: Date,
   otp: {

@@ -47,7 +47,6 @@ export const NavBar = (props: NavBarProps) => {
   const toggleDrawer = () => {
     setState((prev) => !prev);
   };
-  console.log(user);
   return (
     <Container maxWidth="lg">
       <AppBar
@@ -116,10 +115,10 @@ export const NavBar = (props: NavBarProps) => {
             <Image alt="basket" src="/avatar.png" width={24} height={24} />
             <Typography
               onClick={() => {
-                if (pathname === "/") {
-                  handleOpen();
+                if (isLogged) {
+                  router.push("/User");
                 } else {
-                  router.push("/Signin");
+                  handleOpen();
                 }
               }}
               color="common.black"
