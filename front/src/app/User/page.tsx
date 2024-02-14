@@ -2,8 +2,8 @@
 import { ChangeProfilePic } from "@/components/ChangeProfilePic";
 import { UserCard } from "@/components/UserCard";
 import { useAuth } from "@/components/providers/AuthProvider";
-import { EditOutlined } from "@mui/icons-material";
-import { Box, Modal, Stack, Typography } from "@mui/material";
+import { EditOutlined, Logout, Restore } from "@mui/icons-material";
+import { Box, Button, Modal, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -25,8 +25,9 @@ export default function User(props: UserProfileProps) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [imageUrl, setImageUrl] = useState(null);
 
-  // const { name, email, phone } = user;
+  const { name, email, phone, profilePic } = user;
   console.log(user);
   return (
     <>
@@ -34,22 +35,21 @@ export default function User(props: UserProfileProps) {
         gap={6}
         sx={{ alignItems: "center" }}
         marginTop={"76px"}
-        bgcolor={"primary.main"}
+        marginBottom={"199px"}
         maxWidth={"432px"}
         minWidth={"432px"}
         alignSelf={"center"}
       >
-        <Stack gap={5} bgcolor={"red"} alignItems={"center"}>
+        <Stack gap={5} alignItems={"center"}>
           <Stack>
             <Stack
               borderRadius={"50%"}
               width={120}
               height={120}
-              bgcolor={"red"}
               position={"relative"}
             >
-              <Image
-                src={"/profile.png"}
+              <img
+                src={profilePic ? profilePic : imageUrl}
                 alt="avatar"
                 width={120}
                 height={120}
@@ -80,14 +80,68 @@ export default function User(props: UserProfileProps) {
             Угтахбаяр
           </Typography>
         </Stack>
-        <Stack
-          width={1}
-          alignItems={"center"}
-          bgcolor={"blue"}
-          gap={2}
-          padding={"16px 20px"}
-        >
+        <Stack width={1} alignItems={"center"} gap={2} padding={"16px 20px"}>
           <UserCard />
+          <Stack
+            width={1}
+            bgcolor={"#common.white"}
+            flexDirection={"row"}
+            borderRadius={"4px"}
+            padding={"8px 20px"}
+            gap={1}
+            justifyContent={"space-between"}
+          >
+            <Stack
+              padding={1}
+              alignItems={"center"}
+              justifyContent={"center"}
+              borderRadius={"50%"}
+              bgcolor={"common.white"}
+              fontSize={"24px"}
+              alignSelf={"center"}
+            >
+              <Restore fontSize="inherit" />
+            </Stack>
+            <Stack gap={0.5} width={1} justifyContent={"center"}>
+              <Typography fontSize={16} fontWeight={400} color={"#0D1118"}>
+                Захиалгын түүх
+              </Typography>
+            </Stack>
+          </Stack>
+          <Stack
+            width={1}
+            bgcolor={"#common.white"}
+            flexDirection={"row"}
+            borderRadius={"4px"}
+            padding={"8px 20px"}
+            gap={1}
+            justifyContent={"space-between"}
+          >
+            <Stack
+              padding={1}
+              alignItems={"center"}
+              justifyContent={"center"}
+              borderRadius={"50%"}
+              bgcolor={"common.white"}
+              fontSize={"24px"}
+              alignSelf={"center"}
+            >
+              <Logout fontSize="inherit" />
+            </Stack>
+            <Stack gap={0.5} width={1} justifyContent={"center"}>
+              <Typography fontSize={16} fontWeight={400} color={"#0D1118"}>
+                Гарах
+              </Typography>
+            </Stack>
+          </Stack>
+          <Button
+            onClick={() => {}}
+            fullWidth
+            sx={{ py: "8px" }}
+            variant="contained"
+          >
+            <Typography>Хадгалах</Typography>
+          </Button>
         </Stack>
       </Stack>
       <Modal
@@ -97,7 +151,11 @@ export default function User(props: UserProfileProps) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <ChangeProfilePic handleClose={handleClose} />
+          <ChangeProfilePic
+            handleClose={handleClose}
+            imageUrl={imageUrl}
+            setImageUrl={setImageUrl}
+          />
         </Box>
       </Modal>
     </>

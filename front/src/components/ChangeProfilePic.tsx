@@ -1,12 +1,16 @@
 import { Close } from "@mui/icons-material";
 import { Button, Container, Stack, TextField } from "@mui/material";
 import Image from "next/image";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { toast } from "react-toastify";
-type ChangeProfilePicProps = { handleClose?: () => void };
+type ChangeProfilePicProps = {
+  handleClose?: () => void;
+  imageUrl: string;
+  setImageUrl: Dispatch<SetStateAction<string>>;
+};
 export const ChangeProfilePic = (props: ChangeProfilePicProps) => {
+  const { imageUrl, setImageUrl } = props;
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState(null);
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
@@ -32,7 +36,7 @@ export const ChangeProfilePic = (props: ChangeProfilePicProps) => {
           position: "top-center",
         });
       } catch (error) {
-        console.error("Image upload error:", error);
+        toast.error("Image upload error:");
       }
     }
   };

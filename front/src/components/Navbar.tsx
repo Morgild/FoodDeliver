@@ -43,10 +43,12 @@ export const NavBar = (props: NavBarProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const { user, isLogged } = useAuth();
+  const { name } = user;
   const [state, setState] = React.useState(false);
   const toggleDrawer = () => {
     setState((prev) => !prev);
   };
+
   return (
     <Container maxWidth="lg">
       <AppBar
@@ -126,7 +128,7 @@ export const NavBar = (props: NavBarProps) => {
               fontWeight={700}
               sx={{ cursor: "pointer" }}
             >
-              {isLogged ? user.name : "Нэвтрэх"}
+              {isLogged ? name : "Нэвтрэх"}
             </Typography>
           </Stack>
         </Stack>
