@@ -1,6 +1,6 @@
 import { api } from "@/app/common/axios";
-import { AxiosError, AxiosHeaders } from "axios";
-import { Url } from "next/dist/shared/lib/router/router";
+import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
 import {
   useContext,
   createContext,
@@ -11,7 +11,6 @@ import {
   useEffect,
 } from "react";
 import { toast } from "react-toastify";
-import { URL } from "url";
 
 type AuthContextType = {
   isLogged: boolean;
@@ -29,6 +28,8 @@ type AuthContextType = {
   setOtp: Dispatch<SetStateAction<string>>;
   email: string;
   setEmail: Dispatch<SetStateAction<string>>;
+  refresh: number;
+  setRefresh: Dispatch<SetStateAction<number>>;
   user: object;
   setUser: Dispatch<
     SetStateAction<{
@@ -46,6 +47,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [isLogged, setIsLogged] = useState(false);
   const [otp, setOtp] = useState("");
   const [email, setEmail] = useState("");
+  const [refresh, setRefresh] = useState(0);
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -55,10 +57,11 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     profilePic:
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
   });
+  const router = useRouter();
 
   const signIn = async (email: string, password: string) => {
     try {
-      const { data } = await api.post("/login", {
+      const { data } = await api.post("auth/login", {
         email,
         password,
       });
@@ -86,7 +89,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     password: string
   ) => {
     try {
-      const { data } = await api.post("/signUp", {
+      const { data } = await api.post("auth/signUp", {
         name,
         email,
         address,
@@ -104,6 +107,15 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
           hideProgressBar: true,
         });
       }
+      console.log(error), "FFF";
+    }
+  };
+  const signOut = async () => {
+    try {
+      localStorage.removeItem("token");
+      setRefresh(refresh + 1);
+      router.push("/");
+    } catch (error) {
       console.log(error), "FFF";
     }
   };
@@ -142,7 +154,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   };
   const getUser = async () => {
     try {
-      const { data } = await api.get("/getUser", {
+      const { data } = await api.get("user/getUser", {
         headers: { Authorization: localStorage.getItem("token") },
       });
       setUser(data);
@@ -171,14 +183,15 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     if (isLogged) getUser();
-  }, [isLogged]);
+  }, [isLogged, refresh]);
+
   return (
     <AuthContext.Provider
       value={{
         isLogged,
         signUp,
         signIn,
-        signOut: () => {},
+        signOut,
         sendEmail,
         resetPassword,
         otp,
@@ -187,6 +200,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         setEmail,
         user,
         setUser,
+        refresh,
+        setRefresh,
       }}
     >
       {children}

@@ -43,7 +43,7 @@ export const NavBar = (props: NavBarProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const { user, isLogged } = useAuth();
-  const { name } = user;
+  const { name, profilePic } = user;
   const [state, setState] = React.useState(false);
   const toggleDrawer = () => {
     setState((prev) => !prev);
@@ -114,7 +114,9 @@ export const NavBar = (props: NavBarProps) => {
             flexDirection={"row"}
             sx={{ p: "8px 16px" }}
           >
-            <Image alt="basket" src="/avatar.png" width={24} height={24} />
+            <Stack borderRadius={"50%"} overflow={"hidden"}>
+              <img alt="basket" src={profilePic} width={24} height={24} />
+            </Stack>
             <Typography
               onClick={() => {
                 if (isLogged) {

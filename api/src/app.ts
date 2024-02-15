@@ -7,8 +7,8 @@ import resetRouter from "./routers/reset.router";
 const app = express();
 app.use(cors());
 app.use(json());
-app.use("/", authRouter);
-app.use("/users", usersRouter);
+app.use("/auth", authRouter);
+app.use("/user", usersRouter);
 app.use("/reset", resetRouter);
 
 export default app;

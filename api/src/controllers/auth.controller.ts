@@ -1,7 +1,6 @@
 import { RequestHandler } from "express";
 import { UserModel } from "../models";
-import jwt, { JwtPayload } from "jsonwebtoken";
-import nodemailer from "nodemailer";
+import jwt from "jsonwebtoken";
 
 export const signUp: RequestHandler = async (req, res) => {
   try {
@@ -14,12 +13,16 @@ export const signUp: RequestHandler = async (req, res) => {
         message: "User already exist",
       });
     }
-    // return res.json("test");
+    const defaultPhone = "88888888";
+    const defaultImg =
+      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
     const user = await UserModel.create({
       name,
       email,
+      phone: defaultPhone,
       address,
       password,
+      profilePic: defaultImg,
       updatedAt: new Date(),
       createdAt: new Date(),
     });
@@ -43,24 +46,6 @@ export const login: RequestHandler = async (req, res) => {
     const id = user._id;
     const token = jwt.sign({ id }, "secret-key");
     return res.json({ user, token, message: "Logged in successfully" });
-  } catch (err) {
-    res.json(err);
-  }
-};
-
-export const getUser: RequestHandler = async (req, res) => {
-  try {
-    const { authorization } = req.headers;
-    if (!authorization) {
-      return res.status(401).json({ message: "Unauthorized1" });
-    }
-    const { id: userId } = jwt.verify(
-      authorization,
-      "secret-key"
-    ) as JwtPayload;
-
-    const user = await UserModel.findOne({ _id: userId });
-    return res.json(user);
   } catch (err) {
     res.json(err);
   }

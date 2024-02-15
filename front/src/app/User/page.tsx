@@ -4,8 +4,11 @@ import { UserCard } from "@/components/UserCard";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { EditOutlined, Logout, Restore } from "@mui/icons-material";
 import { Box, Button, Modal, Stack, Typography } from "@mui/material";
+import { AxiosError } from "axios";
 import Image from "next/image";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import { api } from "../common/axios";
 
 type UserProfileProps = { name: string; open?: boolean; onClose?: () => void };
 
@@ -21,14 +24,46 @@ export default function User(props: UserProfileProps) {
     p: 1,
   };
   const {} = props;
-  const { user } = useAuth();
+  const { user, signOut, refresh, setRefresh } = useAuth();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [imageUrl, setImageUrl] = useState(null);
+  const [imageUrl, setImageUrl] = useState("");
 
   const { name, email, phone, profilePic } = user;
-  console.log(user);
+
+  const updateUser = async (
+    profilePic: string,
+    name: string,
+    phone: string,
+    email: string
+  ) => {
+    try {
+      const { data } = await api.post(
+        "user/updateUser",
+        {
+          profilePic,
+          name,
+          phone,
+          email,
+        },
+        { headers: { Authorization: localStorage.getItem("token") } }
+      );
+      console.log(data);
+      toast.success(data.message, {
+        position: "top-center",
+        hideProgressBar: true,
+      });
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message ?? error.message, {
+          position: "top-center",
+          hideProgressBar: true,
+        });
+      }
+      console.log(error), "FFF";
+    }
+  };
   return (
     <>
       <Stack
@@ -42,18 +77,16 @@ export default function User(props: UserProfileProps) {
       >
         <Stack gap={5} alignItems={"center"}>
           <Stack>
-            <Stack
-              borderRadius={"50%"}
-              width={120}
-              height={120}
-              position={"relative"}
-            >
-              <img
-                src={profilePic ? profilePic : imageUrl}
-                alt="avatar"
-                width={120}
-                height={120}
-              />
+            <Stack width={120} height={120} position={"relative"}>
+              <Stack borderRadius={"50%"} overflow={"hidden"}>
+                <img
+                  src={profilePic ? profilePic : imageUrl}
+                  alt="avatar"
+                  width={120}
+                  height={120}
+                />
+              </Stack>
+
               <Stack
                 alignItems={"center"}
                 justifyContent={"center"}
@@ -77,7 +110,7 @@ export default function User(props: UserProfileProps) {
             </Stack>
           </Stack>
           <Typography fontSize={28} fontWeight={700} color={"#0D1118"}>
-            Угтахбаяр
+            {name}
           </Typography>
         </Stack>
         <Stack width={1} alignItems={"center"} gap={2} padding={"16px 20px"}>
@@ -109,8 +142,11 @@ export default function User(props: UserProfileProps) {
             </Stack>
           </Stack>
           <Stack
+            onClick={() => {
+              signOut();
+            }}
             width={1}
-            bgcolor={"#common.white"}
+            bgcolor={"common.white"}
             flexDirection={"row"}
             borderRadius={"4px"}
             padding={"8px 20px"}
@@ -135,7 +171,16 @@ export default function User(props: UserProfileProps) {
             </Stack>
           </Stack>
           <Button
-            onClick={() => {}}
+            onClick={() => {
+              alert("test");
+              updateUser(
+                imageUrl,
+                "new name",
+                "88088722",
+                "morgild1@gmail.com"
+              );
+              setRefresh(refresh + 1);
+            }}
             fullWidth
             sx={{ py: "8px" }}
             variant="contained"
