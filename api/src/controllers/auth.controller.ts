@@ -10,7 +10,7 @@ export const signUp: RequestHandler = async (req, res) => {
 
     if (userExist.length) {
       return res.status(401).json({
-        message: "User already exist",
+        message: `${email} и-мэйлтэй хэрэглэгч өмнө бүртгэгдсэн байна`,
       });
     }
     const defaultPhone = "88888888";
@@ -27,7 +27,7 @@ export const signUp: RequestHandler = async (req, res) => {
       createdAt: new Date(),
     });
 
-    return res.json({ message: "User successfully created" });
+    return res.json({ message: "Шинэ хэрэглэгч амжилттай үүслээ" });
   } catch (err) {
     res.json(err);
   }
@@ -40,12 +40,12 @@ export const login: RequestHandler = async (req, res) => {
 
     if (!user) {
       return res.status(401).json({
-        message: "Invalid credentials",
+        message: "Бүртгэлтэй хэрэглэгч олдсонгүй",
       });
     }
     const id = user._id;
     const token = jwt.sign({ id }, "secret-key");
-    return res.json({ user, token, message: "Logged in successfully" });
+    return res.json({ user, token, message: "Амжилттай нэвтэрлээ" });
   } catch (err) {
     res.json(err);
   }

@@ -113,7 +113,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const signOut = async () => {
     try {
       localStorage.removeItem("token");
-      setRefresh(refresh + 1);
+      setIsLogged(false);
       router.push("/");
     } catch (error) {
       console.log(error), "FFF";

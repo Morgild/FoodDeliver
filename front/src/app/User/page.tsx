@@ -31,6 +31,11 @@ export default function User(props: UserProfileProps) {
   const [imageUrl, setImageUrl] = useState("");
 
   const { name, email, phone, profilePic } = user;
+  const userInfo = [
+    { title: "Таны нэр", text: name },
+    { title: "Утасны дугаар", text: phone },
+    { title: "И-мэйл", text: email },
+  ];
 
   const updateUser = async (
     profilePic: string,
@@ -114,7 +119,9 @@ export default function User(props: UserProfileProps) {
           </Typography>
         </Stack>
         <Stack width={1} alignItems={"center"} gap={2} padding={"16px 20px"}>
-          <UserCard />
+          {userInfo.map((item) => (
+            <UserCard title={item.title} text={item.text} />
+          ))}
           <Stack
             width={1}
             bgcolor={"#common.white"}

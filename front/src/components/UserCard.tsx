@@ -1,7 +1,15 @@
-import { EditOutlined, PersonOutline } from "@mui/icons-material";
+import {
+  EditOutlined,
+  EmailOutlined,
+  LocalPhoneOutlined,
+  PersonOutline,
+} from "@mui/icons-material";
 import { Stack, Typography } from "@mui/material";
-
-export const UserCard = () => {
+import { useAuth } from "./providers/AuthProvider";
+import { title } from "process";
+type UserCardProps = { title: string; text: string };
+export const UserCard = (props: UserCardProps) => {
+  const { title, text } = props;
   return (
     <Stack
       width={1}
@@ -21,14 +29,16 @@ export const UserCard = () => {
         fontSize={"24px"}
         alignSelf={"center"}
       >
-        <PersonOutline fontSize="inherit" />
+        {title == "Таны нэр" && <PersonOutline fontSize="inherit" />}
+        {title == "Утасны дугаар" && <LocalPhoneOutlined fontSize="inherit" />}
+        {title == "И-мэйл" && <EmailOutlined fontSize="inherit" />}
       </Stack>
       <Stack gap={0.5} width={1}>
         <Typography fontSize={12} fontWeight={400} color={"#888A99"}>
-          Таны нэр
+          {title}
         </Typography>
         <Typography fontSize={16} fontWeight={400} color={"#0D1118"}>
-          Угтахбаяр
+          {text}
         </Typography>
       </Stack>
       <Stack

@@ -115,7 +115,12 @@ export const NavBar = (props: NavBarProps) => {
             sx={{ p: "8px 16px" }}
           >
             <Stack borderRadius={"50%"} overflow={"hidden"}>
-              <img alt="basket" src={profilePic} width={24} height={24} />
+              <img
+                alt="basket"
+                src={isLogged ? profilePic : "/avatar.png"}
+                width={24}
+                height={24}
+              />
             </Stack>
             <Typography
               onClick={() => {
