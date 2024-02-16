@@ -2,14 +2,13 @@ import {} from "@mui/icons-material";
 import { Card, CardContent, CardMedia, Stack, Typography } from "@mui/material";
 
 type ItemCardProps = {
-  mealName: string;
-  price: number;
+  foodName: string;
+  foodPrice: number;
   discount?: number;
-  discountPrice?: number;
 };
 
 export const ItemCard = (props: ItemCardProps) => {
-  const { mealName, discountPrice, price, discount } = props;
+  const { foodName, foodPrice, discount } = props;
   return (
     <Stack sx={{ width: 1, pb: 0 }}>
       <Card
@@ -39,7 +38,7 @@ export const ItemCard = (props: ItemCardProps) => {
           }}
         >
           <Typography color="common.black" fontSize={20} fontWeight={590}>
-            {mealName}
+            {foodName}
           </Typography>
           <Stack gap={2} alignItems="center" sx={{ flexDirection: "row" }}>
             <Typography
@@ -47,13 +46,13 @@ export const ItemCard = (props: ItemCardProps) => {
               fontWeight={590}
               sx={{ color: "primary.main" }}
             >
-              {discount ? (1 - discount / 100) * price : price}₮
+              {discount ? (1 - discount / 100) * foodPrice : foodPrice}₮
             </Typography>
             <Typography
               fontSize={18}
               sx={{ color: "#171717", textDecoration: "line-through" }}
             >
-              {discount && price}
+              {discount && foodPrice}
             </Typography>
           </Stack>
         </CardContent>

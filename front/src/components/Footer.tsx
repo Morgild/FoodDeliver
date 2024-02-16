@@ -1,12 +1,8 @@
 "use client";
-import {
-  FacebookRounded,
-  FacebookSharp,
-  Instagram,
-  Twitter,
-} from "@mui/icons-material";
+import { FacebookSharp, Instagram, Twitter } from "@mui/icons-material";
 import { Container, Stack, Typography } from "@mui/material";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 const footerItems = [
   "Нүүр",
   "Холбоо барих",
@@ -16,6 +12,24 @@ const footerItems = [
   "Нууцлалын бодлого",
 ];
 export const Footer = () => {
+  const router = useRouter();
+  const routerPath = (item: string) => {
+    if (item == "Холбоо барих") {
+      return "/Contacts";
+    }
+    if (item == "Хоолны цэс") {
+      return "/Menu";
+    }
+    if (item == "Үйлчилгээний нөхцөл") {
+      return "/TermsService";
+    }
+    if (item == "Хүргэлт") {
+      return "/DeliveryRegion";
+    }
+    if (item == "Нууцлалын бодлого") {
+      return "/Privacy";
+    } else return "/";
+  };
   return (
     <Stack
       sx={{
@@ -51,7 +65,13 @@ export const Footer = () => {
           sx={{ flexDirection: "row", justifyContent: "space-between" }}
         >
           {footerItems.map((item) => (
-            <Stack key={item}>
+            <Stack
+              onClick={() => {
+                router.push(routerPath(item));
+              }}
+              key={item}
+              sx={{ cursor: "pointer" }}
+            >
               <Stack sx={{ textAlign: "center" }}>
                 <Typography
                   fontSize="16px"
@@ -71,8 +91,12 @@ export const Footer = () => {
         </Stack>
         <Stack width={1} height="1px" bgcolor="common.white"></Stack>
         <Stack textAlign={"center"} gap={2}>
-            <Typography fontSize={16} fontWeight={400} color={'common.white'}>© 2024 Pinecone Foods LLC</Typography>
-            <Typography fontSize={16} fontWeight={400} color={'common.white'}>Зохиогчийн эрх хуулиар хамгаалагдсан.</Typography>
+          <Typography fontSize={16} fontWeight={400} color={"common.white"}>
+            © 2024 Pinecone Foods LLC
+          </Typography>
+          <Typography fontSize={16} fontWeight={400} color={"common.white"}>
+            Зохиогчийн эрх хуулиар хамгаалагдсан.
+          </Typography>
         </Stack>
       </Container>
     </Stack>

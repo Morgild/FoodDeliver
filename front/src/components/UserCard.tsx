@@ -4,12 +4,26 @@ import {
   LocalPhoneOutlined,
   PersonOutline,
 } from "@mui/icons-material";
-import { Stack, Typography } from "@mui/material";
-import { useAuth } from "./providers/AuthProvider";
-import { title } from "process";
-type UserCardProps = { title: string; text: string };
+import { Input, Stack, Typography } from "@mui/material";
+import { Dispatch, SetStateAction, useState } from "react";
+import { useFormik } from "formik";
+import * as yup from "yup";
+
+const validationSchema = yup.object({
+  email: yup.string().email().required(),
+  password: yup.string().required(),
+});
+
+type UserCardProps = {
+  title: string;
+  text: string;
+  setUpdate: Dispatch<SetStateAction<string>>;
+};
 export const UserCard = (props: UserCardProps) => {
-  const { title, text } = props;
+  const { title, text, setUpdate } = props;
+  const [editText, setEditText] = useState("");
+  const [edit, setEdit] = useState(false);
+
   return (
     <Stack
       width={1}
@@ -37,14 +51,27 @@ export const UserCard = (props: UserCardProps) => {
         <Typography fontSize={12} fontWeight={400} color={"#888A99"}>
           {title}
         </Typography>
-        <Typography fontSize={16} fontWeight={400} color={"#0D1118"}>
-          {text}
-        </Typography>
+        {edit ? (
+          <Input
+            onChange={(event) => {
+              setUpdate(event.target.value);
+            }}
+            defaultValue={text}
+          ></Input>
+        ) : (
+          <Typography fontSize={16} fontWeight={400} color={"#0D1118"}>
+            {text}
+          </Typography>
+        )}
       </Stack>
       <Stack
         alignItems={"center"}
         justifyContent={"center"}
         color={"primary.main"}
+        sx={{ cursor: "pointer" }}
+        onClick={() => {
+          setEdit(true);
+        }}
       >
         <EditOutlined />
       </Stack>

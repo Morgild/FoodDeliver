@@ -80,6 +80,12 @@ export const NavBar = (props: NavBarProps) => {
                     if (item == "НҮҮР") {
                       router.push("/");
                     }
+                    if (item == "ХООЛНЫ ЦЭС") {
+                      router.push("/Menu");
+                    }
+                    if (item == "ХҮРГЭЛТИЙН БҮС") {
+                      router.push("/DeliveryRegion");
+                    }
                   }}
                   sx={{ textAlign: "center", cursor: "pointer" }}
                 >
@@ -114,7 +120,17 @@ export const NavBar = (props: NavBarProps) => {
             flexDirection={"row"}
             sx={{ p: "8px 16px" }}
           >
-            <Stack borderRadius={"50%"} overflow={"hidden"}>
+            <Stack
+              onClick={() => {
+                if (isLogged) {
+                  router.push("/User");
+                } else {
+                  handleOpen();
+                }
+              }}
+              borderRadius={"50%"}
+              overflow={"hidden"}
+            >
               <img
                 alt="basket"
                 src={isLogged ? profilePic : "/avatar.png"}
@@ -123,13 +139,6 @@ export const NavBar = (props: NavBarProps) => {
               />
             </Stack>
             <Typography
-              onClick={() => {
-                if (isLogged) {
-                  router.push("/User");
-                } else {
-                  handleOpen();
-                }
-              }}
               color="common.black"
               fontSize={14}
               fontWeight={700}

@@ -6,11 +6,17 @@ import { EditOutlined, Logout, Restore } from "@mui/icons-material";
 import { Box, Button, Modal, Stack, Typography } from "@mui/material";
 import { AxiosError } from "axios";
 import Image from "next/image";
-import { useState } from "react";
+import { Dispatch, useState } from "react";
 import { toast } from "react-toastify";
 import { api } from "../common/axios";
+import { useRouter } from "next/navigation";
+import { LogoutConfirm } from "@/components/LogoutComfirm";
 
-type UserProfileProps = { name: string; open?: boolean; onClose?: () => void };
+type UserProfileProps = {
+  name: string;
+  open?: boolean;
+  onClose?: () => void;
+};
 
 export default function User(props: UserProfileProps) {
   const style = {
@@ -26,11 +32,17 @@ export default function User(props: UserProfileProps) {
   const {} = props;
   const { user, signOut, refresh, setRefresh } = useAuth();
   const [open, setOpen] = useState(false);
+  const [openLogOut, setOpenLogOut] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [imageUrl, setImageUrl] = useState("");
+
+  const router = useRouter();
 
   const { name, email, phone, profilePic } = user;
+  const [imageUrl, setImageUrl] = useState(profilePic);
+  const [newName, setNewName] = useState(name);
+  const [newPhone, setNewPhone] = useState(phone);
+  const [newEmail, setNewEmail] = useState(email);
   const userInfo = [
     { title: "Таны нэр", text: name },
     { title: "Утасны дугаар", text: phone },
@@ -55,10 +67,14 @@ export default function User(props: UserProfileProps) {
         { headers: { Authorization: localStorage.getItem("token") } }
       );
       console.log(data);
-      toast.success(data.message, {
-        position: "top-center",
-        hideProgressBar: true,
-      });
+      await setRefresh(refresh + 1);
+      toast.success(
+        `${data.message} Нэр:${newName} Утас:${newPhone} И-мэйл:${newEmail}`,
+        {
+          position: "top-center",
+          hideProgressBar: true,
+        }
+      );
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data.message ?? error.message, {
@@ -114,22 +130,36 @@ export default function User(props: UserProfileProps) {
               </Stack>
             </Stack>
           </Stack>
-          <Typography fontSize={28} fontWeight={700} color={"#0D1118"}>
+          <Typography
+            onClick={() => {
+              alert(newPhone);
+            }}
+            fontSize={28}
+            fontWeight={700}
+            color={"#0D1118"}
+          >
             {name}
           </Typography>
         </Stack>
         <Stack width={1} alignItems={"center"} gap={2} padding={"16px 20px"}>
-          {userInfo.map((item) => (
-            <UserCard title={item.title} text={item.text} />
-          ))}
+          <UserCard title="Таны нэр" text={name} setUpdate={setNewName} />
+          <UserCard
+            title="Утасны дугаар"
+            text={phone}
+            setUpdate={setNewPhone}
+          />
+          <UserCard title="И-мэйл" text={email} setUpdate={setNewEmail} />
+
+          {/* Order History button */}
           <Stack
             width={1}
-            bgcolor={"#common.white"}
+            bgcolor={"common.white"}
             flexDirection={"row"}
             borderRadius={"4px"}
             padding={"8px 20px"}
             gap={1}
             justifyContent={"space-between"}
+            sx={{ cursor: "pointer" }}
           >
             <Stack
               padding={1}
@@ -142,15 +172,17 @@ export default function User(props: UserProfileProps) {
             >
               <Restore fontSize="inherit" />
             </Stack>
+
             <Stack gap={0.5} width={1} justifyContent={"center"}>
               <Typography fontSize={16} fontWeight={400} color={"#0D1118"}>
                 Захиалгын түүх
               </Typography>
             </Stack>
           </Stack>
+          {/* Logout button */}
           <Stack
             onClick={() => {
-              signOut();
+              setOpenLogOut(true);
             }}
             width={1}
             bgcolor={"common.white"}
@@ -159,6 +191,7 @@ export default function User(props: UserProfileProps) {
             padding={"8px 20px"}
             gap={1}
             justifyContent={"space-between"}
+            sx={{ cursor: "pointer" }}
           >
             <Stack
               padding={1}
@@ -179,14 +212,7 @@ export default function User(props: UserProfileProps) {
           </Stack>
           <Button
             onClick={() => {
-              alert("test");
-              updateUser(
-                imageUrl,
-                "new name",
-                "88088722",
-                "morgild1@gmail.com"
-              );
-              setRefresh(refresh + 1);
+              updateUser(imageUrl, newName, newPhone, newEmail);
             }}
             fullWidth
             sx={{ py: "8px" }}
@@ -196,18 +222,34 @@ export default function User(props: UserProfileProps) {
           </Button>
         </Stack>
       </Stack>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+      <Modal open={open} onClose={handleClose}>
         <Box sx={style}>
           <ChangeProfilePic
             handleClose={handleClose}
             imageUrl={imageUrl}
             setImageUrl={setImageUrl}
           />
+        </Box>
+      </Modal>
+      <Modal
+        open={openLogOut}
+        onClose={() => {
+          setOpenLogOut(false);
+        }}
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+          overflow={"hidden"}
+          borderRadius={"20px"}
+          maxWidth={"384px"}
+          bgcolor={"common.white"}
+        >
+          <LogoutConfirm setOpenLogOut={setOpenLogOut} />
         </Box>
       </Modal>
     </>
