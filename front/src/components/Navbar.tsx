@@ -63,15 +63,14 @@ export const NavBar = (props: NavBarProps) => {
         }}
       >
         <Stack gap="24px" flexDirection="row" alignItems="center">
-          <Image
+          <Stack
             onClick={() => {
               router.push("/");
             }}
-            src="/Logo.png"
-            width={31.26}
-            height={26.76}
-            alt="logo"
-          />
+            sx={{ cursor: "pointer" }}
+          >
+            <Image src="/Logo.png" width={31.26} height={26.76} alt="logo" />
+          </Stack>
           <List sx={{ display: "flex", alignItems: "center", gap: "24px" }}>
             {menuItems.map((item) => (
               <Stack key={item}>
@@ -115,22 +114,19 @@ export const NavBar = (props: NavBarProps) => {
             </Typography>
           </Stack>
           <Stack
+            onClick={() => {
+              if (isLogged) {
+                router.push("/User");
+              } else {
+                handleOpen();
+              }
+            }}
             gap={2}
             alignItems={"center"}
             flexDirection={"row"}
             sx={{ p: "8px 16px" }}
           >
-            <Stack
-              onClick={() => {
-                if (isLogged) {
-                  router.push("/User");
-                } else {
-                  handleOpen();
-                }
-              }}
-              borderRadius={"50%"}
-              overflow={"hidden"}
-            >
+            <Stack borderRadius={"50%"} overflow={"hidden"}>
               <img
                 alt="basket"
                 src={isLogged ? profilePic : "/avatar.png"}

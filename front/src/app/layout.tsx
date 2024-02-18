@@ -10,7 +10,6 @@ import { Footer } from "@/components/Footer";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-import { createContext, useContext } from "react";
 import { DataProvider } from "@/components/providers/DataProvider";
 
 const inter = Inter({ subsets: ["latin"] });

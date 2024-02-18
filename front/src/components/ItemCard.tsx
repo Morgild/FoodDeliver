@@ -11,7 +11,7 @@ export const ItemCard = (props: ItemCardProps) => {
   const { foodName, foodPrice, discount } = props;
   return (
     <Stack sx={{ width: 1, pb: 0 }}>
-      <Card
+      <Stack
         sx={{ width: 1, boxShadow: 0, mx: "auto", pb: 0, position: "relative" }}
       >
         <CardMedia
@@ -25,7 +25,7 @@ export const ItemCard = (props: ItemCardProps) => {
           image="/food.png"
           title="food"
         />
-        <CardContent
+        <Stack
           sx={{
             flexDirection: "column",
             justifyContent: "flex-start",
@@ -55,7 +55,7 @@ export const ItemCard = (props: ItemCardProps) => {
               {discount && foodPrice}
             </Typography>
           </Stack>
-        </CardContent>
+        </Stack>
         {discount && (
           <Typography
             color="common.white"
@@ -76,7 +76,7 @@ export const ItemCard = (props: ItemCardProps) => {
             {discount}%
           </Typography>
         )}
-      </Card>
+      </Stack>
     </Stack>
   );
 };
