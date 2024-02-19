@@ -41,10 +41,10 @@ export default function Admin() {
         <Typography fontSize={22} fontWeight={700}>
           Food menu
         </Typography>
-        {test.map((item) => {
+        {categories.map((item: any) => {
           return (
             <FoodCategory
-              categories={item}
+              categories={item.foodCategory}
               selectedMenu={selectedMenu}
               setSelectedMenu={setSelectedMenu}
             />
@@ -82,15 +82,17 @@ export default function Admin() {
           <Typography fontSize={22} fontWeight={700} color={"#272727"}>
             {selectedMenu}
           </Typography>
-          <Stack bgcolor={"primary.main"} px={2} py={1} borderRadius={"4px"}>
-            <Typography
-              onClick={() => {
-                setOpenFood(true);
-              }}
-              color={"common.white"}
-              fontSize={16}
-              fontWeight={400}
-            >
+          <Stack
+            onClick={() => {
+              setOpenFood(true);
+            }}
+            bgcolor={"primary.main"}
+            px={2}
+            py={1}
+            borderRadius={"4px"}
+            sx={{ cursor: "pointer" }}
+          >
+            <Typography color={"common.white"} fontSize={16} fontWeight={400}>
               Add new food
             </Typography>
           </Stack>
@@ -110,7 +112,10 @@ export default function Admin() {
       </Modal>
       <Modal open={openFood} onClose={handleCloseFood}>
         <Box sx={style}>
-          <CreateNewFood handleClose={handleCloseFood} />
+          <CreateNewFood
+            categories={categories}
+            handleClose={handleCloseFood}
+          />
         </Box>
       </Modal>
     </Container>

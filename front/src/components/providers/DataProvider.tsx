@@ -14,13 +14,16 @@ import { toast } from "react-toastify";
 type DataContextType = {
   getCategories: () => void;
   postCategory: (foodCategory: string) => void;
-  categories: Array<string>;
-  setCategories: Dispatch<SetStateAction<Array<string>>>;
+  categories: any;
+  setCategories: Dispatch<SetStateAction<any>>;
   refreshF: () => void;
 };
 const DataContext = createContext({} as DataContextType);
 export const DataProvider = ({ children }: PropsWithChildren) => {
-  const [categories, setCategories] = useState<string[]>([]);
+  interface Category {
+    foodCategory: string;
+  }
+  const [categories, setCategories] = useState<Category[]>([]);
   const [refresh, setRefresh] = useState(0);
 
   //refresh Function

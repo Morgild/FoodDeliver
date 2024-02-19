@@ -6,20 +6,22 @@ import * as yup from "yup";
 import { toast } from "react-toastify";
 import { CustomInput } from "./CustomInput";
 import { ChangeEvent, useState } from "react";
+import { IOSSwitch } from "./IOSSwitch";
 const validationSchema = yup.object({
   foodCategory: yup.string(),
 });
 type CreateNewFoodProps = {
   handleClose: () => void;
+  categories: string;
 };
 export const CreateNewFood = (props: CreateNewFoodProps) => {
   const { handleClose } = props;
   const { postCategory } = useData();
   const [imageUrl, setImageUrl] = useState(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
-  const categories = ["Cat1", "Cat2", "Cat3", "Cat4"];
-
+  const { categories } = props;
+  // const categories = ["Cat1", "Cat2", "Cat3", "Cat4"];
+  console.log("dd", categories);
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
     setSelectedFile(event.target.files[0]);
@@ -95,18 +97,23 @@ export const CreateNewFood = (props: CreateNewFoodProps) => {
             native: true,
           }}
         >
-          {categories.map((item) => (
-            <option key={item} value={item}>
-              {item}
+          <option value="" disabled selected>
+            Choose category
+          </option>
+          {categories.map((item: any) => (
+            <option key={item} value={item.foodCategory}>
+              {item.foodCategory}
             </option>
           ))}
         </CustomInput>
         <CustomInput label="Хоолны орц" placeholder="Хоолны орц оруулна уу!" />
         <CustomInput label="Хоолны үнэ" placeholder="Хоолны үнэ оруулна уу!" />
-        <CustomInput
-          label="Хямдарлтай эсэх"
-          placeholder="Хоолны нэр оруулна уу!"
-        />
+        <Stack flexDirection={"row"} gap={1} alignItems={"center"}>
+          <IOSSwitch />
+          <Typography>Хямдралтай эсэх</Typography>
+        </Stack>
+        <CustomInput placeholder="Хоолны нэр оруулна уу!" />
+
         <Stack width={1} flexDirection={"row"} gap={1}>
           <Stack py={1} gap={1} alignItems="start" width={0.5}>
             <Typography>Хоолны зураг</Typography>

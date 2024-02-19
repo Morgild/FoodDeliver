@@ -3,7 +3,7 @@ import { Stack, Typography } from "@mui/material";
 import { Dispatch, SetStateAction } from "react";
 
 type FoodCategoryProps = {
-  categories: any;
+  categories: string;
   selectedMenu: string;
   setSelectedMenu: Dispatch<SetStateAction<string>>;
 };
