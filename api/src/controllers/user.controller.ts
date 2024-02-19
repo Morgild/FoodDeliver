@@ -19,8 +19,13 @@ export const getUser: RequestHandler = async (req, res) => {
       authorization,
       "secret-key"
     ) as JwtPayload;
-
+    console.log(userId);
     const user = await UserModel.findOne({ _id: userId });
+
+    if (!user) {
+      return res.status(401).json({ message: "Хэрэглэгч олдсонгүй" });
+    }
+
     return res.json(user);
   } catch (err) {
     res.json(err);

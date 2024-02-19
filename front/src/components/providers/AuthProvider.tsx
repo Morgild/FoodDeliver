@@ -30,7 +30,14 @@ type AuthContextType = {
   setEmail: Dispatch<SetStateAction<string>>;
   refresh: number;
   setRefresh: Dispatch<SetStateAction<number>>;
-  user: object;
+  user: {
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+    password: string;
+    profilePic: string;
+  };
   setUser: Dispatch<
     SetStateAction<{
       name: string;
@@ -42,7 +49,8 @@ type AuthContextType = {
     }>
   >;
 };
-const AuthContext = createContext({} as AuthContextType);
+const AuthContext = createContext<AuthContextType>({} as AuthContextType);
+
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [isLogged, setIsLogged] = useState(false);
   const [otp, setOtp] = useState("");
@@ -157,6 +165,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       const { data } = await api.get("user/getUser", {
         headers: { Authorization: localStorage.getItem("token") },
       });
+
       setUser(data);
       toast.success(data.message, {
         position: "top-center",

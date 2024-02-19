@@ -1,4 +1,5 @@
 "use client";
+
 import { ChangeProfilePic } from "@/components/ChangeProfilePic";
 import { UserCard } from "@/components/UserCard";
 import { useAuth } from "@/components/providers/AuthProvider";
@@ -6,7 +7,7 @@ import { EditOutlined, Logout, Restore } from "@mui/icons-material";
 import { Box, Button, Modal, Stack, Typography } from "@mui/material";
 import { AxiosError } from "axios";
 import Image from "next/image";
-import { Dispatch, useState } from "react";
+import { Dispatch, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { api } from "../common/axios";
 import { useRouter } from "next/navigation";
@@ -31,6 +32,7 @@ export default function User(props: UserProfileProps) {
   };
   const {} = props;
   const { user, signOut, refresh, setRefresh } = useAuth();
+  const { name, email, phone, profilePic } = user;
   const [open, setOpen] = useState(false);
   const [openLogOut, setOpenLogOut] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -38,11 +40,11 @@ export default function User(props: UserProfileProps) {
 
   const router = useRouter();
 
-  const { name, email, phone, profilePic } = user;
   const [imageUrl, setImageUrl] = useState(profilePic);
   const [newName, setNewName] = useState(name);
   const [newPhone, setNewPhone] = useState(phone);
   const [newEmail, setNewEmail] = useState(email);
+
   const userInfo = [
     { title: "Таны нэр", text: name },
     { title: "Утасны дугаар", text: phone },
@@ -101,7 +103,7 @@ export default function User(props: UserProfileProps) {
             <Stack width={120} height={120} position={"relative"}>
               <Stack borderRadius={"50%"} overflow={"hidden"}>
                 <img
-                  src={profilePic ? profilePic : imageUrl}
+                  src={user && profilePic ? profilePic : imageUrl}
                   alt="avatar"
                   width={120}
                   height={120}
