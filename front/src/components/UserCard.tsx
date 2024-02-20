@@ -21,7 +21,7 @@ type UserCardProps = {
 };
 export const UserCard = (props: UserCardProps) => {
   const { title, text, setUpdate } = props;
-  const [editText, setEditText] = useState("");
+  const [editText, setEditText] = useState(text);
   const [edit, setEdit] = useState(false);
 
   return (

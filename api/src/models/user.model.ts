@@ -40,5 +40,9 @@ const userSchema = new Schema({
     type: Date,
     required: false,
   },
+  role: {
+    type: String,
+    required: true,
+  },
 });
 export const UserModel = model("user", userSchema);

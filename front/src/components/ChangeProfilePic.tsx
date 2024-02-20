@@ -3,6 +3,7 @@ import { Button, Container, Stack, TextField } from "@mui/material";
 import Image from "next/image";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { toast } from "react-toastify";
+import { useAuth } from "./providers/AuthProvider";
 type ChangeProfilePicProps = {
   handleClose?: () => void;
   imageUrl: string;
@@ -10,6 +11,8 @@ type ChangeProfilePicProps = {
 };
 export const ChangeProfilePic = (props: ChangeProfilePicProps) => {
   const { imageUrl, setImageUrl } = props;
+  const { user } = useAuth();
+  const { profilePic } = user;
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -55,11 +58,11 @@ export const ChangeProfilePic = (props: ChangeProfilePicProps) => {
           <Stack gap={3} width={400}>
             {imageUrl && (
               <Stack width="100%" position="relative">
-                <img
-                  src={imageUrl}
+                <Image
+                  src={profilePic}
                   alt="Uploaded"
-                  width={"100%"}
-                  height={"100%"}
+                  width={200}
+                  height={200}
                 />
               </Stack>
             )}

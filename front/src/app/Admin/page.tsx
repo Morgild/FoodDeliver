@@ -27,7 +27,7 @@ export default function Admin() {
   const test = ["One", "Two", "Three", "Four"];
   const handleClose = () => setOpen(false);
   const handleCloseFood = () => setOpenFood(false);
-  console.log("cat", categories);
+
   return (
     <Container sx={{ display: "flex", flexDirection: "row" }}>
       <Stack

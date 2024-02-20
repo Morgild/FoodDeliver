@@ -5,16 +5,20 @@ const foodSchema = new Schema({
     type: String,
     required: true,
   },
+  foodCategory: {
+    type: String,
+    required: true,
+  },
+  foodIngredients: {
+    type: String,
+    required: true,
+  },
   foodPrice: {
     type: Number,
     required: true,
   },
   discount: {
     type: Number,
-    required: true,
-  },
-  foodCategory: {
-    type: String,
     required: true,
   },
   foodPic: {

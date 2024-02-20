@@ -14,6 +14,14 @@ import { toast } from "react-toastify";
 type DataContextType = {
   getCategories: () => void;
   postCategory: (foodCategory: string) => void;
+  postFood: (
+    foodName: string,
+    foodCategory: string,
+    foodIngerdients: string,
+    foodPrice: number,
+    discount: number,
+    foodPic: string
+  ) => void;
   categories: any;
   setCategories: Dispatch<SetStateAction<any>>;
   refreshF: () => void;
@@ -38,7 +46,6 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         headers: { Authorization: localStorage.getItem("token") },
       });
       setCategories(data);
-      console.log(data);
     } catch (error) {
       console.log(error), "FFF";
     }
@@ -69,18 +76,27 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
       console.log(error), "FFF";
     }
   };
+
   //create new food
   const postFood = async (
     foodName: string,
+    foodCategory: string,
+    foodIngredients: string,
     foodPrice: number,
     discount: number,
-    foodCategory: string,
     foodPic: string
   ) => {
     try {
       const { data } = await api.post(
-        "food/postFood",
-        { foodName, foodPrice, discount, foodCategory, foodPic },
+        "/food/postFood",
+        {
+          foodName,
+          foodCategory,
+          foodIngredients,
+          foodPrice,
+          discount,
+          foodPic,
+        },
         {
           headers: { Authorization: localStorage.getItem("token") },
         }
@@ -111,6 +127,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         categories,
         setCategories,
         postCategory,
+        postFood,
         refreshF,
       }}
     >

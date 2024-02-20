@@ -13,6 +13,7 @@ export const signUp: RequestHandler = async (req, res) => {
         message: `${email} и-мэйлтэй хэрэглэгч өмнө бүртгэгдсэн байна`,
       });
     }
+    const defaultRole = "user";
     const defaultPhone = "88888888";
     const defaultImg =
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
@@ -25,6 +26,7 @@ export const signUp: RequestHandler = async (req, res) => {
       profilePic: defaultImg,
       updatedAt: new Date(),
       createdAt: new Date(),
+      role: defaultRole,
     });
 
     return res.json({ message: "Шинэ хэрэглэгч амжилттай үүслээ" });
@@ -44,7 +46,8 @@ export const login: RequestHandler = async (req, res) => {
       });
     }
     const id = user._id;
-    const token = jwt.sign({ id }, "secret-key");
+    const role = user.role;
+    const token = jwt.sign({ id, role }, "secret-key");
     return res.json({ user, token, message: "Амжилттай нэвтэрлээ" });
   } catch (err) {
     res.json(err);

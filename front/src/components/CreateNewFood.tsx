@@ -8,20 +8,24 @@ import { CustomInput } from "./CustomInput";
 import { ChangeEvent, useState } from "react";
 import { IOSSwitch } from "./IOSSwitch";
 const validationSchema = yup.object({
-  foodCategory: yup.string(),
+  foodCategory: yup.string().required(),
+  foodName: yup.string().required(),
+  foodIngredients: yup.string().required(),
+  foodPrice: yup.number().required(),
+  discount: yup.number(),
 });
 type CreateNewFoodProps = {
   handleClose: () => void;
-  categories: string;
+  categories: any;
 };
 export const CreateNewFood = (props: CreateNewFoodProps) => {
   const { handleClose } = props;
-  const { postCategory } = useData();
-  const [imageUrl, setImageUrl] = useState(null);
+  const { postFood } = useData();
+  const [isDiscount, setIsDiscount] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const { categories } = props;
-  // const categories = ["Cat1", "Cat2", "Cat3", "Cat4"];
-  console.log("dd", categories);
+
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
     setSelectedFile(event.target.files[0]);
@@ -53,11 +57,22 @@ export const CreateNewFood = (props: CreateNewFoodProps) => {
 
   const formik = useFormik({
     initialValues: {
+      foodName: "",
       foodCategory: "",
+      foodIngredients: "",
+      foodPrice: 0,
+      discount: 0,
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      postCategory(values.foodCategory);
+      postFood(
+        values.foodName,
+        values.foodCategory,
+        values.foodIngredients,
+        values.foodPrice,
+        values.discount,
+        imageUrl
+      );
     },
   });
 
@@ -87,12 +102,29 @@ export const CreateNewFood = (props: CreateNewFoodProps) => {
         borderBottom={1}
         borderColor={"#E0E0E0"}
       >
-        <CustomInput label="Хоолны нэр" placeholder="Хоолны нэр оруулна уу!" />
+        <CustomInput
+          label="Хоолны нэр"
+          placeholder="Хоолны нэр оруулна уу!"
+          name="foodName"
+          value={formik.values.foodName}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.foodName && Boolean(formik.errors.foodName)}
+          helperText={formik.touched.foodName && formik.errors.foodName}
+        />
         <CustomInput
           id="outlined-select-currency-native"
           select
           label="Хоолны ангилал"
           defaultValue="EUR"
+          name="foodCategory"
+          value={formik.values.foodCategory}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={
+            formik.touched.foodCategory && Boolean(formik.errors.foodCategory)
+          }
+          helperText={formik.touched.foodCategory && formik.errors.foodCategory}
           SelectProps={{
             native: true,
           }}
@@ -101,18 +133,54 @@ export const CreateNewFood = (props: CreateNewFoodProps) => {
             Choose category
           </option>
           {categories.map((item: any) => (
-            <option key={item} value={item.foodCategory}>
+            <option key={item.foodCategory} value={item.foodCategory}>
               {item.foodCategory}
             </option>
           ))}
         </CustomInput>
-        <CustomInput label="Хоолны орц" placeholder="Хоолны орц оруулна уу!" />
-        <CustomInput label="Хоолны үнэ" placeholder="Хоолны үнэ оруулна уу!" />
+        <CustomInput
+          label="Хоолны орц"
+          placeholder="Хоолны орц оруулна уу!"
+          name="foodIngredients"
+          value={formik.values.foodIngredients}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={
+            formik.touched.foodIngredients &&
+            Boolean(formik.errors.foodIngredients)
+          }
+          helperText={
+            formik.touched.foodIngredients && formik.errors.foodIngredients
+          }
+        />
+        <CustomInput
+          label="Хоолны үнэ"
+          placeholder="Хоолны үнэ оруулна уу!"
+          name="foodPrice"
+          value={formik.values.foodPrice}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.foodPrice && Boolean(formik.errors.foodPrice)}
+          helperText={formik.touched.foodPrice && formik.errors.foodPrice}
+        />
         <Stack flexDirection={"row"} gap={1} alignItems={"center"}>
-          <IOSSwitch />
+          <IOSSwitch
+            onChange={() => {
+              setIsDiscount((prev) => !prev);
+            }}
+          />
           <Typography>Хямдралтай эсэх</Typography>
         </Stack>
-        <CustomInput placeholder="Хоолны нэр оруулна уу!" />
+        <CustomInput
+          disabled={!isDiscount}
+          placeholder="Хямдралын хувь оруулна уу!"
+          name="discount"
+          value={formik.values.discount}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.discount && Boolean(formik.errors.discount)}
+          helperText={formik.touched.discount && formik.errors.discount}
+        />
 
         <Stack width={1} flexDirection={"row"} gap={1}>
           <Stack py={1} gap={1} alignItems="start" width={0.5}>

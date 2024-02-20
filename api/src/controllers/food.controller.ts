@@ -12,7 +12,14 @@ export const getFoods: RequestHandler = async (req, res) => {
 //Create new food
 export const foodPost: RequestHandler = async (req, res) => {
   try {
-    const { foodName, foodPrice, discount, foodCategory, foodPic } = req.body;
+    const {
+      foodName,
+      foodCategory,
+      foodIngredients,
+      foodPrice,
+      discount,
+      foodPic,
+    } = req.body;
 
     const foodExist = await foodModel.find({ foodName });
 
@@ -24,8 +31,9 @@ export const foodPost: RequestHandler = async (req, res) => {
 
     const food = await foodModel.create({
       foodName,
-      foodPrice,
       foodCategory,
+      foodIngredients,
+      foodPrice,
       discount,
       foodPic,
       updatedAt: new Date(),

@@ -102,12 +102,7 @@ export default function User(props: UserProfileProps) {
           <Stack>
             <Stack width={120} height={120} position={"relative"}>
               <Stack borderRadius={"50%"} overflow={"hidden"}>
-                <img
-                  src={user && profilePic ? profilePic : imageUrl}
-                  alt="avatar"
-                  width={120}
-                  height={120}
-                />
+                <Image src={profilePic} alt="avatar" width={120} height={120} />
               </Stack>
 
               <Stack
