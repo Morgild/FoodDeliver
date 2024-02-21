@@ -2,14 +2,14 @@
 import { Stack, Typography } from "@mui/material";
 import { Dispatch, SetStateAction } from "react";
 type menuSingleProps = {
-  menuText: string;
+  foodCategory: string;
   selectedMenu: string;
   setSelectedMenu: Dispatch<SetStateAction<string>>;
 };
 export const MenuSingle = (props: menuSingleProps) => {
-  const { menuText, selectedMenu, setSelectedMenu } = props;
+  const { foodCategory, selectedMenu, setSelectedMenu } = props;
   const isSelected = () => {
-    if (menuText == selectedMenu) {
+    if (foodCategory == selectedMenu) {
       return true;
     } else return false;
   };
@@ -17,7 +17,7 @@ export const MenuSingle = (props: menuSingleProps) => {
   return (
     <Stack
       onClick={() => {
-        setSelectedMenu(menuText);
+        setSelectedMenu(foodCategory);
       }}
       bgcolor={isSelected() ? "primary.main" : "common.white"}
       color={isSelected() ? "common.white" : "common.black"}
@@ -37,7 +37,7 @@ export const MenuSingle = (props: menuSingleProps) => {
         textAlign={"center"}
         color={"inherit"}
       >
-        {menuText}
+        {foodCategory}
       </Typography>
     </Stack>
   );

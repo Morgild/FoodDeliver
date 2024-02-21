@@ -2,6 +2,7 @@
 import { CreateNewCategory } from "@/components/CreateNewCategory";
 import { CreateNewFood } from "@/components/CreateNewFood";
 import { FoodCategory } from "@/components/FoodCategory";
+import { IOSSwitch } from "@/components/IOSSwitch";
 import { ItemCard } from "@/components/ItemCard";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { useData } from "@/components/providers/DataProvider";
@@ -85,6 +86,7 @@ export default function Admin() {
         borderColor={"#DBDBDB"}
         pl={4}
         pt={3}
+        pb={5}
         gap={4}
       >
         <Stack py={2} flexDirection={"row"} justifyContent={"space-between"}>
@@ -107,16 +109,20 @@ export default function Admin() {
           </Stack>
         </Stack>
         <Grid container spacing={3}>
-          {foods.map((item: any, index: number) => (
-            <Grid item key={index} xs={12} md={5} lg={4}>
-              <ItemCard
-                foodName={item.foodName}
-                foodPrice={item.foodPrice}
-                discount={item.discount}
-                foodPic={item.foodPic}
-              />
-            </Grid>
-          ))}
+          {foods
+            .filter((food) => {
+              return food.foodCategory == selectedMenu;
+            })
+            .map((item: any, index: number) => (
+              <Grid item key={index} xs={12} md={5} lg={4}>
+                <ItemCard
+                  foodName={item.foodName}
+                  foodPrice={item.foodPrice}
+                  discount={item.discount}
+                  foodPic={item.foodPic}
+                />
+              </Grid>
+            ))}
         </Grid>
       </Stack>
       <Modal open={open} onClose={handleClose}>

@@ -1,15 +1,15 @@
 "use client";
-import { Container, Modal } from "@mui/material";
+import { Container } from "@mui/material";
 import { WhiteCards } from "@/components/WhiteCards";
 import { HomeFoods } from "@/components/HomeFoods";
-import { MenuGroup } from "@/components/MenuGroup";
 import { HomeCarousel } from "@/components/HomeCarousel";
 import { useAuth } from "@/components/providers/AuthProvider";
-import { SignIn } from "@/components/SignIn";
-import { SignUp } from "@/components/SignUp";
+import { useData } from "@/components/providers/DataProvider";
+import { Onsale } from "@/components/OnSale";
 
 export default function Home() {
   const { isLogged } = useAuth();
+  const { foods, categories } = useData();
 
   return (
     <>
@@ -21,11 +21,15 @@ export default function Home() {
           pb: "82px",
           display: "flex",
           flexDirection: "column",
-          gap: "122px",
+          gap: "80px",
         }}
       >
         <WhiteCards />
-        <HomeFoods categoryTitle="Хямдралтай" />
+        <Onsale />
+
+        {categories.map((item: any, index: number) => (
+          <HomeFoods key={index} foodCategory={item.foodCategory} />
+        ))}
       </Container>
     </>
   );

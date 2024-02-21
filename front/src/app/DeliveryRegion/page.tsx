@@ -11,8 +11,6 @@ export default function DeliveryRegion() {
         flexDirection: "column",
         gap: "122px",
       }}
-    >
-      <TermsOfService />
-    </Container>
+    ></Container>
   );
 }

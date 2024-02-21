@@ -4,11 +4,8 @@ import Image from "next/image";
 import { ItemCard } from "./ItemCard";
 import { useData } from "./providers/DataProvider";
 
-type HomeFoodsProps = { foodCategory: String };
-export const HomeFoods = (props: HomeFoodsProps) => {
+export const Onsale = () => {
   const { foods } = useData();
-  const { foodCategory } = props;
-
   return (
     <Stack gap={3}>
       <Stack
@@ -19,7 +16,7 @@ export const HomeFoods = (props: HomeFoodsProps) => {
         <Stack flexDirection={"row"} gap={1} alignItems={"center"}>
           <Image src="/Star.png" alt="star" width={18} height={18} />
           <Typography fontSize={22} fontWeight={700} color={"#272727"}>
-            {foodCategory}
+            Хямдралтай
           </Typography>
         </Stack>
         <Stack gap={"5px"} flexDirection={"row"} alignItems={"center"}>
@@ -43,7 +40,7 @@ export const HomeFoods = (props: HomeFoodsProps) => {
       <Grid container spacing={3}>
         {foods
           .filter((food) => {
-            return food.foodCategory == foodCategory;
+            return food.discount > 0;
           })
           .map((item: any, index: number) => (
             <Grid item key={index} xs={3}>

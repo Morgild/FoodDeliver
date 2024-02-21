@@ -3,16 +3,16 @@ import { Grid, Stack } from "@mui/material";
 import { MenuSingle } from "./MenuSingle";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useData } from "./providers/DataProvider";
-const menuText = ["Main course", "Appetizers", "Beverage", "On sale"];
+const categories = ["Main course", "Appetizers", "Beverage", "On sale", "sS"];
 
 type MenuGroupProps = {
-  selectedMenu: string;
-  setSelectedMenu: Dispatch<SetStateAction<string>>;
+  selectedCategory: string;
+  setSelectedCategory: Dispatch<SetStateAction<string>>;
 };
 
 export const MenuGroup = (props: MenuGroupProps) => {
-  const { selectedMenu, setSelectedMenu } = props;
-  const { categories } = useData();
+  const { selectedCategory, setSelectedCategory } = props;
+  // const { categories } = useData();
   return (
     <>
       <Grid py={4} container columnSpacing={3} rowSpacing={1}>
@@ -20,9 +20,9 @@ export const MenuGroup = (props: MenuGroupProps) => {
           return (
             <Grid item key={index} xs={3}>
               <MenuSingle
-                menuText={item.foodCategory}
-                selectedMenu={selectedMenu}
-                setSelectedMenu={setSelectedMenu}
+                foodCategory={item.foodCategory}
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
               />
             </Grid>
           );
