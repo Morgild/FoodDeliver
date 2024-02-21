@@ -36,6 +36,7 @@ type AuthContextType = {
     phone: string;
     address: string;
     password: string;
+    role: string;
     profilePic: string;
   };
   setUser: Dispatch<
@@ -45,9 +46,13 @@ type AuthContextType = {
       phone: string;
       address: string;
       password: string;
+      role: string;
       profilePic: string;
     }>
   >;
+  isAdmin: boolean;
+  isReady: boolean;
+  setIsReady: Dispatch<SetStateAction<boolean>>;
 };
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
@@ -56,12 +61,15 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [otp, setOtp] = useState("");
   const [email, setEmail] = useState("");
   const [refresh, setRefresh] = useState(0);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isReady, setIsReady] = useState(false);
   const [user, setUser] = useState({
     name: "",
     email: "",
     phone: "",
     address: "",
     password: "",
+    role: "",
     profilePic:
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
   });
@@ -122,6 +130,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     try {
       localStorage.removeItem("token");
       setIsLogged(false);
+      setIsAdmin(false);
       router.push("/");
     } catch (error) {
       console.log(error), "FFF";
@@ -167,6 +176,10 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       });
 
       setUser(data);
+      const { role } = data;
+      if (role == "admin") {
+        setIsAdmin(true);
+      }
       toast.success(data.message, {
         position: "top-center",
         hideProgressBar: true,
@@ -191,7 +204,11 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   }, []);
 
   useEffect(() => {
-    if (isLogged) getUser();
+    setIsReady(false);
+    if (isLogged) {
+      getUser();
+    }
+    setIsReady(true);
   }, [isLogged, refresh]);
 
   return (
@@ -211,6 +228,9 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         setUser,
         refresh,
         setRefresh,
+        isAdmin,
+        isReady,
+        setIsReady,
       }}
     >
       {children}

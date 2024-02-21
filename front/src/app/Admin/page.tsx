@@ -3,10 +3,12 @@ import { CreateNewCategory } from "@/components/CreateNewCategory";
 import { CreateNewFood } from "@/components/CreateNewFood";
 import { FoodCategory } from "@/components/FoodCategory";
 import { ItemCard } from "@/components/ItemCard";
+import { useAuth } from "@/components/providers/AuthProvider";
 import { useData } from "@/components/providers/DataProvider";
 import { Add } from "@mui/icons-material";
 import { Box, Container, Grid, Modal, Stack, Typography } from "@mui/material";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Admin() {
   const style = {
@@ -20,14 +22,21 @@ export default function Admin() {
     borderRadius: "16px",
     p: 1,
   };
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [openFood, setOpenFood] = useState(false);
+  const { isAdmin } = useAuth();
+  const { foods } = useData();
   const { categories, refreshF } = useData();
   const [selectedMenu, setSelectedMenu] = useState("");
-  const test = ["One", "Two", "Three", "Four"];
   const handleClose = () => setOpen(false);
   const handleCloseFood = () => setOpenFood(false);
 
+  useEffect(() => {
+    if (!isAdmin) {
+      router.push("/");
+    }
+  }, []);
   return (
     <Container sx={{ display: "flex", flexDirection: "row" }}>
       <Stack
@@ -98,9 +107,14 @@ export default function Admin() {
           </Stack>
         </Stack>
         <Grid container spacing={3}>
-          {new Array(12).fill(0).map((_, index) => (
+          {foods.map((item: any, index: number) => (
             <Grid item key={index} xs={12} md={5} lg={4}>
-              <ItemCard foodName="Beef steak" foodPrice={3000} discount={10} />
+              <ItemCard
+                foodName={item.foodName}
+                foodPrice={item.foodPrice}
+                discount={item.discount}
+                foodPic={item.foodPic}
+              />
             </Grid>
           ))}
         </Grid>

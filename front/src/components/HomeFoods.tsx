@@ -2,10 +2,13 @@ import { KeyboardArrowRight } from "@mui/icons-material";
 import { Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { ItemCard } from "./ItemCard";
+import { useData } from "./providers/DataProvider";
 
 type HomeFoodsProps = { categoryTitle: String };
 export const HomeFoods = (props: HomeFoodsProps) => {
+  const { foods } = useData();
   const { categoryTitle } = props;
+
   return (
     <Stack gap={3}>
       <Stack
@@ -33,9 +36,14 @@ export const HomeFoods = (props: HomeFoodsProps) => {
         </Stack>
       </Stack>
       <Grid container spacing={3}>
-        {new Array(4).fill(0).map((_, index) => (
+        {foods.map((item: any, index: number) => (
           <Grid item key={index} xs={3}>
-            <ItemCard foodName="Өглөөний хоол" foodPrice={3000} discount={10} />
+            <ItemCard
+              foodName={item.foodName}
+              foodPrice={item.foodPrice}
+              discount={item.discount}
+              foodPic={item.foodPic}
+            />
           </Grid>
         ))}
       </Grid>

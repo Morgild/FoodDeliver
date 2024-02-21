@@ -48,6 +48,7 @@ export const login: RequestHandler = async (req, res) => {
     const id = user._id;
     const role = user.role;
     const token = jwt.sign({ id, role }, "secret-key");
+
     return res.json({ user, token, message: "Амжилттай нэвтэрлээ" });
   } catch (err) {
     res.json(err);

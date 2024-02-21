@@ -42,7 +42,7 @@ export const NavBar = (props: NavBarProps) => {
   const handleClose = () => setOpen(false);
   const router = useRouter();
   const pathname = usePathname();
-  const { user, isLogged } = useAuth();
+  const { user, isLogged, isAdmin } = useAuth();
   const { name, profilePic } = user;
 
   const [state, setState] = React.useState(false);
@@ -99,6 +99,19 @@ export const NavBar = (props: NavBarProps) => {
                 </Stack>
               </Stack>
             ))}
+            {isAdmin && (
+              <Typography
+                onClick={() => {
+                  router.push("/Admin");
+                }}
+                fontSize="14px"
+                fontWeight={700}
+                color="primary.main"
+                sx={{ cursor: "pointer" }}
+              >
+                ADMIN
+              </Typography>
+            )}
           </List>
         </Stack>
         <Stack flexDirection="row" gap={2} sx={{ alignItems: "center" }}>

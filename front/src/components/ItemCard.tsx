@@ -1,30 +1,37 @@
 import {} from "@mui/icons-material";
 import { Card, CardContent, CardMedia, Stack, Typography } from "@mui/material";
+import Image from "next/image";
 
 type ItemCardProps = {
   foodName: string;
   foodPrice: number;
   discount?: number;
+  foodPic: string;
 };
 
 export const ItemCard = (props: ItemCardProps) => {
-  const { foodName, foodPrice, discount } = props;
+  const { foodName, foodPrice, discount, foodPic } = props;
   return (
     <Stack sx={{ width: 1, pb: 0 }}>
       <Stack
         sx={{ width: 1, boxShadow: 0, mx: "auto", pb: 0, position: "relative" }}
       >
-        <CardMedia
+        <Stack
+          position={"relative"}
           sx={{
             width: 1,
-            minHeight: 200,
-            boxShadow: 1,
+            // minHeight: 200,
+            // boxShadow: 1,
+
             borderRadius: "16px",
-            objectFit: "cover",
+            aspectRatio: 3 / 2,
           }}
-          image="/food.png"
-          title="food"
-        />
+          justifyContent={"center"}
+          alignItems={"center"}
+          // overflow={"hidden"}
+        >
+          <Image objectFit="fill" src={foodPic} alt="foodPicture" fill />
+        </Stack>
         <Stack
           sx={{
             flexDirection: "column",
@@ -52,11 +59,11 @@ export const ItemCard = (props: ItemCardProps) => {
               fontSize={18}
               sx={{ color: "#171717", textDecoration: "line-through" }}
             >
-              {discount && foodPrice}
+              {Boolean(discount) && foodPrice}
             </Typography>
           </Stack>
         </Stack>
-        {discount && (
+        {Boolean(discount) && (
           <Typography
             color="common.white"
             fontSize={18}

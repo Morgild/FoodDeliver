@@ -20,7 +20,7 @@ type CreateNewFoodProps = {
 };
 export const CreateNewFood = (props: CreateNewFoodProps) => {
   const { handleClose } = props;
-  const { postFood } = useData();
+  const { postFood, foods } = useData();
   const [isDiscount, setIsDiscount] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);

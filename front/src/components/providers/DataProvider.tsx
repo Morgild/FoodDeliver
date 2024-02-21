@@ -10,7 +10,20 @@ import {
   useEffect,
 } from "react";
 import { toast } from "react-toastify";
+import { useAuth } from "./AuthProvider";
+import { LoadingPage } from "../LoadingPage";
 
+type Food = {
+  foodName: string;
+  foodCategory: string;
+  foodIngredients: string;
+  foodPrice: number;
+  discount: number;
+  foodPic: string;
+};
+type Category = {
+  foodCategory: string;
+};
 type DataContextType = {
   getCategories: () => void;
   postCategory: (foodCategory: string) => void;
@@ -22,17 +35,19 @@ type DataContextType = {
     discount: number,
     foodPic: string
   ) => void;
-  categories: any;
-  setCategories: Dispatch<SetStateAction<any>>;
+  categories: Category[];
+  setCategories: Dispatch<SetStateAction<Category[]>>;
   refreshF: () => void;
+  foods: Food[];
+  setFoods: Dispatch<SetStateAction<Food[]>>;
 };
+
 const DataContext = createContext({} as DataContextType);
 export const DataProvider = ({ children }: PropsWithChildren) => {
-  interface Category {
-    foodCategory: string;
-  }
   const [categories, setCategories] = useState<Category[]>([]);
+  const [foods, setFoods] = useState<Food[]>([]);
   const [refresh, setRefresh] = useState(0);
+  const { isReady, setIsReady } = useAuth();
 
   //refresh Function
   const refreshF = () => {
@@ -46,6 +61,18 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         headers: { Authorization: localStorage.getItem("token") },
       });
       setCategories(data);
+    } catch (error) {
+      console.log(error), "FFF";
+    }
+  };
+
+  const getFoods = async () => {
+    try {
+      const { data } = await api.get("food/getFoods", {
+        headers: { Authorization: localStorage.getItem("token") },
+      });
+      setFoods(data);
+      console.log(data);
     } catch (error) {
       console.log(error), "FFF";
     }
@@ -118,8 +145,12 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   };
 
   useEffect(() => {
+    setIsReady(false);
     getCategories();
+    getFoods();
+    setIsReady(true);
   }, [refresh]);
+  if (!isReady) return <LoadingPage />;
   return (
     <DataContext.Provider
       value={{
@@ -129,6 +160,8 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         postCategory,
         postFood,
         refreshF,
+        foods,
+        setFoods,
       }}
     >
       {children}
