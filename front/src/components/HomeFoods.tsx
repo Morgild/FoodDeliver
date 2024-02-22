@@ -52,6 +52,7 @@ export const HomeFoods = (props: HomeFoodsProps) => {
                 foodPrice={item.foodPrice}
                 discount={item.discount}
                 foodPic={item.foodPic}
+                foodIngredients={item.foodIngredients}
               />
             </Grid>
           ))}

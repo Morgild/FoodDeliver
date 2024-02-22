@@ -111,7 +111,7 @@ export default function Admin() {
         <Grid container spacing={3}>
           {foods
             .filter((food) => {
-              return food.foodCategory == selectedMenu;
+              return food.foodCategory.includes(selectedMenu);
             })
             .map((item: any, index: number) => (
               <Grid item key={index} xs={12} md={5} lg={4}>
@@ -120,6 +120,7 @@ export default function Admin() {
                   foodPrice={item.foodPrice}
                   discount={item.discount}
                   foodPic={item.foodPic}
+                  foodIngredients={item.foodIngredients}
                 />
               </Grid>
             ))}

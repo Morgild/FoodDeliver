@@ -6,11 +6,12 @@ import { HomeCarousel } from "@/components/HomeCarousel";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { useData } from "@/components/providers/DataProvider";
 import { Onsale } from "@/components/OnSale";
+import { LoadingPage } from "@/components/LoadingPage";
 
 export default function Home() {
-  const { isLogged } = useAuth();
+  const { isLogged, isReady } = useAuth();
   const { foods, categories } = useData();
-
+  if (!isReady) return <LoadingPage />;
   return (
     <>
       <HomeCarousel />

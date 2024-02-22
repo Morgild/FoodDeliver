@@ -1,16 +1,59 @@
 import {} from "@mui/icons-material";
-import { Card, CardContent, CardMedia, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  CardMedia,
+  Modal,
+  Stack,
+  Typography,
+} from "@mui/material";
 import Image from "next/image";
+import { FoodDetail } from "./FoodDetail";
+import { useEffect, useState } from "react";
+import { useAuth } from "./providers/AuthProvider";
+import { usePathname } from "next/navigation";
 
 type ItemCardProps = {
   foodName: string;
   foodPrice: number;
   discount?: number;
   foodPic: string;
+  foodIngredients: string;
 };
 
 export const ItemCard = (props: ItemCardProps) => {
-  const { foodName, foodPrice, discount, foodPic } = props;
+  const { foodName, foodPrice, discount, foodPic, foodIngredients } = props;
+  const [open, setOpen] = useState(false);
+  const [inAdminPage, setInAdminPage] = useState(false);
+  const pathname = usePathname();
+
+  const isUserAdmin = () => {
+    if (pathname == "/Admin") {
+      setInAdminPage(true);
+    } else {
+      setInAdminPage(false);
+    }
+  };
+  useEffect(() => {
+    isUserAdmin();
+  }, [inAdminPage]);
+  console.log(inAdminPage);
+
+  const style = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    maxWidth: "981px",
+    width: "80%",
+
+    bgcolor: "background.paper",
+    border: "1px solid #DADCE0",
+    boxShadow: 24,
+    p: 2,
+    borderRadius: "16px",
+  };
   return (
     <Stack sx={{ width: 1, pb: 0 }}>
       <Stack
@@ -19,7 +62,6 @@ export const ItemCard = (props: ItemCardProps) => {
         <Stack
           position={"relative"}
           sx={{
-            width: 1,
             // minHeight: 200,
             // boxShadow: 1,
 
@@ -29,6 +71,9 @@ export const ItemCard = (props: ItemCardProps) => {
           justifyContent={"center"}
           alignItems={"center"}
           // overflow={"hidden"}
+          onClick={() => {
+            setOpen(true);
+          }}
         >
           <Image objectFit="fill" src={foodPic} alt="foodPicture" fill />
         </Stack>
@@ -84,6 +129,25 @@ export const ItemCard = (props: ItemCardProps) => {
           </Typography>
         )}
       </Stack>
+      <Modal
+        open={!inAdminPage && open}
+        onClose={() => {
+          setOpen(false);
+        }}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <FoodDetail
+            setOpen={setOpen}
+            foodName={foodName}
+            foodPrice={foodPrice}
+            discount={discount}
+            foodPic={foodPic}
+            foodIngredients={foodIngredients}
+          />
+        </Box>
+      </Modal>
     </Stack>
   );
 };

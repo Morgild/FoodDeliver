@@ -19,7 +19,7 @@ export const getUser: RequestHandler = async (req, res) => {
       authorization,
       "secret-key"
     ) as JwtPayload;
-    console.log(userId);
+
     const user = await UserModel.findOne({ _id: userId });
 
     if (!user) {

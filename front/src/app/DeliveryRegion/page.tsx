@@ -1,4 +1,5 @@
-import { TermsOfService } from "@/components/TermsOfService";
+import { FoodDetail } from "@/components/FoodDetail";
+
 import { Container } from "@mui/material";
 
 export default function DeliveryRegion() {

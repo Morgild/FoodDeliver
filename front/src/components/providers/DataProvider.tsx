@@ -150,7 +150,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
     getFoods();
     setIsReady(true);
   }, [refresh]);
-  if (!isReady) return <LoadingPage />;
+
   return (
     <DataContext.Provider
       value={{
