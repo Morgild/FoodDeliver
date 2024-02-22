@@ -30,7 +30,7 @@ export const NavBar = (props: NavBarProps) => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 448,
+    width: "480px",
     bgcolor: "background.paper",
     border: "1px solid #DADCE0",
     boxShadow: 24,

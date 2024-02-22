@@ -3,17 +3,27 @@ import { Button, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useState } from "react";
 import { bool } from "yup";
+import { useData } from "./providers/DataProvider";
 type FoodDetailProps = {
   setOpen: Dispatch<SetStateAction<boolean>>;
   foodName: string;
   foodPrice: number;
   discount?: number;
   foodPic: string;
-  foodIngredients?: string;
+  foodIngredients: string;
+  foodCategory: string;
 };
 export const FoodDetail = (props: FoodDetailProps) => {
-  const { setOpen, foodName, foodPrice, discount, foodPic, foodIngredients } =
-    props;
+  const {
+    setOpen,
+    foodName,
+    foodPrice,
+    discount,
+    foodPic,
+    foodIngredients,
+    foodCategory,
+  } = props;
+  const { basket, setBasket } = useData();
   const [foodCount, setFoodCount] = useState(1);
   const [foodTotal, setFoodTotal] = useState(0);
   const changeFoodCount = (change: number) => {
@@ -29,7 +39,7 @@ export const FoodDetail = (props: FoodDetailProps) => {
         borderRadius={1}
         overflow={"hidden"}
         width={0.5}
-        sx={{ aspectRatio: 3 / 2 }}
+        sx={{ aspectRatio: 1 / 1 }}
       >
         <Image objectFit="fill" src={foodPic} alt="food image" fill />
         <Typography
@@ -103,7 +113,11 @@ export const FoodDetail = (props: FoodDetailProps) => {
           <Stack
             onClick={() => {
               changeFoodCount(-1);
-              setFoodTotal(foodCount * foodPrice);
+              setFoodTotal(
+                discount
+                  ? (1 - discount / 100) * foodPrice * foodCount
+                  : foodPrice * foodCount
+              );
             }}
             bgcolor={"primary.main"}
             borderRadius={"10px"}
@@ -118,7 +132,11 @@ export const FoodDetail = (props: FoodDetailProps) => {
           <Stack
             onClick={() => {
               changeFoodCount(1);
-              setFoodTotal(foodCount * foodPrice);
+              setFoodTotal(
+                discount
+                  ? (1 - discount / 100) * foodPrice * foodCount
+                  : foodPrice * foodCount
+              );
             }}
             bgcolor={"primary.main"}
             borderRadius={"10px"}
@@ -128,10 +146,26 @@ export const FoodDetail = (props: FoodDetailProps) => {
             <Add />
           </Stack>
         </Stack>
-        <Button variant="contained">Сагслах</Button>
-        <Typography color={"primary.main"} fontSize={18} fontWeight={600}>
-          {Boolean(foodTotal) && foodTotal}
-        </Typography>
+        <Button
+          variant="contained"
+          onClick={() => {
+            console.log(basket);
+            setBasket([
+              ...basket,
+              {
+                foodName,
+                foodCategory,
+                foodIngredients,
+                foodPrice,
+                discount,
+                foodPic,
+                foodCount,
+              },
+            ]);
+          }}
+        >
+          Сагслах
+        </Button>
       </Stack>
     </Stack>
   );

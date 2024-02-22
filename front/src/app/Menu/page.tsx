@@ -44,6 +44,7 @@ export default function Menu() {
                   discount={item.discount}
                   foodPic={item.foodPic}
                   foodIngredients={item.foodIngredients}
+                  foodCategory={item.foodCategory}
                 />
               </Grid>
             ))}

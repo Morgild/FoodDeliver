@@ -1,17 +1,8 @@
 import {} from "@mui/icons-material";
-import {
-  Box,
-  Card,
-  CardContent,
-  CardMedia,
-  Modal,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Modal, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { FoodDetail } from "./FoodDetail";
 import { useEffect, useState } from "react";
-import { useAuth } from "./providers/AuthProvider";
 import { usePathname } from "next/navigation";
 
 type ItemCardProps = {
@@ -20,10 +11,18 @@ type ItemCardProps = {
   discount?: number;
   foodPic: string;
   foodIngredients: string;
+  foodCategory: string;
 };
 
 export const ItemCard = (props: ItemCardProps) => {
-  const { foodName, foodPrice, discount, foodPic, foodIngredients } = props;
+  const {
+    foodName,
+    foodPrice,
+    discount,
+    foodPic,
+    foodIngredients,
+    foodCategory,
+  } = props;
   const [open, setOpen] = useState(false);
   const [inAdminPage, setInAdminPage] = useState(false);
   const pathname = usePathname();
@@ -38,16 +37,14 @@ export const ItemCard = (props: ItemCardProps) => {
   useEffect(() => {
     isUserAdmin();
   }, [inAdminPage]);
-  console.log(inAdminPage);
 
   const style = {
     position: "absolute" as "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    maxWidth: "981px",
-    width: "80%",
-
+    maxWidth: "800px",
+    width: "50%",
     bgcolor: "background.paper",
     border: "1px solid #DADCE0",
     boxShadow: 24,
@@ -146,6 +143,7 @@ export const ItemCard = (props: ItemCardProps) => {
             discount={discount}
             foodPic={foodPic}
             foodIngredients={foodIngredients}
+            foodCategory={foodCategory}
           />
         </Box>
       </Modal>

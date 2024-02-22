@@ -24,6 +24,15 @@ type Food = {
 type Category = {
   foodCategory: string;
 };
+type Basket = {
+  foodName: string;
+  foodCategory: string;
+  foodIngredients: string;
+  foodPrice: number;
+  discount?: number;
+  foodPic: string;
+  foodCount: number;
+};
 type DataContextType = {
   getCategories: () => void;
   postCategory: (foodCategory: string) => void;
@@ -40,12 +49,15 @@ type DataContextType = {
   refreshF: () => void;
   foods: Food[];
   setFoods: Dispatch<SetStateAction<Food[]>>;
+  basket: Basket[];
+  setBasket: Dispatch<SetStateAction<Basket[]>>;
 };
 
 const DataContext = createContext({} as DataContextType);
 export const DataProvider = ({ children }: PropsWithChildren) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [foods, setFoods] = useState<Food[]>([]);
+  const [basket, setBasket] = useState<Basket[]>([]);
   const [refresh, setRefresh] = useState(0);
   const { isReady, setIsReady } = useAuth();
 
@@ -72,7 +84,6 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         headers: { Authorization: localStorage.getItem("token") },
       });
       setFoods(data);
-      console.log(data);
     } catch (error) {
       console.log(error), "FFF";
     }
@@ -151,6 +162,10 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
     setIsReady(true);
   }, [refresh]);
 
+  useEffect(() => {
+    localStorage.setItem("basket", JSON.stringify(basket));
+  }, [basket]);
+
   return (
     <DataContext.Provider
       value={{
@@ -162,6 +177,8 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         refreshF,
         foods,
         setFoods,
+        basket,
+        setBasket,
       }}
     >
       {children}
