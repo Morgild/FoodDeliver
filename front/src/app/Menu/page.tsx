@@ -31,7 +31,7 @@ export default function Menu() {
             );
           })}
         </Grid>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} py={7}>
           {foods
             .filter((food) => {
               return food.foodCategory.includes(selectedMenu);

@@ -2,6 +2,7 @@ import { Add, Close, Remove } from "@mui/icons-material";
 import { Button, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useState } from "react";
+import { bool } from "yup";
 type FoodDetailProps = {
   setOpen: Dispatch<SetStateAction<boolean>>;
   foodName: string;
@@ -25,12 +26,30 @@ export const FoodDetail = (props: FoodDetailProps) => {
     <Stack flexDirection={"row"} gap={"33px"} height={1}>
       <Stack
         position={"relative"}
-        borderRadius={3}
+        borderRadius={1}
         overflow={"hidden"}
         width={0.5}
         sx={{ aspectRatio: 3 / 2 }}
       >
         <Image objectFit="fill" src={foodPic} alt="food image" fill />
+        <Typography
+          color="common.white"
+          fontSize={18}
+          fontWeight={600}
+          bgcolor="primary.main"
+          sx={{
+            position: "absolute",
+            top: "8%",
+            right: "10%",
+            border: 1,
+            borderColor: "common.white",
+            width: "fit-content",
+            borderRadius: "16px",
+          }}
+          padding={Boolean(discount) ? "4px 16px" : 0}
+        >
+          {Boolean(discount) && discount} {Boolean(discount) && "%"}
+        </Typography>
       </Stack>
 
       <Stack gap={2} width={0.5}>
@@ -42,13 +61,13 @@ export const FoodDetail = (props: FoodDetailProps) => {
             sx={{ cursor: "pointer" }}
           />
         </Stack>
-        <Stack>
+        <Stack position={"relative"}>
           <Typography fontSize={28} fontWeight={700} color={"common.black"}>
             {foodName}
           </Typography>
           <Stack flexDirection={"row"} gap={2} alignItems={"center"}>
             <Typography color={"primary.main"} fontSize={18} fontWeight={600}>
-              {foodPrice}₮
+              {discount ? (1 - discount / 100) * foodPrice : foodPrice}₮
             </Typography>
             <Typography
               color={"#171717"}
@@ -56,7 +75,8 @@ export const FoodDetail = (props: FoodDetailProps) => {
               fontWeight={500}
               sx={{ textDecoration: "line-through" }}
             >
-              {discount ? (1 - discount / 100) * foodPrice : foodPrice}₮
+              {Boolean(discount) && foodPrice}
+              {Boolean(discount) && "₮"}
             </Typography>
           </Stack>
         </Stack>

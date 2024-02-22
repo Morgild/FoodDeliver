@@ -105,6 +105,7 @@ export const ItemCard = (props: ItemCardProps) => {
               sx={{ color: "#171717", textDecoration: "line-through" }}
             >
               {Boolean(discount) && foodPrice}
+              {Boolean(discount) && "₮"}
             </Typography>
           </Stack>
         </Stack>
