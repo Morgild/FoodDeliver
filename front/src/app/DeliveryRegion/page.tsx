@@ -1,3 +1,4 @@
+import { AddressForm } from "@/components/AddressForm";
 import { FoodDetail } from "@/components/FoodDetail";
 
 import { Container } from "@mui/material";
@@ -12,6 +13,8 @@ export default function DeliveryRegion() {
         flexDirection: "column",
         gap: "122px",
       }}
-    ></Container>
+    >
+      <AddressForm></AddressForm>
+    </Container>
   );
 }

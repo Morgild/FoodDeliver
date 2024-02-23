@@ -13,20 +13,27 @@ type Basket = {
   foodPic: string;
   foodCount: number;
 };
+const numberFormatter = new Intl.NumberFormat("en-US", {
+  style: "decimal",
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0,
+});
 
 export const Basket = (props: BasketProps) => {
   const { toggledrawer } = props;
   const basketFoods = JSON.parse(localStorage.getItem("basket")) as Basket[];
-  console.log(basketFoods);
+  const sumBasket = basketFoods.reduce((sum, currentValue) => {
+    return sum + currentValue.foodPrice * currentValue.foodCount;
+  }, 0);
   return (
     <Box
-      padding={"18px 16px"}
       display={"flex"}
       flexDirection={"column"}
       height={"100vh"}
       justifyContent={"space-between"}
+      position={"relative"}
     >
-      <Stack>
+      <Stack padding={"18px 16px"}>
         <Stack
           flexDirection={"row"}
           justifyContent={"space-between"}
@@ -59,7 +66,7 @@ export const Basket = (props: BasketProps) => {
 
           <Stack width={48} height={48}></Stack>
         </Stack>
-        <Stack borderTop={1} borderBottom={1} borderColor={"#D6D8DB"} py={1}>
+        <Stack borderTop={1} borderColor={"#D6D8DB"} py={1}>
           {basketFoods.map((item, index) => (
             <BasketItem
               key={index}
@@ -67,6 +74,8 @@ export const Basket = (props: BasketProps) => {
               foodPic={item.foodPic}
               foodIngredients={item.foodIngredients}
               foodCount={item.foodCount}
+              foodPrice={item.foodPrice}
+              discount={item.discount}
             />
           ))}
         </Stack>
@@ -76,13 +85,21 @@ export const Basket = (props: BasketProps) => {
         alignItems={"center"}
         justifyContent={"space-between"}
         justifySelf={"flex-end"}
+        // borderTop={1}
+        borderColor={"#D6D8DB"}
+        p={3}
+        position={"absolute"}
+        bottom={0}
+        bgcolor={"common.white"}
+        width={1}
+        boxShadow={3}
       >
         <Stack>
           <Typography fontSize={18} fontWeight={400} color={"#5E6166"}>
             Нийт төлөх дүн
           </Typography>
           <Typography fontSize={18} fontWeight={700} color={"#121316"}>
-            34800
+            {numberFormatter.format(sumBasket)}
           </Typography>
         </Stack>
         <Button variant="contained">

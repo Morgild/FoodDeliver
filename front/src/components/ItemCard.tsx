@@ -27,6 +27,13 @@ export const ItemCard = (props: ItemCardProps) => {
   const [inAdminPage, setInAdminPage] = useState(false);
   const pathname = usePathname();
 
+  //number Formatter
+  const numberFormatter = new Intl.NumberFormat("en-US", {
+    style: "decimal",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
+
   const isUserAdmin = () => {
     if (pathname == "/Admin") {
       setInAdminPage(true);
@@ -95,13 +102,16 @@ export const ItemCard = (props: ItemCardProps) => {
               fontWeight={590}
               sx={{ color: "primary.main" }}
             >
-              {discount ? (1 - discount / 100) * foodPrice : foodPrice}₮
+              {discount
+                ? numberFormatter.format((1 - discount / 100) * foodPrice)
+                : numberFormatter.format(foodPrice)}
+              ₮
             </Typography>
             <Typography
               fontSize={18}
               sx={{ color: "#171717", textDecoration: "line-through" }}
             >
-              {Boolean(discount) && foodPrice}
+              {Boolean(discount) && numberFormatter.format(foodPrice)}
               {Boolean(discount) && "₮"}
             </Typography>
           </Stack>

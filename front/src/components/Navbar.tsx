@@ -170,7 +170,7 @@ export const NavBar = (props: NavBarProps) => {
         </Box>
       </Modal>
       <Drawer anchor="right" open={state} onClose={toggleDrawer}>
-        <Stack width="40vw">
+        <Stack width="40vw" maxWidth={"500px"}>
           <Basket toggledrawer={toggleDrawer} />
         </Stack>
       </Drawer>

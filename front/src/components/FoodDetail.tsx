@@ -26,6 +26,12 @@ export const FoodDetail = (props: FoodDetailProps) => {
   const { basket, setBasket } = useData();
   const [foodCount, setFoodCount] = useState(1);
   const [foodTotal, setFoodTotal] = useState(0);
+
+  const numberFormatter = new Intl.NumberFormat("en-US", {
+    style: "decimal",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
   const changeFoodCount = (change: number) => {
     setFoodCount((prev) => {
       if (change < 0 && prev == 1) return prev;
@@ -77,7 +83,10 @@ export const FoodDetail = (props: FoodDetailProps) => {
           </Typography>
           <Stack flexDirection={"row"} gap={2} alignItems={"center"}>
             <Typography color={"primary.main"} fontSize={18} fontWeight={600}>
-              {discount ? (1 - discount / 100) * foodPrice : foodPrice}₮
+              {discount
+                ? numberFormatter.format((1 - discount / 100) * foodPrice)
+                : numberFormatter.format(foodPrice)}
+              ₮
             </Typography>
             <Typography
               color={"#171717"}
@@ -85,7 +94,7 @@ export const FoodDetail = (props: FoodDetailProps) => {
               fontWeight={500}
               sx={{ textDecoration: "line-through" }}
             >
-              {Boolean(discount) && foodPrice}
+              {Boolean(discount) && numberFormatter.format(foodPrice)}
               {Boolean(discount) && "₮"}
             </Typography>
           </Stack>
