@@ -1,9 +1,11 @@
 "use client";
 import {
   AppBar,
+  Badge,
   Box,
   Container,
   Drawer,
+  IconButton,
   List,
   Modal,
   Stack,
@@ -13,18 +15,19 @@ import Image from "next/image";
 import { CustomInput } from "./CustomInput";
 import * as React from "react";
 import { SignIn } from "./SignIn";
-import { SignUp } from "./SignUp";
 import { usePathname, useRouter } from "next/navigation";
-import path from "path";
 import { Basket } from "./Basket";
 import { useAuth } from "./providers/AuthProvider";
+import { useData } from "./providers/DataProvider";
+import { ShoppingBasket, ShoppingBasketOutlined } from "@mui/icons-material";
 type NavBarProps = {
   open?: boolean;
   onClose?: () => void;
+  toggleDrawer: () => void;
 };
 
 const menuItems = ["НҮҮР", "ХООЛНЫ ЦЭС", "ХҮРГЭЛТИЙН БҮС"];
-export const NavBar = (props: NavBarProps) => {
+export const NavBar = () => {
   const style = {
     position: "absolute" as "absolute",
     top: "50%",
@@ -43,6 +46,7 @@ export const NavBar = (props: NavBarProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const { user, isLogged, isAdmin } = useAuth();
+  const { basket } = useData();
   const { name, profilePic } = user;
 
   const [state, setState] = React.useState(false);
@@ -121,8 +125,17 @@ export const NavBar = (props: NavBarProps) => {
             gap={2}
             flexDirection={"row"}
             sx={{ p: "8px 16px", cursor: "pointer" }}
+            position={"relative"}
+            justifyContent={"center"}
+            alignItems={"center"}
           >
-            <Image alt="basket" src="/basket.png" width={24} height={24} />
+            {/* <Image alt="basket" src="/basket.png" width={24} height={24} /> */}
+            <IconButton size="small">
+              <Badge badgeContent={basket.length} color="warning">
+                <ShoppingBasketOutlined />
+              </Badge>
+            </IconButton>
+
             <Typography color="common.black" fontSize={14} fontWeight={700}>
               Сагс
             </Typography>
@@ -141,7 +154,7 @@ export const NavBar = (props: NavBarProps) => {
             sx={{ p: "8px 16px" }}
           >
             <Stack borderRadius={"50%"} overflow={"hidden"}>
-              <img
+              <Image
                 alt="basket"
                 src={isLogged ? profilePic : "/avatar.png"}
                 width={24}
@@ -171,7 +184,7 @@ export const NavBar = (props: NavBarProps) => {
       </Modal>
       <Drawer anchor="right" open={state} onClose={toggleDrawer}>
         <Stack width="40vw" maxWidth={"500px"}>
-          <Basket toggledrawer={toggleDrawer} />
+          <Basket toggleDrawer={toggleDrawer} />
         </Stack>
       </Drawer>
     </Container>

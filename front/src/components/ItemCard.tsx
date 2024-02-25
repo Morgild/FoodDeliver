@@ -66,20 +66,29 @@ export const ItemCard = (props: ItemCardProps) => {
         <Stack
           position={"relative"}
           sx={{
-            // minHeight: 200,
-            // boxShadow: 1,
+            minHeight: 200,
+            boxShadow: 1,
 
             borderRadius: "16px",
             aspectRatio: 3 / 2,
+            "&:hover": {
+              background: "red",
+            },
           }}
           justifyContent={"center"}
           alignItems={"center"}
-          // overflow={"hidden"}
+          overflow={"hidden"}
           onClick={() => {
             setOpen(true);
           }}
         >
-          <Image objectFit="fill" src={foodPic} alt="foodPicture" fill />
+          <Image
+            objectFit="cover"
+            src={foodPic}
+            sizes="small"
+            alt="foodPicture"
+            fill
+          />
         </Stack>
         <Stack
           sx={{

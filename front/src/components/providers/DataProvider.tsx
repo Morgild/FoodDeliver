@@ -12,6 +12,7 @@ import {
 import { toast } from "react-toastify";
 import { useAuth } from "./AuthProvider";
 import { LoadingPage } from "../LoadingPage";
+import { stringify } from "querystring";
 
 type Food = {
   foodName: string;
@@ -161,10 +162,6 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
     getFoods();
     setIsReady(true);
   }, [refresh]);
-
-  useEffect(() => {
-    localStorage.setItem("basket", JSON.stringify(basket));
-  }, [basket]);
 
   return (
     <DataContext.Provider

@@ -51,9 +51,10 @@ export default function Admin() {
         <Typography fontSize={22} fontWeight={700}>
           Food menu
         </Typography>
-        {categories.map((item: any) => {
+        {categories.map((item: any, index: number) => {
           return (
             <FoodCategory
+              key={index}
               categories={item.foodCategory}
               selectedMenu={selectedMenu}
               setSelectedMenu={setSelectedMenu}
@@ -121,6 +122,7 @@ export default function Admin() {
                   discount={item.discount}
                   foodPic={item.foodPic}
                   foodIngredients={item.foodIngredients}
+                  foodCategory={item.foodCategory}
                 />
               </Grid>
             ))}

@@ -4,6 +4,8 @@ import Image from "next/image";
 import { Dispatch, SetStateAction, useState } from "react";
 import { bool } from "yup";
 import { useData } from "./providers/DataProvider";
+import { useAuth } from "./providers/AuthProvider";
+import { toast } from "react-toastify";
 type FoodDetailProps = {
   setOpen: Dispatch<SetStateAction<boolean>>;
   foodName: string;
@@ -23,6 +25,7 @@ export const FoodDetail = (props: FoodDetailProps) => {
     foodIngredients,
     foodCategory,
   } = props;
+  const { isLogged } = useAuth();
   const { basket, setBasket } = useData();
   const [foodCount, setFoodCount] = useState(1);
   const [foodTotal, setFoodTotal] = useState(0);
@@ -157,20 +160,27 @@ export const FoodDetail = (props: FoodDetailProps) => {
         </Stack>
         <Button
           variant="contained"
-          onClick={() => {
-            console.log(basket);
-            setBasket([
-              ...basket,
-              {
-                foodName,
-                foodCategory,
-                foodIngredients,
-                foodPrice,
-                discount,
-                foodPic,
-                foodCount,
-              },
-            ]);
+          onClick={async () => {
+            if (isLogged) {
+              setBasket([
+                ...basket,
+                {
+                  foodName,
+                  foodCategory,
+                  foodIngredients,
+                  foodPrice,
+                  discount,
+                  foodPic,
+                  foodCount,
+                },
+              ]);
+              localStorage.setItem("basket", JSON.stringify(basket));
+            } else {
+              toast.warning("Нэвтэрсний дараа сагсанд хийнэ үү.", {
+                position: "top-center",
+                hideProgressBar: true,
+              });
+            }
           }}
         >
           Сагслах

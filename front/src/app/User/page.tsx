@@ -44,6 +44,7 @@ export default function User(props: UserProfileProps) {
   const [newName, setNewName] = useState(name);
   const [newPhone, setNewPhone] = useState(phone);
   const [newEmail, setNewEmail] = useState(email);
+  const [showSaveBtn, setShowSaveBtn] = useState(false);
 
   const userInfo = [
     { title: "Таны нэр", text: name },
@@ -121,6 +122,7 @@ export default function User(props: UserProfileProps) {
                 bottom={0}
                 onClick={() => {
                   setOpen((prev) => !prev);
+                  setShowSaveBtn(true);
                 }}
               >
                 <EditOutlined fontSize="inherit" />
@@ -139,13 +141,24 @@ export default function User(props: UserProfileProps) {
           </Typography>
         </Stack>
         <Stack width={1} alignItems={"center"} gap={2} padding={"16px 20px"}>
-          <UserCard title="Таны нэр" text={name} setUpdate={setNewName} />
+          <UserCard
+            title="Таны нэр"
+            text={name}
+            setUpdate={setNewName}
+            setShowSaveBtn={setShowSaveBtn}
+          />
           <UserCard
             title="Утасны дугаар"
             text={phone}
             setUpdate={setNewPhone}
+            setShowSaveBtn={setShowSaveBtn}
           />
-          <UserCard title="И-мэйл" text={email} setUpdate={setNewEmail} />
+          <UserCard
+            title="И-мэйл"
+            text={email}
+            setUpdate={setNewEmail}
+            setShowSaveBtn={setShowSaveBtn}
+          />
 
           {/* Order History button */}
           <Stack
@@ -207,16 +220,19 @@ export default function User(props: UserProfileProps) {
               </Typography>
             </Stack>
           </Stack>
-          <Button
-            onClick={() => {
-              updateUser(imageUrl, newName, newPhone, newEmail);
-            }}
-            fullWidth
-            sx={{ py: "8px" }}
-            variant="contained"
-          >
-            <Typography>Хадгалах</Typography>
-          </Button>
+          {showSaveBtn && (
+            <Button
+              onClick={() => {
+                updateUser(imageUrl, newName, newPhone, newEmail);
+                setShowSaveBtn(false);
+              }}
+              fullWidth
+              sx={{ py: "8px" }}
+              variant="contained"
+            >
+              <Typography>Хадгалах</Typography>
+            </Button>
+          )}
         </Stack>
       </Stack>
       <Modal open={open} onClose={handleClose}>

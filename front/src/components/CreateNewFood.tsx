@@ -1,5 +1,5 @@
 import { Close, TypeSpecimenTwoTone } from "@mui/icons-material";
-import { Button, Stack, TextField, Typography } from "@mui/material";
+import { Button, Select, Stack, TextField, Typography } from "@mui/material";
 import { useData } from "./providers/DataProvider";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -129,9 +129,6 @@ export const CreateNewFood = (props: CreateNewFoodProps) => {
             native: true,
           }}
         >
-          <option value="" disabled selected>
-            Choose category
-          </option>
           {categories.map((item: any) => (
             <option key={item.foodCategory} value={item.foodCategory}>
               {item.foodCategory}

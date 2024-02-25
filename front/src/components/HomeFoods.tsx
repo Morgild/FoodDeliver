@@ -3,11 +3,19 @@ import { Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { ItemCard } from "./ItemCard";
 import { useData } from "./providers/DataProvider";
+import { useState } from "react";
+import { TitleGreenStar } from "./TitleGreenStar";
 
 type HomeFoodsProps = { foodCategory: String };
 export const HomeFoods = (props: HomeFoodsProps) => {
   const { foods } = useData();
   const { foodCategory } = props;
+  const [seeAll, setSeeAll] = useState(4);
+  const handleSeeAll = () => {
+    if (seeAll == 4) {
+      setSeeAll(40);
+    } else setSeeAll(4);
+  };
 
   return (
     <Stack gap={3}>
@@ -16,13 +24,13 @@ export const HomeFoods = (props: HomeFoodsProps) => {
         justifyContent="space-between"
         sx={{ px: "16px" }}
       >
-        <Stack flexDirection={"row"} gap={1} alignItems={"center"}>
-          <Image src="/Star.png" alt="star" width={18} height={18} />
-          <Typography fontSize={22} fontWeight={700} color={"#272727"}>
-            {foodCategory}
-          </Typography>
-        </Stack>
-        <Stack gap={"5px"} flexDirection={"row"} alignItems={"center"}>
+        <TitleGreenStar title={foodCategory} />
+        <Stack
+          onClick={handleSeeAll}
+          gap={"5px"}
+          flexDirection={"row"}
+          alignItems={"center"}
+        >
           <Typography
             fontSize={14}
             fontWeight={400}
@@ -45,6 +53,7 @@ export const HomeFoods = (props: HomeFoodsProps) => {
           .filter((food) => {
             return food.foodCategory == foodCategory;
           })
+          .filter((food, index) => index < seeAll)
           .map((item: any, index: number) => (
             <Grid item key={index} xs={3}>
               <ItemCard

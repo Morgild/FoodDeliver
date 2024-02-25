@@ -3,9 +3,17 @@ import { Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { ItemCard } from "./ItemCard";
 import { useData } from "./providers/DataProvider";
+import { useState } from "react";
+import { TitleGreenStar } from "./TitleGreenStar";
 
 export const Onsale = () => {
   const { foods } = useData();
+  const [seeAll, setSeeAll] = useState(4);
+  const handleSeeAll = () => {
+    if (seeAll == 4) {
+      setSeeAll(40);
+    } else setSeeAll(4);
+  };
   return (
     <Stack gap={3}>
       <Stack
@@ -13,13 +21,13 @@ export const Onsale = () => {
         justifyContent="space-between"
         sx={{ px: "16px" }}
       >
-        <Stack flexDirection={"row"} gap={1} alignItems={"center"}>
-          <Image src="/Star.png" alt="star" width={18} height={18} />
-          <Typography fontSize={22} fontWeight={700} color={"#272727"}>
-            Хямдралтай
-          </Typography>
-        </Stack>
-        <Stack gap={"5px"} flexDirection={"row"} alignItems={"center"}>
+        <TitleGreenStar title="Хямдралтай" />
+        <Stack
+          onClick={handleSeeAll}
+          gap={"5px"}
+          flexDirection={"row"}
+          alignItems={"center"}
+        >
           <Typography
             fontSize={14}
             fontWeight={400}
@@ -42,6 +50,7 @@ export const Onsale = () => {
           .filter((food) => {
             return food.discount > 0;
           })
+          .filter((food, index) => index < seeAll)
           .map((item: any, index: number) => (
             <Grid item key={index} xs={3}>
               <ItemCard
@@ -50,6 +59,7 @@ export const Onsale = () => {
                 discount={item.discount}
                 foodPic={item.foodPic}
                 foodIngredients={item.foodIngredients}
+                foodCategory={item.foodCategory}
               />
             </Grid>
           ))}

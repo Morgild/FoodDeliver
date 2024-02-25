@@ -18,9 +18,10 @@ type UserCardProps = {
   title: string;
   text: string;
   setUpdate: Dispatch<SetStateAction<string>>;
+  setShowSaveBtn: Dispatch<SetStateAction<boolean>>;
 };
 export const UserCard = (props: UserCardProps) => {
-  const { title, text, setUpdate } = props;
+  const { title, text, setUpdate, setShowSaveBtn } = props;
   const [editText, setEditText] = useState(text);
   const [edit, setEdit] = useState(false);
 
@@ -71,6 +72,7 @@ export const UserCard = (props: UserCardProps) => {
         sx={{ cursor: "pointer" }}
         onClick={() => {
           setEdit(true);
+          setShowSaveBtn(true);
         }}
       >
         <EditOutlined />

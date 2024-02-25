@@ -2,8 +2,9 @@ import { ArrowBackIos } from "@mui/icons-material";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { Poppins } from "next/font/google";
 import { BasketItem } from "./BasketItem";
+import { useData } from "./providers/DataProvider";
 
-type BasketProps = { toggledrawer: () => void };
+type BasketProps = { toggleDrawer: () => void };
 type Basket = {
   foodName: string;
   foodCategory: string;
@@ -19,11 +20,16 @@ const numberFormatter = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,
 });
 
-export const Basket = (props: BasketProps) => {
-  const { toggledrawer } = props;
-  const basketFoods = JSON.parse(localStorage.getItem("basket")) as Basket[];
-  const sumBasket = basketFoods.reduce((sum, currentValue) => {
-    return sum + currentValue.foodPrice * currentValue.foodCount;
+export const Basket = (props: BasketProps & Basket) => {
+  const { basket } = useData();
+  const { toggleDrawer } = props;
+  const sumBasket = basket.reduce((sum, currentValue) => {
+    return (
+      sum +
+      currentValue.foodPrice *
+        currentValue.foodCount *
+        (1 - 0.01 * currentValue.discount)
+    );
   }, 0);
   return (
     <Box
@@ -42,7 +48,7 @@ export const Basket = (props: BasketProps) => {
         >
           <Stack
             onClick={() => {
-              toggledrawer();
+              toggleDrawer();
             }}
             width={48}
             height={48}
@@ -67,17 +73,18 @@ export const Basket = (props: BasketProps) => {
           <Stack width={48} height={48}></Stack>
         </Stack>
         <Stack borderTop={1} borderColor={"#D6D8DB"} py={1}>
-          {basketFoods.map((item, index) => (
-            <BasketItem
-              key={index}
-              foodName={item.foodName}
-              foodPic={item.foodPic}
-              foodIngredients={item.foodIngredients}
-              foodCount={item.foodCount}
-              foodPrice={item.foodPrice}
-              discount={item.discount}
-            />
-          ))}
+          {Boolean(basket) &&
+            basket.map((item, index) => (
+              <BasketItem
+                key={index}
+                foodName={item.foodName}
+                foodPic={item.foodPic}
+                foodIngredients={item.foodIngredients}
+                foodCount={item.foodCount}
+                foodPrice={item.foodPrice}
+                discount={item.discount}
+              />
+            ))}
         </Stack>
       </Stack>
       <Stack
@@ -88,7 +95,7 @@ export const Basket = (props: BasketProps) => {
         // borderTop={1}
         borderColor={"#D6D8DB"}
         p={3}
-        position={"absolute"}
+        position={"sticky"}
         bottom={0}
         bgcolor={"common.white"}
         width={1}

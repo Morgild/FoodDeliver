@@ -1,22 +1,11 @@
 import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
+import { TitleGreenStar } from "./TitleGreenStar";
 
 export function TermsOfService() {
   return (
     <Stack>
-      <Stack
-        flexDirection={"row"}
-        justifyContent={"start"}
-        alignItems={"center"}
-        width={1}
-        py={2}
-        gap={1}
-      >
-        <Image src={"/Star.png"} alt="star" width={20} height={20} />
-        <Typography fontSize={22} fontWeight={700} color={"#272727"}>
-          Үйлчилгээний нөхцөл
-        </Typography>
-      </Stack>
+      <TitleGreenStar title={"Үйлчилгээний нөхцөл"} />
       <Stack
         sx={{
           display: "flex",
