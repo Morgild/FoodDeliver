@@ -52,25 +52,28 @@ export const AddressForm = (props: AddressDropDownProps) => {
 
   return (
     <Box>
-      <Stack>
-        <Typography
-          onClick={() => {
-            alert(formik.values.district);
-          }}
-        >
-          Хаягаа оруулна уу
-        </Typography>
-        <Select
-          name="district"
-          value={formik.values.district}
-          onChange={formik.handleChange}
-        >
-          {districts.map((item: any, index) => (
-            <option value={item}>
-              <AddressDropdown key={index} text={item} />
-            </option>
-          ))}
-        </Select>
+      <Stack flexDirection={"row"}>
+        <Stack>
+          <Typography
+            onClick={() => {
+              alert(formik.values.district);
+            }}
+          >
+            Хаягаа оруулна уу
+          </Typography>
+          <Select
+            name="district"
+            value={formik.values.district}
+            onChange={formik.handleChange}
+            native
+          >
+            {districts.map((item: any, index) => (
+              <option key={index} value={item}>
+                <AddressDropdown key={index} text={item} />
+              </option>
+            ))}
+          </Select>
+        </Stack>
       </Stack>
     </Box>
   );

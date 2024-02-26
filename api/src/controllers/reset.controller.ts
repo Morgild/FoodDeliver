@@ -63,7 +63,7 @@ export const resetPassword: RequestHandler = async (req, res) => {
       });
     }
 
-    const updateUser = await UserModel.findOneAndUpdate(
+    await UserModel.findOneAndUpdate(
       { _id: user._id },
       {
         password: password,

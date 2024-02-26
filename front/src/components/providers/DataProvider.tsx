@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { useAuth } from "./AuthProvider";
 import { LoadingPage } from "../LoadingPage";
 import { stringify } from "querystring";
+import { convertLength } from "@mui/material/styles/cssUtils";
 
 type Food = {
   foodName: string;
@@ -59,6 +60,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [foods, setFoods] = useState<Food[]>([]);
   const [basket, setBasket] = useState<Basket[]>([]);
+  const [isFirstRender, setIsFirstRender] = useState(true);
   const [refresh, setRefresh] = useState(0);
   const { isReady, setIsReady } = useAuth();
 
@@ -162,6 +164,19 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
     getFoods();
     setIsReady(true);
   }, [refresh]);
+
+  useEffect(() => {
+    const basket = localStorage.getItem("basket");
+    if (basket) {
+      setBasket(JSON.parse(basket));
+    }
+    setIsFirstRender(false);
+  }, []);
+
+  useEffect(() => {
+    if (isFirstRender) return;
+    localStorage.setItem("basket", JSON.stringify(basket));
+  }, [basket]);
 
   return (
     <DataContext.Provider

@@ -3,32 +3,27 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import { Poppins } from "next/font/google";
 import { BasketItem } from "./BasketItem";
 import { useData } from "./providers/DataProvider";
+import { usePathname, useRouter } from "next/navigation";
 
 type BasketProps = { toggleDrawer: () => void };
-type Basket = {
-  foodName: string;
-  foodCategory: string;
-  foodIngredients: string;
-  foodPrice: number;
-  discount?: number;
-  foodPic: string;
-  foodCount: number;
-};
+
 const numberFormatter = new Intl.NumberFormat("en-US", {
   style: "decimal",
   minimumFractionDigits: 0,
   maximumFractionDigits: 0,
 });
 
-export const Basket = (props: BasketProps & Basket) => {
+export const Basket = (props: BasketProps) => {
   const { basket } = useData();
+  const router = useRouter();
+  const pathname = usePathname();
   const { toggleDrawer } = props;
   const sumBasket = basket.reduce((sum, currentValue) => {
     return (
       sum +
       currentValue.foodPrice *
         currentValue.foodCount *
-        (1 - 0.01 * currentValue.discount)
+        (1 - 0.01 * (currentValue.discount || 0))
     );
   }, 0);
   return (
@@ -95,7 +90,7 @@ export const Basket = (props: BasketProps & Basket) => {
         // borderTop={1}
         borderColor={"#D6D8DB"}
         p={3}
-        position={"sticky"}
+        position={"absolute"}
         bottom={0}
         bgcolor={"common.white"}
         width={1}
@@ -109,7 +104,15 @@ export const Basket = (props: BasketProps & Basket) => {
             {numberFormatter.format(sumBasket)}
           </Typography>
         </Stack>
-        <Button variant="contained">
+        <Button
+          onClick={() => {
+            if (!pathname.includes("/Order")) {
+              router.push("/Order");
+              toggleDrawer();
+            }
+          }}
+          variant="contained"
+        >
           <Typography fontSize={14} fontWeight={400}>
             Захиалах
           </Typography>

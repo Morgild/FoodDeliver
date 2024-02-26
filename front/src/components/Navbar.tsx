@@ -20,6 +20,7 @@ import { Basket } from "./Basket";
 import { useAuth } from "./providers/AuthProvider";
 import { useData } from "./providers/DataProvider";
 import { ShoppingBasket, ShoppingBasketOutlined } from "@mui/icons-material";
+import { FoodCategory } from "./FoodCategory";
 type NavBarProps = {
   open?: boolean;
   onClose?: () => void;

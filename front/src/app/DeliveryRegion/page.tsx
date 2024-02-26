@@ -25,7 +25,7 @@ export default function DeliveryRegion() {
       }}
     >
       <Stack
-        width={1}
+        width={0.5}
         position={"relative"}
         sx={{ aspectRatio: 3 / 2 }}
         boxShadow={1}

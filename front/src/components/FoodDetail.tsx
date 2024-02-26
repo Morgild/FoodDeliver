@@ -174,7 +174,6 @@ export const FoodDetail = (props: FoodDetailProps) => {
                   foodCount,
                 },
               ]);
-              localStorage.setItem("basket", JSON.stringify(basket));
             } else {
               toast.warning("Нэвтэрсний дараа сагсанд хийнэ үү.", {
                 position: "top-center",
