@@ -3,6 +3,8 @@ import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
 import { number } from "yup";
+import { useData } from "./providers/DataProvider";
+import { usePathname, useRouter } from "next/navigation";
 
 type BasketItemProps = {
   foodName: string;
@@ -22,14 +24,14 @@ const numberFormatter = new Intl.NumberFormat("en-US", {
 export const BasketItem = (props: BasketItemProps) => {
   const { foodName, foodPic, foodIngredients, foodCount, foodPrice, discount } =
     props;
-
-  const [foodCountOnBasket, setFoodCountOnBasket] = useState(foodCount);
-  const changeFoodCount = (change: number) => {
-    setFoodCountOnBasket((prev) => {
-      if (change < 0 && prev == 1) return prev;
-      return prev + change;
-    });
-  };
+  const { basket, setBasket } = useData();
+  const router = useRouter();
+  const pathname = usePathname();
+  const sumBasket = numberFormatter.format(
+    Boolean(discount)
+      ? foodPrice * foodCount * (1 - 0.01 * discount || 0)
+      : foodPrice * foodCount
+  );
   return (
     <Stack flexDirection={"row"} p={2} gap={2} borderRadius={"8px"}>
       <Stack width={0.5} flexGrow={1} position={"relative"}>
@@ -66,45 +68,73 @@ export const BasketItem = (props: BasketItemProps) => {
               {foodName}
             </Typography>
             <Typography fontSize={18} fontWeight={600} color={"primary.main"}>
-              {numberFormatter.format(
-                Boolean(discount)
-                  ? foodPrice * foodCountOnBasket * (1 - discount * 0.01)
-                  : foodPrice * foodCountOnBasket
-              )}
+              {sumBasket}
             </Typography>
           </Stack>
-          <Close />
+          <Close
+            onClick={() => {
+              const newBasket = basket.filter(
+                (element) => element.foodName != foodName
+              );
+              setBasket(newBasket);
+            }}
+          />
         </Stack>
         <Typography>{foodIngredients}</Typography>
         <Stack>
           <Stack width={1} gap={"12px"}></Stack>
-          <Stack flexDirection={"row"} alignItems={"center"} gap={1}>
-            <Stack
-              onClick={() => {
-                changeFoodCount(-1);
-              }}
-              bgcolor={"primary.main"}
-              borderRadius={"10px"}
-              p={"8px"}
-              color={"common.white"}
-            >
-              <Remove />
+          {!pathname.includes("/Order") && (
+            <Stack flexDirection={"row"} alignItems={"center"} gap={1}>
+              <Stack
+                onClick={() => {
+                  const newBasket = basket.map((element) => {
+                    if (element.foodName == foodName) {
+                      if (element.foodCount > 1) {
+                        element.foodCount -= 1;
+                      }
+                      return element;
+                    } else {
+                      return element;
+                    }
+                  });
+                  setBasket(newBasket);
+                }}
+                bgcolor={"primary.main"}
+                borderRadius={"10px"}
+                p={"8px"}
+                color={"common.white"}
+              >
+                <Remove />
+              </Stack>
+              <Typography
+                px={1}
+                fontSize={16}
+                fontWeight={500}
+                color={"#171717"}
+              >
+                {foodCount}
+              </Typography>
+              <Stack
+                onClick={() => {
+                  const newBasket = basket.map((element) => {
+                    if (element.foodName == foodName) {
+                      element.foodCount += 1;
+                      return element;
+                    } else {
+                      return element;
+                    }
+                  });
+                  setBasket(newBasket);
+                }}
+                bgcolor={"primary.main"}
+                borderRadius={"10px"}
+                p={"8px"}
+                color={"common.white"}
+              >
+                <Add />
+              </Stack>
             </Stack>
-            <Typography px={1} fontSize={16} fontWeight={500} color={"#171717"}>
-              {foodCountOnBasket}
-            </Typography>
-            <Stack
-              onClick={() => {
-                changeFoodCount(1);
-              }}
-              bgcolor={"primary.main"}
-              borderRadius={"10px"}
-              p={"8px"}
-              color={"common.white"}
-            >
-              <Add />
-            </Stack>
-          </Stack>
+          )}
         </Stack>
       </Stack>
     </Stack>

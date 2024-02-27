@@ -87,10 +87,9 @@ export const Basket = (props: BasketProps) => {
         alignItems={"center"}
         justifyContent={"space-between"}
         justifySelf={"flex-end"}
-        // borderTop={1}
         borderColor={"#D6D8DB"}
         p={3}
-        position={"absolute"}
+        position={"sticky"}
         bottom={0}
         bgcolor={"common.white"}
         width={1}

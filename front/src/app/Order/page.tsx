@@ -8,7 +8,6 @@ import { useData } from "@/components/providers/DataProvider";
 import { ArrowBackIos } from "@mui/icons-material";
 
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
-import Image from "next/image";
 const numberFormatter = new Intl.NumberFormat("en-US", {
   style: "decimal",
   minimumFractionDigits: 0,
@@ -17,6 +16,14 @@ const numberFormatter = new Intl.NumberFormat("en-US", {
 
 export default function Order() {
   const { basket } = useData();
+  const sumBasket = basket.reduce((sum, currentValue) => {
+    return (
+      sum +
+      currentValue.foodPrice *
+        currentValue.foodCount *
+        (1 - 0.01 * (currentValue.discount || 0))
+    );
+  }, 0);
   return (
     <Container
       maxWidth="lg"
@@ -149,7 +156,7 @@ export default function Order() {
                     Нийт төлөх дүн
                   </Typography>
                   <Typography fontSize={18} fontWeight={700} color={"#121316"}>
-                    {numberFormatter.format(2000)}
+                    {numberFormatter.format(sumBasket)}
                   </Typography>
                 </Stack>
                 <Button onClick={() => {}} variant="contained">

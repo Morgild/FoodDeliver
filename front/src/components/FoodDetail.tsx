@@ -29,6 +29,7 @@ export const FoodDetail = (props: FoodDetailProps) => {
   const { basket, setBasket } = useData();
   const [foodCount, setFoodCount] = useState(1);
   const [foodTotal, setFoodTotal] = useState(0);
+  const [inBasket, setInBasket] = useState(false);
 
   const numberFormatter = new Intl.NumberFormat("en-US", {
     style: "decimal",
@@ -160,8 +161,18 @@ export const FoodDetail = (props: FoodDetailProps) => {
         </Stack>
         <Button
           variant="contained"
-          onClick={async () => {
-            if (isLogged) {
+          onClick={() => {
+            let inBasket = false;
+            const newBasket = basket.map((element) => {
+              if (element.foodName == foodName) {
+                inBasket = true;
+                element.foodCount += foodCount;
+                return element;
+              } else {
+                return element;
+              }
+            });
+            if (!inBasket) {
               setBasket([
                 ...basket,
                 {
@@ -175,10 +186,7 @@ export const FoodDetail = (props: FoodDetailProps) => {
                 },
               ]);
             } else {
-              toast.warning("Нэвтэрсний дараа сагсанд хийнэ үү.", {
-                position: "top-center",
-                hideProgressBar: true,
-              });
+              setBasket(newBasket);
             }
           }}
         >
