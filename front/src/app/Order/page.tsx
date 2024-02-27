@@ -1,5 +1,5 @@
 "use client";
-import { AddressDropdown } from "@/components/AddressDropDown";
+
 import { AddressForm } from "@/components/AddressForm";
 import { Basket } from "@/components/Basket";
 import { BasketItem } from "@/components/BasketItem";
@@ -35,7 +35,7 @@ export default function Order() {
       }}
     >
       <Stack flexDirection={"row"} justifyContent={"space-around"}>
-        <Stack maxWidth={"432px"} gap={3}>
+        <Stack minWidth={"432px"} gap={3}>
           <Stack
             flexDirection={"row"}
             gap={2}
@@ -74,7 +74,7 @@ export default function Order() {
             <AddressForm />
           </Stack>
         </Stack>
-        <Stack maxWidth={"432px"} gap={3}>
+        <Stack width={"432px"} gap={3}>
           <Stack
             flexDirection={"row"}
             gap={2}
@@ -117,10 +117,10 @@ export default function Order() {
             <Box
               display={"flex"}
               flexDirection={"column"}
-              height={"100vh"}
+              // height={"100vh"}
               justifyContent={"space-between"}
               position={"relative"}
-              overflow={"scroll"}
+              // overflow={"scroll"}
             >
               <Stack padding={"18px 16px"}>
                 <Stack borderTop={1} borderColor={"#D6D8DB"} py={1}>
@@ -145,7 +145,7 @@ export default function Order() {
                 justifySelf={"flex-end"}
                 borderColor={"#D6D8DB"}
                 p={3}
-                position={"sticky"}
+                position={"relative"}
                 bottom={0}
                 bgcolor={"common.white"}
                 width={1}

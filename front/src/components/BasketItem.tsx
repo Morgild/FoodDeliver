@@ -29,7 +29,7 @@ export const BasketItem = (props: BasketItemProps) => {
   const pathname = usePathname();
   const sumBasket = numberFormatter.format(
     Boolean(discount)
-      ? foodPrice * foodCount * (1 - 0.01 * discount || 0)
+      ? foodPrice * foodCount * (1 - 0.01 * (discount || 0))
       : foodPrice * foodCount
   );
   return (

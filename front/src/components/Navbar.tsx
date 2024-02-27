@@ -55,6 +55,12 @@ export const NavBar = () => {
     setState((prev) => !prev);
   };
 
+  const menuTranslate = (menu: string) => {
+    if (menu == "НҮҮР") return "/";
+    if (menu == "ХООЛНЫ ЦЭС") return "/Menu";
+    if (menu == "ХҮРГЭЛТИЙН БҮС") return "/DeliveryRegion";
+  };
+
   return (
     <Container maxWidth="lg">
       <AppBar
@@ -97,7 +103,11 @@ export const NavBar = () => {
                   <Typography
                     fontSize="14px"
                     fontWeight={700}
-                    color="common.black"
+                    color={
+                      pathname == menuTranslate(item)
+                        ? "primary.main"
+                        : "common.black"
+                    }
                   >
                     {item}
                   </Typography>
@@ -111,7 +121,7 @@ export const NavBar = () => {
                 }}
                 fontSize="14px"
                 fontWeight={700}
-                color="primary.main"
+                color="#FF7300"
                 sx={{ cursor: "pointer" }}
               >
                 ADMIN
