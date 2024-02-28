@@ -8,6 +8,7 @@ import { useData } from "@/components/providers/DataProvider";
 import { ArrowBackIos } from "@mui/icons-material";
 
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import { useState } from "react";
 const numberFormatter = new Intl.NumberFormat("en-US", {
   style: "decimal",
   minimumFractionDigits: 0,
@@ -16,6 +17,12 @@ const numberFormatter = new Intl.NumberFormat("en-US", {
 
 export default function Order() {
   const { basket } = useData();
+  const [district, setDistrict] = useState("");
+  const [khoroo, setKhoroo] = useState("");
+  const [bair, setBair] = useState("");
+  const [additional, setAdditional] = useState("");
+  const [phone, setPhone] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState(true);
   const sumBasket = basket.reduce((sum, currentValue) => {
     return (
       sum +
@@ -71,7 +78,20 @@ export default function Order() {
             </Stack>
           </Stack>
           <Stack boxShadow={1} p={3} borderRadius={2}>
-            <AddressForm />
+            <AddressForm
+              setDistrict={setDistrict}
+              setKhoroo={setKhoroo}
+              setBair={setBair}
+              setAdditional={setAdditional}
+              setPhone={setPhone}
+              setPaymentMethod={setPaymentMethod}
+              district={district}
+              khoroo={khoroo}
+              bair={bair}
+              additional={additional}
+              phone={phone}
+              paymentMethod={paymentMethod}
+            />
           </Stack>
         </Stack>
         <Stack width={"432px"} gap={3}>
@@ -159,7 +179,22 @@ export default function Order() {
                     {numberFormatter.format(sumBasket)}
                   </Typography>
                 </Stack>
-                <Button onClick={() => {}} variant="contained">
+                <Button
+                  onClick={() => {
+                    console.log({
+                      deliverAddress: {
+                        district,
+                        khoroo,
+                        bair,
+                        additional,
+                        phone,
+                        paymentMethod,
+                      },
+                      order: { basket },
+                    });
+                  }}
+                  variant="contained"
+                >
                   <Typography fontSize={14} fontWeight={400}>
                     Захиалах
                   </Typography>

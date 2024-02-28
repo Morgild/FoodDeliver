@@ -73,3 +73,14 @@ export const postCategory: RequestHandler = async (req, res) => {
     res.json(err);
   }
 };
+
+//Create new food order
+export const postOrder: RequestHandler = async (req, res) => {
+  try {
+    const { order } = req.body;
+
+    return res.json({ message: "Шинэ захиалга амжилттай нэмэгдлээ" });
+  } catch (err) {
+    res.json(err);
+  }
+};

@@ -158,6 +158,34 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  //send order
+  const postOrder = async (order: object) => {
+    try {
+      const { data } = await api.post(
+        "/food/postOrder",
+        {
+          order,
+        },
+        {
+          headers: { Authorization: localStorage.getItem("token") },
+        }
+      );
+      toast.success(data.message, {
+        position: "top-center",
+        hideProgressBar: true,
+      });
+      setRefresh(refresh + 1);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message ?? error.message, {
+          position: "top-center",
+          hideProgressBar: true,
+        });
+      }
+      console.log(error), "FFF";
+    }
+  };
+
   useEffect(() => {
     setIsReady(false);
     getCategories();

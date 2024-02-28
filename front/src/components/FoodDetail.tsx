@@ -126,11 +126,6 @@ export const FoodDetail = (props: FoodDetailProps) => {
           <Stack
             onClick={() => {
               changeFoodCount(-1);
-              setFoodTotal(
-                discount
-                  ? (1 - discount / 100) * foodPrice * foodCount
-                  : foodPrice * foodCount
-              );
             }}
             bgcolor={"primary.main"}
             borderRadius={"10px"}
@@ -145,11 +140,6 @@ export const FoodDetail = (props: FoodDetailProps) => {
           <Stack
             onClick={() => {
               changeFoodCount(1);
-              setFoodTotal(
-                discount
-                  ? (1 - discount / 100) * foodPrice * foodCount
-                  : foodPrice * foodCount
-              );
             }}
             bgcolor={"primary.main"}
             borderRadius={"10px"}
@@ -188,6 +178,7 @@ export const FoodDetail = (props: FoodDetailProps) => {
             } else {
               setBasket(newBasket);
             }
+            setOpen(false);
           }}
         >
           Сагслах

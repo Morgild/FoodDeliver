@@ -121,7 +121,7 @@ export const NavBar = () => {
                 }}
                 fontSize="14px"
                 fontWeight={700}
-                color="#FF7300"
+                color={pathname == "/Admin" ? "primary.main" : "common.black"}
                 sx={{ cursor: "pointer" }}
               >
                 ADMIN
@@ -140,7 +140,6 @@ export const NavBar = () => {
             justifyContent={"center"}
             alignItems={"center"}
           >
-            {/* <Image alt="basket" src="/basket.png" width={24} height={24} /> */}
             <IconButton size="small">
               <Badge badgeContent={basket.length} color="warning">
                 <ShoppingBasketOutlined />

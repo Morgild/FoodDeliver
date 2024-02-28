@@ -1,6 +1,7 @@
 import { MoreVert } from "@mui/icons-material";
 import { Stack, Typography } from "@mui/material";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
+import { EditCategory } from "./EditCategory";
 
 type FoodCategoryProps = {
   categories: string;
@@ -9,6 +10,7 @@ type FoodCategoryProps = {
 };
 export const FoodCategory = (props: FoodCategoryProps) => {
   const { categories, selectedMenu, setSelectedMenu } = props;
+  const [edit, setEdit] = useState(false);
   const isSelected = () => {
     if (categories == selectedMenu) {
       return true;
@@ -18,6 +20,7 @@ export const FoodCategory = (props: FoodCategoryProps) => {
     <Stack
       onClick={() => {
         setSelectedMenu(categories);
+        // setEdit(false);
       }}
       bgcolor={isSelected() ? "primary.main" : "common.white"}
       color={isSelected() ? "common.white" : "common.black"}
@@ -33,7 +36,15 @@ export const FoodCategory = (props: FoodCategoryProps) => {
       <Typography fontSize={18} fontWeight={600} color={"inherit"}>
         {props.categories}
       </Typography>
-      <MoreVert />
+      <Stack
+        position={"relative"}
+        onClick={() => {
+          setEdit((prev) => !prev);
+        }}
+      >
+        <MoreVert />
+        {isSelected() && edit && <EditCategory />}
+      </Stack>
     </Stack>
   );
 };

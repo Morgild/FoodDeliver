@@ -31,6 +31,7 @@ export const CustomSelect = (props: TextFieldProps) => {
     <Stack justifyContent="center" gap={0.5}>
       <TextField
         {...rest}
+        select
         type={type}
         inputProps={{
           style: {
@@ -41,13 +42,13 @@ export const CustomSelect = (props: TextFieldProps) => {
           style: {
             backgroundColor: "#F7F7F8",
           },
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton>
-                <KeyboardArrowDownOutlined />
-              </IconButton>
-            </InputAdornment>
-          ),
+          // endAdornment: (
+          //   <InputAdornment position="end">
+          //     <IconButton>
+          //       <KeyboardArrowDownOutlined />
+          //     </IconButton>
+          //   </InputAdornment>
+          // ),
           startAdornment: type === "select" && (
             <InputAdornment position="start">
               <IconButton>
@@ -57,7 +58,7 @@ export const CustomSelect = (props: TextFieldProps) => {
           ),
         }}
       >
-        {label}
+        {props.children}
       </TextField>
     </Stack>
   );

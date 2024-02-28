@@ -1,6 +1,7 @@
 "use client";
 import { CreateNewCategory } from "@/components/CreateNewCategory";
 import { CreateNewFood } from "@/components/CreateNewFood";
+import { EditCategory } from "@/components/EditCategory";
 import { FoodCategory } from "@/components/FoodCategory";
 import { IOSSwitch } from "@/components/IOSSwitch";
 import { ItemCard } from "@/components/ItemCard";
@@ -8,7 +9,7 @@ import { useAuth } from "@/components/providers/AuthProvider";
 import { useData } from "@/components/providers/DataProvider";
 import { Add } from "@mui/icons-material";
 import { Box, Container, Grid, Modal, Stack, Typography } from "@mui/material";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Admin() {

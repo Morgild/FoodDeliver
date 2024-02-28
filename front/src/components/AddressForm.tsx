@@ -11,17 +11,14 @@ import {
   selectClasses,
 } from "@mui/material";
 import { Dispatch, SetStateAction, useState } from "react";
-import { Formik, useFormik } from "formik";
-import * as yup from "yup";
 import { CustomInput } from "./CustomInput";
 import { CustomSelect } from "./CustomSelect";
-const validationSchema = yup.object({
-  foodCategory: yup.string().required(),
-  foodName: yup.string().required(),
-  foodIngredients: yup.string().required(),
-  foodPrice: yup.number().required(),
-  discount: yup.number(),
-});
+import {
+  LocationCity,
+  LocationCityOutlined,
+  PlaceOutlined,
+} from "@mui/icons-material";
+
 const districts = [
   "Баянзүрх дүүрэг",
   "Баянгол дүүрэг",
@@ -31,7 +28,7 @@ const districts = [
   "Сонгинохайрхан дүүрэг",
 ];
 
-const khoroo = [
+const khoroos = [
   "1-р хороо",
   "2-р хороо",
   "3-р хороо",
@@ -40,7 +37,7 @@ const khoroo = [
   "6-р хороо",
   "7-р хороо",
 ];
-const bair = [
+const bairs = [
   "Нархан хотхон",
   "26-р байр",
   "Хоймор хотхон",
@@ -48,17 +45,36 @@ const bair = [
   "Зайсан хотхон",
 ];
 
-type AddressDropDownProps = {};
-export const AddressForm = () => {
-  const [payment, setPayment] = useState(true);
+type AddressFormProps = {
+  setDistrict: Dispatch<SetStateAction<string>>;
+  setKhoroo: Dispatch<SetStateAction<string>>;
+  setBair: Dispatch<SetStateAction<string>>;
+  setAdditional: Dispatch<SetStateAction<string>>;
+  setPhone: Dispatch<SetStateAction<string>>;
+  setPaymentMethod: Dispatch<SetStateAction<boolean>>;
+  district: string;
+  khoroo: string;
+  bair: string;
+  additional: string;
+  phone: string;
+  paymentMethod: boolean;
+};
+export const AddressForm = (props: AddressFormProps) => {
+  const {
+    setDistrict,
+    setKhoroo,
+    setBair,
+    setAdditional,
+    setPhone,
+    setPaymentMethod,
+    district,
+    khoroo,
+    bair,
+    additional,
+    phone,
+    paymentMethod,
+  } = props;
 
-  const formik = useFormik({
-    initialValues: {
-      district: "",
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {},
-  });
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
   return (
@@ -67,17 +83,54 @@ export const AddressForm = () => {
         <Stack width={1} gap={2}>
           <Typography>Хаягаа оруулна уу</Typography>
           <CustomSelect
-            type="select"
             placeholder={"Дүүрэг сонгоно уу"}
-            SelectProps={{
-              native: true,
+            name="district"
+            value={district}
+            onChange={(event) => {
+              setDistrict(event.target.value);
             }}
           >
             {districts.map((item: any, index) => (
-              <option key={index} value={item}>
-                {item}
-                {/* <CustomSelect type="text" label={item} /> */}
-              </option>
+              <MenuItem key={index} value={item}>
+                <Stack direction="row" gap={0.5}>
+                  <PlaceOutlined />
+                  {item}
+                </Stack>
+              </MenuItem>
+            ))}
+          </CustomSelect>
+          <CustomSelect
+            placeholder={"Хороо сонгоно уу"}
+            name="khoroo"
+            value={khoroo}
+            onChange={(event) => {
+              setKhoroo(event.target.value);
+            }}
+          >
+            {khoroos.map((item: any, index) => (
+              <MenuItem key={index} value={item}>
+                <Stack direction="row" gap={0.5}>
+                  <PlaceOutlined />
+                  {item}
+                </Stack>
+              </MenuItem>
+            ))}
+          </CustomSelect>
+          <CustomSelect
+            placeholder={"Байр сонгоно уу"}
+            name="bair"
+            value={bair}
+            onChange={(event) => {
+              setBair(event.target.value);
+            }}
+          >
+            {bairs.map((item: any, index) => (
+              <MenuItem key={index} value={item}>
+                <Stack direction="row" gap={0.5}>
+                  <PlaceOutlined />
+                  {item}
+                </Stack>
+              </MenuItem>
             ))}
           </CustomSelect>
         </Stack>
@@ -87,13 +140,23 @@ export const AddressForm = () => {
           <Typography fontSize={14} fontWeight={400}>
             Нэмэлт мэдээлэл
           </Typography>
-          <TextField placeholder="Орц, давхар, орцны код..."></TextField>
+          <TextField
+            placeholder="Орц, давхар, орцны код..."
+            onChange={(event) => {
+              setAdditional(event.target.value);
+            }}
+          ></TextField>
         </Stack>
         <Stack>
           <Typography fontSize={14} fontWeight={400}>
             Утасны дугаар*
           </Typography>
-          <TextField placeholder="Утасны дугаараа оруулна уу" />
+          <TextField
+            placeholder="Утасны дугаараа оруулна уу"
+            onChange={(event) => {
+              setPhone(event?.target.value);
+            }}
+          />
         </Stack>
         <Stack>
           <Typography fontSize={14} fontWeight={400}>
@@ -106,16 +169,11 @@ export const AddressForm = () => {
               justifyContent={"center"}
               gap={"20px"}
               onClick={() => {
-                setPayment(false);
+                setPaymentMethod(false);
               }}
               sx={{ cursor: "pointer" }}
             >
-              <Checkbox
-                {...label}
-                name="payment"
-                color="default"
-                checked={!payment}
-              />
+              <Checkbox {...label} color="default" checked={!paymentMethod} />
               <Typography>Бэлнээр</Typography>
             </Stack>
             <Stack
@@ -124,16 +182,11 @@ export const AddressForm = () => {
               justifyContent={"center"}
               gap={"20px"}
               onClick={() => {
-                setPayment(true);
+                setPaymentMethod(true);
               }}
               sx={{ cursor: "pointer" }}
             >
-              <Checkbox
-                {...label}
-                name="payment"
-                checked={payment}
-                color="default"
-              />
+              <Checkbox {...label} checked={paymentMethod} color="default" />
               <Typography>Картаар</Typography>
             </Stack>
           </Stack>
