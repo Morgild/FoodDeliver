@@ -61,6 +61,7 @@ type DataContextType = {
   setFoods: Dispatch<SetStateAction<Food[]>>;
   basket: Basket[];
   setBasket: Dispatch<SetStateAction<Basket[]>>;
+  sumBasket: number;
   searchValue: string;
   setSearchValue: Dispatch<SetStateAction<string>>;
 };
@@ -235,6 +236,14 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
     localStorage.setItem("basket", JSON.stringify(basket));
   }, [basket]);
 
+  const sumBasket = basket.reduce((sum, currentValue) => {
+    return (
+      sum +
+      currentValue.foodPrice *
+        currentValue.foodCount *
+        (1 - 0.01 * (currentValue.discount || 0))
+    );
+  }, 0);
   return (
     <DataContext.Provider
       value={{
@@ -252,6 +261,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         setSearchValue,
         postOrder,
         getOrderList,
+        sumBasket,
       }}
     >
       {children}

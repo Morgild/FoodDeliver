@@ -5,7 +5,7 @@ import { Basket } from "@/components/Header-Footer/Basket";
 import { BasketItem } from "@/components/Header-Footer/BasketItem";
 import { TitleGreenStar } from "@/components/Home/TitleGreenStar";
 import { useData } from "@/components/providers/DataProvider";
-import { ArrowBackIos } from "@mui/icons-material";
+import { ArrowBackIos, Check } from "@mui/icons-material";
 
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { useState } from "react";
@@ -16,22 +16,20 @@ const numberFormatter = new Intl.NumberFormat("en-US", {
 });
 
 export default function Order() {
-  const { basket, postOrder } = useData();
+  const { basket, sumBasket, postOrder } = useData();
   const [district, setDistrict] = useState("");
   const [khoroo, setKhoroo] = useState("");
   const [bair, setBair] = useState("");
   const [additional, setAdditional] = useState("");
   const [phone, setPhone] = useState("");
   const [paymentMethod, setPaymentMethod] = useState(true);
-  const [payment, setPayment] = useState("");
-  const sumBasket = basket.reduce((sum, currentValue) => {
-    return (
-      sum +
-      currentValue.foodPrice *
-        currentValue.foodCount *
-        (1 - 0.01 * (currentValue.discount || 0))
-    );
-  }, 0);
+
+  const isValid =
+    Boolean(district) &&
+    Boolean(khoroo) &&
+    Boolean(bair) &&
+    Boolean(additional) &&
+    Boolean(phone);
 
   return (
     <Container
@@ -56,16 +54,20 @@ export default function Order() {
               height={48}
               border={1}
               borderRadius={"50%"}
-              borderColor={"#0468C8"}
+              borderColor={!isValid ? "#0468C8" : "primary.main"}
               alignItems={"center"}
               justifyContent={"center"}
+              bgcolor={isValid ? "primary.main" : "common.white"}
             >
               <Stack
                 width={24}
                 height={24}
-                bgcolor={"#0468C8"}
+                bgcolor={!isValid ? "#0468C8" : "primary.main"}
                 borderRadius={"50%"}
-              ></Stack>
+                color={"common.white"}
+              >
+                {isValid && <Check color="inherit" />}
+              </Stack>
             </Stack>
             <Stack>
               <Typography color={"#8B8E95"} fontSize={14} fontWeight={400}>
@@ -196,6 +198,7 @@ export default function Order() {
                     );
                   }}
                   variant="contained"
+                  disabled={!Boolean(sumBasket) || !isValid}
                 >
                   <Typography fontSize={14} fontWeight={400}>
                     Захиалах

@@ -83,7 +83,7 @@ export const ItemCard = (props: ItemCardProps) => {
           }}
         >
           <Image
-            objectFit="cover"
+            style={{ objectFit: "cover" }}
             src={foodPic}
             sizes="small"
             alt="foodPicture"

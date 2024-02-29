@@ -1,7 +1,6 @@
 import { RequestHandler } from "express";
 import { orderModel } from "../models/order.model";
 import jwt, { JsonWebTokenError, JwtPayload } from "jsonwebtoken";
-import {} from "../models";
 
 //Get order list
 export const getOrders: RequestHandler = async (req, res) => {
@@ -9,7 +8,9 @@ export const getOrders: RequestHandler = async (req, res) => {
     const { authorization } = req.headers;
 
     if (!authorization) {
-      return res.status(401).json({ message: "Unauthorized1" });
+      return res.status(401).json({
+        message: "Бүртгэлгүй хэрэглэгч байна. Та бүртгүүлээд дахин оролдоно уу",
+      });
     }
     const { id } = jwt.verify(authorization, "secret-key") as JwtPayload;
 
@@ -27,7 +28,9 @@ export const postOrder: RequestHandler = async (req, res) => {
     const { authorization } = req.headers;
 
     if (!authorization) {
-      return res.status(401).json({ message: "Unauthorized1" });
+      return res
+        .status(401)
+        .json({ message: "Нэвтэрсний дараа хоол захиалах боломжтой." });
     }
 
     const { id } = jwt.verify(authorization, "secret-key") as JwtPayload;
