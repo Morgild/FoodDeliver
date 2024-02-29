@@ -1,6 +1,6 @@
 import { Close, TypeSpecimenTwoTone } from "@mui/icons-material";
 import { Button, Stack, TextField, Typography } from "@mui/material";
-import { useData } from "./providers/DataProvider";
+import { useData } from "../providers/DataProvider";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { toast } from "react-toastify";

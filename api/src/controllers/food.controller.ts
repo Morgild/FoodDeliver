@@ -1,5 +1,4 @@
 import { RequestHandler } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
 import { foodModel } from "../models/food.model";
 import { categoryModel } from "../models/category.model";
 
@@ -69,17 +68,6 @@ export const postCategory: RequestHandler = async (req, res) => {
       createdAt: new Date(),
     });
     return res.json({ message: "Шинэ ангилал амжилттай нэмэгдлээ" });
-  } catch (err) {
-    res.json(err);
-  }
-};
-
-//Create new food order
-export const postOrder: RequestHandler = async (req, res) => {
-  try {
-    const { order } = req.body;
-
-    return res.json({ message: "Шинэ захиалга амжилттай нэмэгдлээ" });
   } catch (err) {
     res.json(err);
   }

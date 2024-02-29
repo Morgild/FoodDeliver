@@ -12,15 +12,15 @@ import {
   Typography,
 } from "@mui/material";
 import Image from "next/image";
-import { CustomInput } from "./CustomInput";
+import { CustomInput } from "../User/CustomInput";
 import * as React from "react";
-import { SignIn } from "./SignIn";
+import { SignIn } from "../User/SignIn";
 import { usePathname, useRouter } from "next/navigation";
 import { Basket } from "./Basket";
-import { useAuth } from "./providers/AuthProvider";
-import { useData } from "./providers/DataProvider";
+import { useAuth } from "../providers/AuthProvider";
+import { useData } from "../providers/DataProvider";
 import { ShoppingBasket, ShoppingBasketOutlined } from "@mui/icons-material";
-import { FoodCategory } from "./FoodCategory";
+import { FoodCategory } from "../Food/FoodCategory";
 type NavBarProps = {
   open?: boolean;
   onClose?: () => void;
@@ -47,7 +47,7 @@ export const NavBar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const { user, isLogged, isAdmin } = useAuth();
-  const { basket } = useData();
+  const { basket, setSearchValue } = useData();
   const { name, profilePic } = user;
 
   const [state, setState] = React.useState(false);
@@ -130,7 +130,12 @@ export const NavBar = () => {
           </List>
         </Stack>
         <Stack flexDirection="row" gap={2} sx={{ alignItems: "center" }}>
-          <CustomInput type="search" />
+          <CustomInput
+            type="search"
+            onChange={(event) => {
+              setSearchValue(event.target.value);
+            }}
+          />
           <Stack
             onClick={toggleDrawer}
             gap={2}

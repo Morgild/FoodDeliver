@@ -11,9 +11,6 @@ import {
 } from "react";
 import { toast } from "react-toastify";
 import { useAuth } from "./AuthProvider";
-import { LoadingPage } from "../LoadingPage";
-import { stringify } from "querystring";
-import { convertLength } from "@mui/material/styles/cssUtils";
 
 type Food = {
   foodName: string;
@@ -35,6 +32,15 @@ type Basket = {
   foodPic: string;
   foodCount: number;
 };
+type DeliveryAddress = {
+  additional: string;
+  bair: string;
+  district: string;
+  khoroo: string;
+  paymentMethod: boolean;
+  phone: string;
+};
+
 type DataContextType = {
   getCategories: () => void;
   postCategory: (foodCategory: string) => void;
@@ -46,13 +52,17 @@ type DataContextType = {
     discount: number,
     foodPic: string
   ) => void;
+  postOrder: (deliveryAddress: DeliveryAddress, order: Basket[]) => void;
   categories: Category[];
+  getOrderList: () => void;
   setCategories: Dispatch<SetStateAction<Category[]>>;
   refreshF: () => void;
   foods: Food[];
   setFoods: Dispatch<SetStateAction<Food[]>>;
   basket: Basket[];
   setBasket: Dispatch<SetStateAction<Basket[]>>;
+  searchValue: string;
+  setSearchValue: Dispatch<SetStateAction<string>>;
 };
 
 const DataContext = createContext({} as DataContextType);
@@ -63,6 +73,8 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   const [isFirstRender, setIsFirstRender] = useState(true);
   const [refresh, setRefresh] = useState(0);
   const { isReady, setIsReady } = useAuth();
+  const [searchValue, setSearchValue] = useState("");
+  const [orderList, setOrderList] = useState<Basket[]>([]);
 
   //refresh Function
   const refreshF = () => {
@@ -159,11 +171,15 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   };
 
   //send order
-  const postOrder = async (order: object) => {
+  const postOrder = async (
+    deliveryAddress: DeliveryAddress,
+    order: Basket[]
+  ) => {
     try {
       const { data } = await api.post(
-        "/food/postOrder",
+        "/order/postOrder",
         {
+          deliveryAddress,
           order,
         },
         {
@@ -186,10 +202,23 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  const getOrderList = async () => {
+    try {
+      const { data } = await api.get("order/getOrderList", {
+        headers: { Authorization: localStorage.getItem("token") },
+      });
+      console.log(data);
+      setOrderList(data);
+    } catch (error) {
+      console.log(error), "FFF";
+    }
+  };
+
   useEffect(() => {
     setIsReady(false);
     getCategories();
     getFoods();
+    getOrderList();
     setIsReady(true);
   }, [refresh]);
 
@@ -219,6 +248,10 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         setFoods,
         basket,
         setBasket,
+        searchValue,
+        setSearchValue,
+        postOrder,
+        getOrderList,
       }}
     >
       {children}

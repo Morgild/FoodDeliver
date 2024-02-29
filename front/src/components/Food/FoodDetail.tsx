@@ -3,8 +3,8 @@ import { Button, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useState } from "react";
 import { bool } from "yup";
-import { useData } from "./providers/DataProvider";
-import { useAuth } from "./providers/AuthProvider";
+import { useData } from "../providers/DataProvider";
+import { useAuth } from "../providers/AuthProvider";
 import { toast } from "react-toastify";
 type FoodDetailProps = {
   setOpen: Dispatch<SetStateAction<boolean>>;

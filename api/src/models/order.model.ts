@@ -11,25 +11,30 @@ const orderSchema = new Schema({
       bair: String,
       additional: String,
       phone: String,
+      paymentMethod: String,
     },
   ],
-  paymentMethod: {
-    type: String,
-    required: true,
-  },
+  foods: [
+    {
+      foodName: String,
+      foodCategory: String,
+      foodIngredients: String,
+      foodPrice: Number,
+      discount: Number,
+      foodPic: String,
+      foodCount: Number,
+    },
+  ],
+
   deliveryStatus: {
     type: String,
     required: true,
   },
-  foods: [
-    {
-      foodName: String,
-      foodPrice: Number,
-      discount: Number,
-      foodCount: Number,
-    },
-  ],
+
   createdAt: Date,
-  deliveredAt: Date,
+  deliveredAt: {
+    type: Date,
+    required: false,
+  },
 });
 export const orderModel = model("order", orderSchema);

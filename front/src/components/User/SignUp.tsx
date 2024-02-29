@@ -5,7 +5,7 @@ import { CustomInput } from "./CustomInput";
 import { CloudQueue } from "@mui/icons-material";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useAuth } from "./providers/AuthProvider";
+import { useAuth } from "../providers/AuthProvider";
 import { useRouter } from "next/navigation";
 const validationSchema = yup.object({
   name: yup.string().required(),

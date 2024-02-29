@@ -20,7 +20,6 @@ export const FoodCategory = (props: FoodCategoryProps) => {
     <Stack
       onClick={() => {
         setSelectedMenu(categories);
-        // setEdit(false);
       }}
       bgcolor={isSelected() ? "primary.main" : "common.white"}
       color={isSelected() ? "common.white" : "common.black"}

@@ -5,6 +5,7 @@ import authRouter from "./routers/auth.router";
 import usersRouter from "./routers/users.router";
 import resetRouter from "./routers/reset.router";
 import foodRouter from "./routers/food.router";
+import orderRouter from "./routers/order.router";
 const app = express();
 app.use(cors());
 app.use(json());
@@ -12,5 +13,6 @@ app.use("/auth", authRouter);
 app.use("/user", usersRouter);
 app.use("/reset", resetRouter);
 app.use("/food", foodRouter);
+app.use("/order", orderRouter);
 
 export default app;

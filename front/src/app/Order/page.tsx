@@ -1,9 +1,9 @@
 "use client";
 
-import { AddressForm } from "@/components/AddressForm";
-import { Basket } from "@/components/Basket";
-import { BasketItem } from "@/components/BasketItem";
-import { TitleGreenStar } from "@/components/TitleGreenStar";
+import { AddressForm } from "@/components/Order/AddressForm";
+import { Basket } from "@/components/Header-Footer/Basket";
+import { BasketItem } from "@/components/Header-Footer/BasketItem";
+import { TitleGreenStar } from "@/components/Home/TitleGreenStar";
 import { useData } from "@/components/providers/DataProvider";
 import { ArrowBackIos } from "@mui/icons-material";
 
@@ -16,13 +16,14 @@ const numberFormatter = new Intl.NumberFormat("en-US", {
 });
 
 export default function Order() {
-  const { basket } = useData();
+  const { basket, postOrder } = useData();
   const [district, setDistrict] = useState("");
   const [khoroo, setKhoroo] = useState("");
   const [bair, setBair] = useState("");
   const [additional, setAdditional] = useState("");
   const [phone, setPhone] = useState("");
   const [paymentMethod, setPaymentMethod] = useState(true);
+  const [payment, setPayment] = useState("");
   const sumBasket = basket.reduce((sum, currentValue) => {
     return (
       sum +
@@ -31,6 +32,7 @@ export default function Order() {
         (1 - 0.01 * (currentValue.discount || 0))
     );
   }, 0);
+
   return (
     <Container
       maxWidth="lg"
@@ -181,8 +183,8 @@ export default function Order() {
                 </Stack>
                 <Button
                   onClick={() => {
-                    console.log({
-                      deliverAddress: {
+                    postOrder(
+                      {
                         district,
                         khoroo,
                         bair,
@@ -190,8 +192,8 @@ export default function Order() {
                         phone,
                         paymentMethod,
                       },
-                      order: { basket },
-                    });
+                      basket
+                    );
                   }}
                   variant="contained"
                 >

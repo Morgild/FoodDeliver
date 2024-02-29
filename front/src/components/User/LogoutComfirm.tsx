@@ -1,6 +1,6 @@
 import { Box, Modal, Stack, Typography } from "@mui/material";
 import { Dispatch, SetStateAction, useState } from "react";
-import { useAuth } from "./providers/AuthProvider";
+import { useAuth } from "../providers/AuthProvider";
 import { useRouter } from "next/navigation";
 
 type LogoutComfirmProps = { setOpenLogOut: Dispatch<SetStateAction<boolean>> };

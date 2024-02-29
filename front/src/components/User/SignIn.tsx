@@ -3,7 +3,7 @@ import { Button, Stack, TextFieldProps, Typography } from "@mui/material";
 import { CustomInput } from "./CustomInput";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useAuth } from "./providers/AuthProvider";
+import { useAuth } from "../providers/AuthProvider";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 

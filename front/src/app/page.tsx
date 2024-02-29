@@ -1,17 +1,32 @@
 "use client";
 import { Container } from "@mui/material";
-import { WhiteCards } from "@/components/WhiteCards";
-import { HomeFoods } from "@/components/HomeFoods";
-import { HomeCarousel } from "@/components/HomeCarousel";
+import { WhiteCards } from "@/components/Home/WhiteCards";
+import { HomeFoods } from "@/components/Home/HomeFoods";
+import { HomeCarousel } from "@/components/Home/HomeCarousel";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { useData } from "@/components/providers/DataProvider";
-import { Onsale } from "@/components/OnSale";
+import { Onsale } from "@/components/Home/OnSale";
 import { LoadingPage } from "@/components/LoadingPage";
 
 export default function Home() {
   const { isLogged, isReady } = useAuth();
   const { foods, categories } = useData();
+
   if (!isReady) return <LoadingPage />;
+  const foodCategories = foods.map((item) => {
+    return item.foodCategory;
+  });
+
+  const findDistinctCategories = (arr: any) => {
+    let distinct = [];
+    for (let i = 0; i < arr.length; i++) {
+      if (!distinct.includes(arr[i])) {
+        distinct.push(arr[i]);
+      }
+    }
+    return distinct;
+  };
+
   return (
     <>
       <HomeCarousel />
@@ -28,9 +43,11 @@ export default function Home() {
         <WhiteCards />
         <Onsale />
 
-        {categories.map((item: any, index: number) => (
-          <HomeFoods key={index} foodCategory={item.foodCategory} />
-        ))}
+        {findDistinctCategories(foodCategories).map(
+          (item: any, index: number) => (
+            <HomeFoods key={index} foodCategory={item} />
+          )
+        )}
       </Container>
     </>
   );

@@ -1,9 +1,9 @@
 "use client";
 import { Button, Stack, Typography } from "@mui/material";
-import { CustomInput } from "./CustomInput";
+import { CustomInput } from "../User/CustomInput";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useAuth } from "./providers/AuthProvider";
+import { useAuth } from "../providers/AuthProvider";
 import { toast } from "react-toastify";
 
 type PasswordRefreshPropsCode = { stepChange: () => void };

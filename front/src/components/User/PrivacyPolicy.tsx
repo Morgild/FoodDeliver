@@ -1,6 +1,6 @@
 import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
-import { TitleGreenStar } from "./TitleGreenStar";
+import { TitleGreenStar } from "../Home/TitleGreenStar";
 
 export function PrivacyPolicy() {
   return (

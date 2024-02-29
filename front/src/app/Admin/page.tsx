@@ -1,10 +1,11 @@
 "use client";
-import { CreateNewCategory } from "@/components/CreateNewCategory";
-import { CreateNewFood } from "@/components/CreateNewFood";
-import { EditCategory } from "@/components/EditCategory";
-import { FoodCategory } from "@/components/FoodCategory";
-import { IOSSwitch } from "@/components/IOSSwitch";
-import { ItemCard } from "@/components/ItemCard";
+import { CreateNewCategory } from "@/components/Food/CreateNewCategory";
+import { CreateNewFood } from "@/components/Food/CreateNewFood";
+import { EditCategory } from "@/components/Food/EditCategory";
+import { FoodCategory } from "@/components/Food/FoodCategory";
+import { IOSSwitch } from "@/components/Food/IOSSwitch";
+import { ItemCard } from "@/components/Food/ItemCard";
+import { LoadingPage } from "@/components/LoadingPage";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { useData } from "@/components/providers/DataProvider";
 import { Add } from "@mui/icons-material";
@@ -28,7 +29,7 @@ export default function Admin() {
   const [open, setOpen] = useState(false);
   const [openFood, setOpenFood] = useState(false);
   const { isAdmin } = useAuth();
-  const { foods } = useData();
+  const { foods, searchValue } = useData();
   const { categories, refreshF } = useData();
   const [selectedMenu, setSelectedMenu] = useState("");
   const handleClose = () => setOpen(false);
@@ -39,6 +40,7 @@ export default function Admin() {
       router.push("/");
     }
   }, []);
+  if (!isAdmin) return <LoadingPage />;
   return (
     <Container sx={{ display: "flex", flexDirection: "row" }}>
       <Stack
@@ -115,6 +117,9 @@ export default function Admin() {
             .filter((food) => {
               return food.foodCategory.includes(selectedMenu);
             })
+            .filter((food) =>
+              food.foodName.toLowerCase().includes(searchValue.toLowerCase())
+            )
             .map((item: any, index: number) => (
               <Grid item key={index} xs={12} md={5} lg={4}>
                 <ItemCard

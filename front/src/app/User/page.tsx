@@ -1,7 +1,7 @@
 "use client";
 
-import { ChangeProfilePic } from "@/components/ChangeProfilePic";
-import { UserCard } from "@/components/UserCard";
+import { ChangeProfilePic } from "@/components/User/ChangeProfilePic";
+import { UserCard } from "@/components/User/UserCard";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { EditOutlined, Logout, Restore } from "@mui/icons-material";
 import { Box, Button, Modal, Stack, Typography } from "@mui/material";
@@ -11,7 +11,7 @@ import { Dispatch, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { api } from "../common/axios";
 import { useRouter } from "next/navigation";
-import { LogoutConfirm } from "@/components/LogoutComfirm";
+import { LogoutConfirm } from "@/components/User/LogoutComfirm";
 
 type UserProfileProps = {
   name: string;

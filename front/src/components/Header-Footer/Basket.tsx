@@ -2,7 +2,7 @@ import { ArrowBackIos } from "@mui/icons-material";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { Poppins } from "next/font/google";
 import { BasketItem } from "./BasketItem";
-import { useData } from "./providers/DataProvider";
+import { useData } from "../providers/DataProvider";
 import { usePathname, useRouter } from "next/navigation";
 
 type BasketProps = { toggleDrawer: () => void };

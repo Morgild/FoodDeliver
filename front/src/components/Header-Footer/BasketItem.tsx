@@ -3,7 +3,7 @@ import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
 import { number } from "yup";
-import { useData } from "./providers/DataProvider";
+import { useData } from "../providers/DataProvider";
 import { usePathname, useRouter } from "next/navigation";
 
 type BasketItemProps = {

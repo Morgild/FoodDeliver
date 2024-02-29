@@ -1,4 +1,4 @@
-import { TitleGreenStar } from "@/components/TitleGreenStar";
+import { TitleGreenStar } from "@/components/Home/TitleGreenStar";
 
 import { Container, Stack, Typography } from "@mui/material";
 import Image from "next/image";

@@ -3,7 +3,7 @@ import { Button, Container, Stack, TextField } from "@mui/material";
 import Image from "next/image";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { toast } from "react-toastify";
-import { useAuth } from "./providers/AuthProvider";
+import { useAuth } from "../providers/AuthProvider";
 type ChangeProfilePicProps = {
   handleClose?: () => void;
   imageUrl: string;
