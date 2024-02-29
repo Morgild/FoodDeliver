@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { CustomInput } from "../User/CustomInput";
 import { ChangeEvent, useState } from "react";
 import { IOSSwitch } from "./IOSSwitch";
+import Image from "next/image";
 const validationSchema = yup.object({
   foodCategory: yup.string().required(),
   foodName: yup.string().required(),
@@ -204,13 +205,8 @@ export const CreateNewFood = (props: CreateNewFoodProps) => {
           </Stack>
           <Stack width={0.5}>
             {imageUrl && (
-              <Stack width="100%" position="relative">
-                <img
-                  src={imageUrl}
-                  alt="Uploaded"
-                  width={"100%"}
-                  height={"100%"}
-                />
+              <Stack width="100%" height={"100%"} position="relative">
+                <Image src={imageUrl} alt="Uploaded" fill />
               </Stack>
             )}
           </Stack>

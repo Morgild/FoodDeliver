@@ -39,7 +39,7 @@ export default function Admin() {
     if (!isAdmin) {
       router.push("/");
     }
-  }, []);
+  });
   if (!isAdmin) return <LoadingPage />;
   return (
     <Container sx={{ display: "flex", flexDirection: "row" }}>

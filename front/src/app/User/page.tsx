@@ -13,13 +13,7 @@ import { api } from "../common/axios";
 import { useRouter } from "next/navigation";
 import { LogoutConfirm } from "@/components/User/LogoutComfirm";
 
-type UserProfileProps = {
-  name: string;
-  open?: boolean;
-  onClose?: () => void;
-};
-
-export default function User(props: UserProfileProps) {
+export default function User() {
   const style = {
     position: "absolute" as "absolute",
     top: "50%",
@@ -30,8 +24,7 @@ export default function User(props: UserProfileProps) {
     boxShadow: 24,
     p: 1,
   };
-  const {} = props;
-  const { user, signOut, refresh, setRefresh } = useAuth();
+  const { user, refresh, setRefresh } = useAuth();
   const { name, email, phone, profilePic } = user;
   const [open, setOpen] = useState(false);
   const [openLogOut, setOpenLogOut] = useState(false);

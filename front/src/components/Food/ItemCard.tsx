@@ -34,15 +34,12 @@ export const ItemCard = (props: ItemCardProps) => {
     maximumFractionDigits: 0,
   });
 
-  const isUserAdmin = () => {
+  useEffect(() => {
     if (pathname == "/Admin") {
       setInAdminPage(true);
     } else {
       setInAdminPage(false);
     }
-  };
-  useEffect(() => {
-    isUserAdmin();
   }, [inAdminPage]);
 
   const style = {

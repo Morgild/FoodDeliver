@@ -1,4 +1,3 @@
-import { MenuGroup } from "@/components/MenuGroup";
 import { TermsOfService } from "@/components/User/TermsOfService";
 import { Container, Typography } from "@mui/material";
 

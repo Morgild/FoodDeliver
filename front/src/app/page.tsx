@@ -11,14 +11,13 @@ import { LoadingPage } from "@/components/LoadingPage";
 export default function Home() {
   const { isLogged, isReady } = useAuth();
   const { foods, categories } = useData();
-
   if (!isReady) return <LoadingPage />;
   const foodCategories = foods.map((item) => {
     return item.foodCategory;
   });
 
   const findDistinctCategories = (arr: any) => {
-    let distinct = [];
+    let distinct: string[] = [];
     for (let i = 0; i < arr.length; i++) {
       if (!distinct.includes(arr[i])) {
         distinct.push(arr[i]);
