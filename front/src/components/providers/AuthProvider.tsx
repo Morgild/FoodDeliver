@@ -129,6 +129,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const signOut = async () => {
     try {
       localStorage.removeItem("token");
+      localStorage.removeItem("basket");
       setIsLogged(false);
       setIsAdmin(false);
       router.push("/");

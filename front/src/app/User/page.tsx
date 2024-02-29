@@ -163,6 +163,9 @@ export default function User() {
             gap={1}
             justifyContent={"space-between"}
             sx={{ cursor: "pointer" }}
+            onClick={() => {
+              router.push("/OrderList");
+            }}
           >
             <Stack
               padding={1}

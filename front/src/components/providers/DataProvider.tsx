@@ -11,6 +11,7 @@ import {
 } from "react";
 import { toast } from "react-toastify";
 import { useAuth } from "./AuthProvider";
+import { useRouter } from "next/navigation";
 
 type Food = {
   foodName: string;
@@ -40,6 +41,15 @@ type DeliveryAddress = {
   paymentMethod: boolean;
   phone: string;
 };
+type Order = {
+  createdAt: Date;
+  deliveryStatus: string;
+  userID: string;
+  _v: number;
+  _id: string;
+  deliveryAddress: DeliveryAddress[];
+  foods: Basket[];
+};
 
 type DataContextType = {
   getCategories: () => void;
@@ -64,6 +74,7 @@ type DataContextType = {
   sumBasket: number;
   searchValue: string;
   setSearchValue: Dispatch<SetStateAction<string>>;
+  orderList: Order[];
 };
 
 const DataContext = createContext({} as DataContextType);
@@ -75,7 +86,8 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   const [refresh, setRefresh] = useState(0);
   const { isReady, setIsReady } = useAuth();
   const [searchValue, setSearchValue] = useState("");
-  const [orderList, setOrderList] = useState<Basket[]>([]);
+  const [orderList, setOrderList] = useState<Order[]>([]);
+  const router = useRouter();
 
   //refresh Function
   const refreshF = () => {
@@ -192,6 +204,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         hideProgressBar: true,
       });
       setRefresh(refresh + 1);
+      router.push("/OrderList");
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data.message ?? error.message, {
@@ -208,7 +221,6 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
       const { data } = await api.get("order/getOrderList", {
         headers: { Authorization: localStorage.getItem("token") },
       });
-      console.log(data);
       setOrderList(data);
     } catch (error) {
       console.log(error), "FFF";
@@ -244,6 +256,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         (1 - 0.01 * (currentValue.discount || 0))
     );
   }, 0);
+
   return (
     <DataContext.Provider
       value={{
@@ -262,6 +275,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         postOrder,
         getOrderList,
         sumBasket,
+        orderList,
       }}
     >
       {children}

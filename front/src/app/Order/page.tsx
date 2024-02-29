@@ -54,7 +54,7 @@ export default function Order() {
               height={48}
               border={1}
               borderRadius={"50%"}
-              borderColor={!isValid ? "#0468C8" : "primary.main"}
+              borderColor={isValid ? "#0468C8" : "primary.main"}
               alignItems={"center"}
               justifyContent={"center"}
               bgcolor={isValid ? "primary.main" : "common.white"}

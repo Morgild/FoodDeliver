@@ -2,10 +2,12 @@ import { Box, Modal, Stack, Typography } from "@mui/material";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useAuth } from "../providers/AuthProvider";
 import { useRouter } from "next/navigation";
+import { useData } from "../providers/DataProvider";
 
 type LogoutComfirmProps = { setOpenLogOut: Dispatch<SetStateAction<boolean>> };
 export const LogoutConfirm = (props: LogoutComfirmProps) => {
   const { signOut } = useAuth();
+  const { setBasket } = useData();
   const router = useRouter();
   const { setOpenLogOut } = props;
   return (
@@ -24,6 +26,7 @@ export const LogoutConfirm = (props: LogoutComfirmProps) => {
         <Typography
           onClick={() => {
             signOut();
+            setBasket([]);
             router.push("/");
           }}
           width={0.5}

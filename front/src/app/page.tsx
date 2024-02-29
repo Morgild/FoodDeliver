@@ -16,7 +16,7 @@ export default function Home() {
     return item.foodCategory;
   });
 
-  const findDistinctCategories = (arr: any) => {
+  const findDistinctCategories = (arr: string[]) => {
     let distinct: string[] = [];
     for (let i = 0; i < arr.length; i++) {
       if (!distinct.includes(arr[i])) {

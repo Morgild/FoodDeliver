@@ -41,7 +41,7 @@ export const postOrder: RequestHandler = async (req, res) => {
       userID: id,
       deliveryAddress,
       foods: order,
-      deliveryStatus: "ordered",
+      deliveryStatus: "Хүлээгдэж буй",
       createdAt: new Date(),
     });
 

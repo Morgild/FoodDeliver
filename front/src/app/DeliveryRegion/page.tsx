@@ -30,7 +30,7 @@ export default function DeliveryRegion() {
         sx={{ aspectRatio: 3 / 2 }}
         boxShadow={1}
       >
-        <Image src={"/map.png"} alt="map" fill />
+        <Image src={"/map.png"} alt="map" fill sizes="small" />
       </Stack>
       <TitleGreenStar title="Хүргэлтийн бүс дэх хаягууд" />
       <Stack flexDirection={"row"} gap={3}>
