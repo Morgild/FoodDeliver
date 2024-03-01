@@ -27,9 +27,11 @@ export default function OrderList() {
             Захиалгын түүх
           </Typography>
           {orderList
-            // .sort((a:any, b:any) => (
-            //   a.createdAt.getTime - b.createdAt.getTime;
-            // ))
+            .sort(
+              (a, b) =>
+                new Date(a.createdAt).getTime() -
+                new Date(b.createdAt).getTime()
+            )
             .map((item, index) => (
               <OrderHistory
                 key={index}
