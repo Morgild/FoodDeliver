@@ -54,7 +54,7 @@ export default function Order() {
               height={48}
               border={1}
               borderRadius={"50%"}
-              borderColor={isValid ? "#0468C8" : "primary.main"}
+              borderColor={isValid ? "primary.main" : "#0468C8"}
               alignItems={"center"}
               justifyContent={"center"}
               bgcolor={isValid ? "primary.main" : "common.white"}
@@ -62,7 +62,7 @@ export default function Order() {
               <Stack
                 width={24}
                 height={24}
-                bgcolor={!isValid ? "#0468C8" : "primary.main"}
+                bgcolor={isValid ? "primary.main" : "#0468C8"}
                 borderRadius={"50%"}
                 color={"common.white"}
               >

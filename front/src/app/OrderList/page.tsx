@@ -8,13 +8,9 @@ import { useEffect, useState } from "react";
 export default function OrderList() {
   const { orderList } = useData();
   const [selectedOrder, setSelectedOrder] = useState("");
-  const select = orderList
-    .filter((item) => item._id == selectedOrder)
-    .map((item) => {
-      if (item._id == selectedOrder) return item.foods;
-    });
-  const entries = Object.values(select)[0];
-  console.log(entries);
+
+  const foods = orderList.find((item) => item._id == selectedOrder)?.foods;
+
   return (
     <Container
       maxWidth="lg"
@@ -31,8 +27,8 @@ export default function OrderList() {
             Захиалгын түүх
           </Typography>
           {orderList
-            // .sort((a, b) => (
-            //   a.createdAt - b.createdAt;
+            // .sort((a:any, b:any) => (
+            //   a.createdAt.getTime - b.createdAt.getTime;
             // ))
             .map((item, index) => (
               <OrderHistory
@@ -48,7 +44,7 @@ export default function OrderList() {
           <Typography fontSize={20} fontWeight={400}>
             Захиалгын дэлгэрэнгүй
           </Typography>
-          {entries?.map((item, index) => (
+          {foods?.map((item, index) => (
             <OrderHistoryFoods key={index} {...item} />
           ))}
         </Stack>
