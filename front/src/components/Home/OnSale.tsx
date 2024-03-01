@@ -61,7 +61,7 @@ export const Onsale = () => {
             food.foodName.toLowerCase().includes(searchValue.toLowerCase())
           )
           .map((item: any, index: number) => (
-            <Grid item key={index} xs={3}>
+            <Grid item key={index} xs={6} md={3}>
               <ItemCard
                 foodName={item.foodName}
                 foodPrice={item.foodPrice}

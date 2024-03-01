@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "start": "node src/index.ts",
-    "dev": "nodemon src/index.ts"
+    "start": "node build/index.js",
+    "dev": "nodemon src/index.ts",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",

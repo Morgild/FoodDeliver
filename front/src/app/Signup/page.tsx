@@ -1,4 +1,4 @@
-import { SignUp } from "@/components/User/SignUp";
+import { SignUp } from "@/components/Authorization/SignUp";
 import { Box } from "@mui/material";
 
 export default function Signup() {

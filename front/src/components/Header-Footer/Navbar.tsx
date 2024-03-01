@@ -12,9 +12,9 @@ import {
   Typography,
 } from "@mui/material";
 import Image from "next/image";
-import { CustomInput } from "../User/CustomInput";
+import { CustomInput } from "../CustomInput";
 import * as React from "react";
-import { SignIn } from "../User/SignIn";
+import { SignIn } from "../Authorization/SignIn";
 import { usePathname, useRouter } from "next/navigation";
 import { Basket } from "./Basket";
 import { useAuth } from "../providers/AuthProvider";

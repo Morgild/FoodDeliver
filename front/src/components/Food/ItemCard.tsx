@@ -4,6 +4,7 @@ import Image from "next/image";
 import { FoodDetail } from "./FoodDetail";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import zIndex from "@mui/material/styles/zIndex";
 
 type ItemCardProps = {
   foodName: string;
@@ -24,6 +25,7 @@ export const ItemCard = (props: ItemCardProps) => {
     foodCategory,
   } = props;
   const [open, setOpen] = useState(false);
+  const [hover, setHover] = useState(false);
   const [inAdminPage, setInAdminPage] = useState(false);
   const pathname = usePathname();
 
@@ -65,12 +67,8 @@ export const ItemCard = (props: ItemCardProps) => {
           sx={{
             minHeight: 200,
             boxShadow: 1,
-
             borderRadius: "16px",
             aspectRatio: 3 / 2,
-            "&:hover": {
-              background: "red",
-            },
           }}
           justifyContent={"center"}
           alignItems={"center"}
@@ -78,14 +76,59 @@ export const ItemCard = (props: ItemCardProps) => {
           onClick={() => {
             setOpen(true);
           }}
+          onMouseLeave={() => {
+            setHover(false);
+          }}
         >
-          <Image
-            style={{ objectFit: "cover" }}
-            src={foodPic}
-            sizes="small"
-            alt="foodPicture"
-            fill
-          />
+          {
+            <Stack
+              onMouseEnter={() => {
+                setHover(true);
+              }}
+            >
+              <Image
+                style={{
+                  objectFit: "cover",
+                }}
+                src={foodPic}
+                sizes="small"
+                alt="foodPicture"
+                fill
+              />
+            </Stack>
+          }
+
+          {hover && inAdminPage && (
+            <Stack
+              position={"absolute"}
+              width={"100%"}
+              height={"100%"}
+              sx={{
+                bgcolor: "#00000080",
+                zIndex: 4,
+              }}
+              alignItems={"center"}
+              justifyContent={"center"}
+            >
+              <Stack
+                px={8}
+                py={1}
+                bgcolor={"common.white"}
+                border={1}
+                borderColor={"#ECEDF0"}
+                borderRadius={"100px"}
+                width={"166px"}
+                sx={{ cursor: "pointer" }}
+                onClick={() => {
+                  alert();
+                }}
+              >
+                <Typography fontSize={20} fontWeight={590}>
+                  Edit
+                </Typography>
+              </Stack>
+            </Stack>
+          )}
         </Stack>
         <Stack
           sx={{
@@ -128,6 +171,7 @@ export const ItemCard = (props: ItemCardProps) => {
             fontSize={18}
             fontWeight={600}
             bgcolor="primary.main"
+            zIndex={3}
             sx={{
               position: "absolute",
               top: 16,

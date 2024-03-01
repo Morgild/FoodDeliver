@@ -21,7 +21,7 @@ export default function Menu() {
         <Grid py={4} container columnSpacing={3} rowSpacing={2}>
           {categories.map((item: any, index: number) => {
             return (
-              <Grid item key={index} xs={3}>
+              <Grid item key={index} xs={6} md={4} lg={3}>
                 <MenuSingle
                   foodCategory={item.foodCategory}
                   selectedMenu={selectedMenu}

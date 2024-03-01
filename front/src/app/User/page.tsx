@@ -162,7 +162,10 @@ export default function User() {
             padding={"8px 20px"}
             gap={1}
             justifyContent={"space-between"}
-            sx={{ cursor: "pointer" }}
+            sx={{
+              cursor: "pointer",
+              "&:hover": { backgroundColor: "#F6F6F6" },
+            }}
             onClick={() => {
               router.push("/OrderList");
             }}
@@ -197,7 +200,10 @@ export default function User() {
             padding={"8px 20px"}
             gap={1}
             justifyContent={"space-between"}
-            sx={{ cursor: "pointer" }}
+            sx={{
+              cursor: "pointer",
+              "&:hover": { backgroundColor: "#F6F6F6" },
+            }}
           >
             <Stack
               padding={1}

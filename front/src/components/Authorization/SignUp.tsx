@@ -1,7 +1,7 @@
 "use client";
 import { Button, Stack, Typography } from "@mui/material";
 import { useState } from "react";
-import { CustomInput } from "./CustomInput";
+import { CustomInput } from "../CustomInput";
 import { CloudQueue } from "@mui/icons-material";
 import { useFormik } from "formik";
 import * as yup from "yup";

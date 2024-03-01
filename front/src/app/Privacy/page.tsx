@@ -1,4 +1,4 @@
-import { PrivacyPolicy } from "@/components/User/PrivacyPolicy";
+import { PrivacyPolicy } from "@/components/PrivacyPolicy";
 import { Container } from "@mui/material";
 
 export default function Privacy() {

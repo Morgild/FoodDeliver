@@ -4,7 +4,7 @@ import { useData } from "../providers/DataProvider";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { toast } from "react-toastify";
-import { CustomInput } from "../User/CustomInput";
+import { CustomInput } from "../CustomInput";
 import { ChangeEvent, useState } from "react";
 import { IOSSwitch } from "./IOSSwitch";
 import Image from "next/image";

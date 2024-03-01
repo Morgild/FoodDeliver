@@ -11,7 +11,7 @@ import {
   selectClasses,
 } from "@mui/material";
 import { Dispatch, SetStateAction, useState } from "react";
-import { CustomInput } from "../User/CustomInput";
+import { CustomInput } from "../CustomInput";
 import { CustomSelect } from "./CustomSelect";
 import {
   LocationCity,

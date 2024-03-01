@@ -1,4 +1,4 @@
-import { TermsOfService } from "@/components/User/TermsOfService";
+import { TermsOfService } from "@/components/TermsOfService";
 import { Container, Typography } from "@mui/material";
 
 export default function TermsService() {

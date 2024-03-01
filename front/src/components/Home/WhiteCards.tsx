@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material";
+import { Grid, Stack } from "@mui/material";
 import { WhiteCard } from "./WhiteCard";
 const cardsItem = [
   { title: "Хүргэлтийн төлөв хянах", text: "Захиалга бэлтгэлийн явц хянах" },
@@ -9,12 +9,12 @@ const cardsItem = [
 
 export const WhiteCards = () => {
   return (
-    <Stack width={1} gap={"47px"} flexDirection={"row"}>
-      {cardsItem.map((item, index) => (
-        <Stack width={1} key={index}>
+    <Grid container spacing={3}>
+      {cardsItem.map((item: any, index: number) => (
+        <Grid item key={index} xs={6} md={3}>
           <WhiteCard title={item.title} text={item.text} />
-        </Stack>
+        </Grid>
       ))}
-    </Stack>
+    </Grid>
   );
 };

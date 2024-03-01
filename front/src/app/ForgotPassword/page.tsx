@@ -2,7 +2,7 @@
 import { PasswordRefreshCode } from "@/components/ResetPassword/PasswordRefreshCode";
 import { PasswordRefreshEmail } from "@/components/ResetPassword/PasswordRefreshEmail";
 import { PasswordRefreshNew } from "@/components/ResetPassword/PasswordRefreshNew";
-import { SignUp } from "@/components/User/SignUp";
+import { SignUp } from "@/components/Authorization/SignUp";
 import { Box } from "@mui/material";
 import { useState } from "react";
 type ForgotPasswordProps = {};
