@@ -167,6 +167,7 @@ export default function User() {
               "&:hover": { backgroundColor: "#F6F6F6" },
             }}
             onClick={() => {
+              setRefresh(refresh + 1);
               router.push("/OrderList");
             }}
           >

@@ -2,9 +2,10 @@ import {} from "@mui/icons-material";
 import { Box, Modal, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { FoodDetail } from "./FoodDetail";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import zIndex from "@mui/material/styles/zIndex";
+import { isBoolean } from "util";
 
 type ItemCardProps = {
   foodName: string;
@@ -13,6 +14,15 @@ type ItemCardProps = {
   foodPic: string;
   foodIngredients: string;
   foodCategory: string;
+  setOpenFood: Dispatch<SetStateAction<boolean>>;
+  editFood: boolean;
+  setEditFood: Dispatch<SetStateAction<boolean>>;
+  setEditFoodName: Dispatch<SetStateAction<string>>;
+  setEditFoodCategory: Dispatch<SetStateAction<string>>;
+  setEditFoodIngredients: Dispatch<SetStateAction<string>>;
+  setEditFoodPrice: Dispatch<SetStateAction<number>>;
+  setEditFoodDiscount: Dispatch<SetStateAction<number>>;
+  setEditFoodPic: Dispatch<SetStateAction<string>>;
 };
 
 export const ItemCard = (props: ItemCardProps) => {
@@ -23,6 +33,15 @@ export const ItemCard = (props: ItemCardProps) => {
     foodPic,
     foodIngredients,
     foodCategory,
+    setOpenFood,
+    editFood,
+    setEditFood,
+    setEditFoodName,
+    setEditFoodCategory,
+    setEditFoodIngredients,
+    setEditFoodPrice,
+    setEditFoodDiscount,
+    setEditFoodPic,
   } = props;
   const [open, setOpen] = useState(false);
   const [hover, setHover] = useState(false);
@@ -120,7 +139,14 @@ export const ItemCard = (props: ItemCardProps) => {
                 width={"166px"}
                 sx={{ cursor: "pointer" }}
                 onClick={() => {
-                  alert();
+                  setEditFood(true);
+                  setEditFoodName(foodName);
+                  setEditFoodCategory(foodCategory);
+                  setEditFoodIngredients(foodIngredients);
+                  setEditFoodPrice(foodPrice);
+                  setEditFoodDiscount(discount || 0);
+                  setEditFoodPic(foodPic);
+                  setOpenFood(true);
                 }}
               >
                 <Typography fontSize={20} fontWeight={590}>

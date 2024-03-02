@@ -18,27 +18,35 @@ export const foodPost: RequestHandler = async (req, res) => {
       foodPrice,
       discount,
       foodPic,
+      editFood,
     } = req.body;
 
-    const foodExist = await foodModel.find({ foodName });
+    const foodExist = await foodModel.findOne({ foodName });
 
-    if (foodExist.length) {
-      return res.status(401).json({
-        message: `${foodName} хоол өмнө нь бүртгэгдсэн байна`,
+    if (!editFood) {
+      if (foodExist) {
+        return res.status(401).json({
+          message: `${foodName} хоол өмнө нь бүртгэгдсэн байна`,
+        });
+      }
+      const food = await foodModel.create({
+        foodName,
+        foodCategory,
+        foodIngredients,
+        foodPrice,
+        discount,
+        foodPic,
+        updatedAt: new Date(),
+        createdAt: new Date(),
       });
+      return res.json({ message: "Шинэ хоол амжилттай нэмэгдлээ" });
+    } else {
+      const food = await foodModel.findOneAndUpdate(
+        { foodName },
+        { foodCategory, foodIngredients, foodPrice, foodPic }
+      );
+      return res.json({ message: "Хоол амжилттай шинэчлэгдлээ" });
     }
-
-    const food = await foodModel.create({
-      foodName,
-      foodCategory,
-      foodIngredients,
-      foodPrice,
-      discount,
-      foodPic,
-      updatedAt: new Date(),
-      createdAt: new Date(),
-    });
-    return res.json({ message: "Шинэ хоол амжилттай нэмэгдлээ" });
   } catch (err) {
     res.json(err);
   }

@@ -1,19 +1,25 @@
 "use client";
 import { CreateNewCategory } from "@/components/Food/CreateNewCategory";
 import { CreateNewFood } from "@/components/Food/CreateNewFood";
-import { EditCategory } from "@/components/Food/EditCategory";
 import { FoodCategory } from "@/components/Food/FoodCategory";
-import { IOSSwitch } from "@/components/Food/IOSSwitch";
 import { ItemCard } from "@/components/Food/ItemCard";
 import { LoadingPage } from "@/components/LoadingPage";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { useData } from "@/components/providers/DataProvider";
 import { Add } from "@mui/icons-material";
 import { Box, Container, Grid, Modal, Stack, Typography } from "@mui/material";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-export default function Admin() {
+type AdminProps = {
+  setOpenFood: Dispatch<SetStateAction<boolean>>;
+  editFood: boolean;
+  setEditFood: Dispatch<SetStateAction<boolean>>;
+  editFoodName: string;
+  setEditName: Dispatch<SetStateAction<string>>;
+};
+
+export default function Admin(props: AdminProps) {
   const style = {
     position: "absolute" as "absolute",
     top: "50%",
@@ -30,8 +36,15 @@ export default function Admin() {
   const [openFood, setOpenFood] = useState(false);
   const { isAdmin } = useAuth();
   const { foods, searchValue } = useData();
-  const { categories, refreshF } = useData();
+  const { categories } = useData();
   const [selectedMenu, setSelectedMenu] = useState("");
+  const [editFood, setEditFood] = useState(false);
+  const [editFoodName, setEditFoodName] = useState("");
+  const [editFoodCategory, setEditFoodCategory] = useState("");
+  const [editFoodIngredients, setEditFoodIngredients] = useState("");
+  const [editFoodPrice, setEditFoodPrice] = useState(0);
+  const [editFoodDiscount, setEditFoodDiscount] = useState(0);
+  const [editFoodPic, setEditFoodPic] = useState("");
   const handleClose = () => setOpen(false);
   const handleCloseFood = () => setOpenFood(false);
 
@@ -100,6 +113,7 @@ export default function Admin() {
           <Stack
             onClick={() => {
               setOpenFood(true);
+              setEditFood(false);
             }}
             bgcolor={"primary.main"}
             px={2}
@@ -129,6 +143,15 @@ export default function Admin() {
                   foodPic={item.foodPic}
                   foodIngredients={item.foodIngredients}
                   foodCategory={item.foodCategory}
+                  setOpenFood={setOpenFood}
+                  editFood={editFood}
+                  setEditFood={setEditFood}
+                  setEditFoodName={setEditFoodName}
+                  setEditFoodCategory={setEditFoodCategory}
+                  setEditFoodIngredients={setEditFoodIngredients}
+                  setEditFoodPrice={setEditFoodPrice}
+                  setEditFoodDiscount={setEditFoodDiscount}
+                  setEditFoodPic={setEditFoodPic}
                 />
               </Grid>
             ))}
@@ -144,6 +167,14 @@ export default function Admin() {
           <CreateNewFood
             categories={categories}
             handleClose={handleCloseFood}
+            editFood={editFood}
+            setEditFood={setEditFood}
+            editFoodName={editFoodName}
+            editFoodCategory={editFoodCategory}
+            editFoodIngredients={editFoodIngredients}
+            editFoodPrice={editFoodPrice}
+            editFoodDiscount={editFoodDiscount}
+            editFoodPic={editFoodPic}
           />
         </Box>
       </Modal>

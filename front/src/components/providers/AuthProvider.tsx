@@ -11,6 +11,7 @@ import {
   useEffect,
 } from "react";
 import { toast } from "react-toastify";
+import { LoadingPage } from "../LoadingPage";
 
 type AuthContextType = {
   isLogged: boolean;

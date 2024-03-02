@@ -12,6 +12,7 @@ import {
 import { toast } from "react-toastify";
 import { useAuth } from "./AuthProvider";
 import { useRouter } from "next/navigation";
+import { LoadingPage } from "../LoadingPage";
 
 type Food = {
   foodName: string;
@@ -60,7 +61,8 @@ type DataContextType = {
     foodIngerdients: string,
     foodPrice: number,
     discount: number,
-    foodPic: string
+    foodPic: string,
+    editFood: boolean
   ) => void;
   postOrder: (deliveryAddress: DeliveryAddress, order: Basket[]) => void;
   categories: Category[];
@@ -150,7 +152,8 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
     foodIngredients: string,
     foodPrice: number,
     discount: number,
-    foodPic: string
+    foodPic: string,
+    editFood: boolean
   ) => {
     try {
       const { data } = await api.post(
@@ -162,6 +165,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
           foodPrice,
           discount,
           foodPic,
+          editFood,
         },
         {
           headers: { Authorization: localStorage.getItem("token") },
@@ -233,7 +237,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
     getFoods();
     getOrderList();
     setIsReady(true);
-  }, [refresh]);
+  }, [refresh, isReady]);
 
   useEffect(() => {
     const basket = localStorage.getItem("basket");
@@ -278,7 +282,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         orderList,
       }}
     >
-      {children}
+      {isReady ? children : <LoadingPage />}
     </DataContext.Provider>
   );
 };

@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { toast } from "react-toastify";
 import { CustomInput } from "../CustomInput";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { IOSSwitch } from "./IOSSwitch";
 import Image from "next/image";
 const validationSchema = yup.object({
@@ -18,14 +18,33 @@ const validationSchema = yup.object({
 type CreateNewFoodProps = {
   handleClose: () => void;
   categories: any;
+  editFood: boolean;
+  setEditFood: Dispatch<SetStateAction<boolean>>;
+  editFoodName: string;
+  editFoodCategory: string;
+  editFoodIngredients: string;
+  editFoodPrice: number;
+  editFoodDiscount: number;
+  editFoodPic: string;
 };
 export const CreateNewFood = (props: CreateNewFoodProps) => {
+  const {
+    categories,
+    editFood,
+    setEditFood,
+    editFoodName,
+    editFoodCategory,
+    editFoodIngredients,
+    editFoodPrice,
+    editFoodDiscount,
+    editFoodPic,
+  } = props;
+
   const { handleClose } = props;
   const { postFood, foods } = useData();
-  const [isDiscount, setIsDiscount] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
+  const [isDiscount, setIsDiscount] = useState(!Boolean(editFoodDiscount));
+  const [imageUrl, setImageUrl] = useState(editFood ? editFoodPic : "");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const { categories } = props;
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
@@ -58,11 +77,11 @@ export const CreateNewFood = (props: CreateNewFoodProps) => {
 
   const formik = useFormik({
     initialValues: {
-      foodName: "",
-      foodCategory: "",
-      foodIngredients: "",
-      foodPrice: 0,
-      discount: 0,
+      foodName: editFood ? editFoodName : "",
+      foodCategory: editFood ? editFoodCategory : "",
+      foodIngredients: editFood ? editFoodIngredients : "",
+      foodPrice: editFood ? editFoodPrice : 0,
+      discount: editFood ? editFoodDiscount : 0,
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -72,7 +91,8 @@ export const CreateNewFood = (props: CreateNewFoodProps) => {
         values.foodIngredients,
         values.foodPrice,
         values.discount,
-        imageUrl
+        imageUrl,
+        editFood
       );
     },
   });
@@ -93,7 +113,7 @@ export const CreateNewFood = (props: CreateNewFoodProps) => {
           fontWeight={700}
           textAlign={"center"}
         >
-          Create food
+          {editFood ? "Edit food" : "Create food"}
         </Typography>
       </Stack>
       <Stack
@@ -104,6 +124,7 @@ export const CreateNewFood = (props: CreateNewFoodProps) => {
         borderColor={"#E0E0E0"}
       >
         <CustomInput
+          disabled={editFood}
           label="Хоолны нэр"
           placeholder="Хоолны нэр оруулна уу!"
           name="foodName"
@@ -114,10 +135,9 @@ export const CreateNewFood = (props: CreateNewFoodProps) => {
           helperText={formik.touched.foodName && formik.errors.foodName}
         />
         <CustomInput
-          id="outlined-select-currency-native"
           select
+          placeholder="Хоолны ангилал сонгоно уу"
           label="Хоолны ангилал"
-          defaultValue="EUR"
           name="foodCategory"
           value={formik.values.foodCategory}
           onChange={formik.handleChange}
