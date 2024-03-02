@@ -139,14 +139,24 @@ export const ItemCard = (props: ItemCardProps) => {
                 width={"166px"}
                 sx={{ cursor: "pointer" }}
                 onClick={() => {
-                  setEditFood(true);
-                  setEditFoodName(foodName);
-                  setEditFoodCategory(foodCategory);
-                  setEditFoodIngredients(foodIngredients);
-                  setEditFoodPrice(foodPrice);
-                  setEditFoodDiscount(discount || 0);
-                  setEditFoodPic(foodPic);
-                  setOpenFood(true);
+                  if (
+                    setEditFood &&
+                    setEditFoodName &&
+                    setEditFoodIngredients &&
+                    setEditFoodCategory &&
+                    setEditFoodPrice &&
+                    setEditFoodDiscount &&
+                    setEditFoodPic
+                  ) {
+                    setEditFood(true);
+                    setEditFoodName(foodName);
+                    setEditFoodCategory(foodCategory);
+                    setEditFoodIngredients(foodIngredients);
+                    setEditFoodPrice(foodPrice);
+                    setEditFoodDiscount(discount || 0);
+                    setEditFoodPic(foodPic);
+                  }
+                  setOpenFood && setOpenFood(true);
                 }}
               >
                 <Typography fontSize={20} fontWeight={590}>
