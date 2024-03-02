@@ -23,7 +23,7 @@ export const foodPost: RequestHandler = async (req, res) => {
 
     const foodExist = await foodModel.findOne({ foodName });
 
-    if (!editFood) {
+    if (editFood) {
       if (foodExist) {
         return res.status(401).json({
           message: `${foodName} хоол өмнө нь бүртгэгдсэн байна`,
