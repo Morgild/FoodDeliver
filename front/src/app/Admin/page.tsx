@@ -11,15 +11,7 @@ import { Box, Container, Grid, Modal, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-type AdminProps = {
-  setOpenFood: Dispatch<SetStateAction<boolean>>;
-  editFood: boolean;
-  setEditFood: Dispatch<SetStateAction<boolean>>;
-  editFoodName: string;
-  setEditName: Dispatch<SetStateAction<string>>;
-};
-
-export default function Admin(props: AdminProps) {
+export default function Admin() {
   const style = {
     position: "absolute" as "absolute",
     top: "50%",
