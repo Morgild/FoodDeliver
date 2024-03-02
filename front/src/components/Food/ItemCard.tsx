@@ -14,15 +14,15 @@ type ItemCardProps = {
   foodPic: string;
   foodIngredients: string;
   foodCategory: string;
-  setOpenFood: Dispatch<SetStateAction<boolean>>;
-  editFood: boolean;
-  setEditFood: Dispatch<SetStateAction<boolean>>;
-  setEditFoodName: Dispatch<SetStateAction<string>>;
-  setEditFoodCategory: Dispatch<SetStateAction<string>>;
-  setEditFoodIngredients: Dispatch<SetStateAction<string>>;
-  setEditFoodPrice: Dispatch<SetStateAction<number>>;
-  setEditFoodDiscount: Dispatch<SetStateAction<number>>;
-  setEditFoodPic: Dispatch<SetStateAction<string>>;
+  setOpenFood?: Dispatch<SetStateAction<boolean>>;
+  editFood?: boolean;
+  setEditFood?: Dispatch<SetStateAction<boolean>>;
+  setEditFoodName?: Dispatch<SetStateAction<string>>;
+  setEditFoodCategory?: Dispatch<SetStateAction<string>>;
+  setEditFoodIngredients?: Dispatch<SetStateAction<string>>;
+  setEditFoodPrice?: Dispatch<SetStateAction<number>>;
+  setEditFoodDiscount?: Dispatch<SetStateAction<number>>;
+  setEditFoodPic?: Dispatch<SetStateAction<string>>;
 };
 
 export const ItemCard = (props: ItemCardProps) => {
