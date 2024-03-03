@@ -23,7 +23,7 @@ export const FoodCategory = (props: FoodCategoryProps) => {
       }}
       bgcolor={isSelected() ? "primary.main" : "common.white"}
       color={isSelected() ? "common.white" : "common.black"}
-      width={1}
+      width={"100%"}
       borderRadius={1}
       border={1}
       borderColor={"#D6D8DB"}

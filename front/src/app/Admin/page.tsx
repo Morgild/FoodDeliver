@@ -75,7 +75,7 @@ export default function Admin() {
           onClick={() => {
             setOpen(true);
           }}
-          width={1}
+          width={"100%"}
           borderRadius={1}
           border={1}
           borderColor={"#D6D8DB"}
