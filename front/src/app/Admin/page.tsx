@@ -17,7 +17,7 @@ export default function Admin() {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 587,
+    width: { xs: "350px", md: "587px" },
     bgcolor: "background.paper",
     boxShadow: 24,
     borderRadius: "16px",
@@ -47,7 +47,9 @@ export default function Admin() {
   });
   if (!isAdmin) return <LoadingPage />;
   return (
-    <Container sx={{ display: "flex", flexDirection: "row" }}>
+    <Container
+      sx={{ display: "flex", flexDirection: { xs: "column", md: "row" } }}
+    >
       <Stack
         bgcolor={"common.white"}
         width={0.25}

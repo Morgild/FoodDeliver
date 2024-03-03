@@ -33,7 +33,7 @@ export default function DeliveryRegion() {
         <Image src={"/map.png"} alt="map" fill sizes="small" />
       </Stack>
       <TitleGreenStar title="Хүргэлтийн бүс дэх хаягууд" />
-      <Stack flexDirection={"row"} gap={3}>
+      <Stack flexDirection={{ xs: "column", md: "row" }} gap={3}>
         <Stack width={1} p={3} borderRadius={2} boxShadow={1}>
           <Stack gap={2}>
             <Typography
