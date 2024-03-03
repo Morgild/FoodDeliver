@@ -52,7 +52,7 @@ export default function Admin() {
     >
       <Stack
         bgcolor={"common.white"}
-        width={0.25}
+        width={{ xs: "100%", md: "25%" }}
         pt={"26px"}
         pr={"24px"}
         pb={"120px"}
