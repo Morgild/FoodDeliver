@@ -86,7 +86,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   const [basket, setBasket] = useState<Basket[]>([]);
   const [isFirstRender, setIsFirstRender] = useState(true);
   const [refresh, setRefresh] = useState(0);
-  const { isReady, setIsReady } = useAuth();
+  const { isReady, setIsReady, isLogged } = useAuth();
   const [searchValue, setSearchValue] = useState("");
   const [orderList, setOrderList] = useState<Order[]>([]);
   const router = useRouter();
@@ -226,6 +226,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         headers: { Authorization: localStorage.getItem("token") },
       });
       setOrderList(data);
+      setRefresh(refresh + 1);
     } catch (error) {
       console.log(error), "FFF";
     }
@@ -235,9 +236,12 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
     setIsReady(false);
     getCategories();
     getFoods();
-    getOrderList();
     setIsReady(true);
   }, [refresh, isReady]);
+
+  useEffect(() => {
+    getOrderList();
+  }, [isLogged, refresh]);
 
   useEffect(() => {
     const basket = localStorage.getItem("basket");
