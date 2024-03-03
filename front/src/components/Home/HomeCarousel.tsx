@@ -10,7 +10,7 @@ export const HomeCarousel = () => {
         backgroundSize: "contain",
       }}
       width={1}
-      height={"50vh"}
+      height={{ md: "50vh", xs: "30vh" }}
       bgcolor={"primary.main"}
     >
       <Container maxWidth="lg" sx={{ height: "100%" }}>
@@ -22,27 +22,31 @@ export const HomeCarousel = () => {
           alignItems={"center"}
           justifyContent="space-between"
         >
-          <Stack width={"35%"} gap={"23px"}>
+          <Stack width={{ md: "35%", xs: "100%" }} gap={"23px"}>
             <Typography
-              fontSize={55}
               fontWeight={600}
               color={"common.white"}
-              sx={{ lineHeight: "49.5px" }}
+              sx={{
+                fontSize: { xs: "36px", md: "55px" },
+                lineHeight: "49.5px",
+              }}
             >
               Pinecone Food delivery
             </Typography>
             <Stack width={1} height={"2px"} bgcolor="common.white"></Stack>
             <Typography
-              fontSize={22}
               fontWeight={300}
-              sx={{ lineHeight: "26.4px" }}
+              sx={{
+                fontSize: { xs: "16px", md: "22px" },
+                lineHeight: "26.4px",
+              }}
               color={"common.white"}
             >
-              Horem ipsum dolor sit amet, consectetur adipiscing elit.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </Typography>
           </Stack>
 
-          <Stack sx={{ width: "65%" }}>
+          <Stack sx={{ width: "65vw", display: { xs: "none", md: "flex" } }}>
             <Image
               src="/foodBottom.png"
               alt="food bottom"

@@ -83,7 +83,13 @@ export const NavBar = () => {
           >
             <Image src="/Logo.png" width={31.26} height={26.76} alt="logo" />
           </Stack>
-          <List sx={{ display: "flex", alignItems: "center", gap: "24px" }}>
+          <List
+            sx={{
+              display: { md: "flex", xs: "none" },
+              alignItems: "center",
+              gap: "24px",
+            }}
+          >
             {menuItems.map((item) => (
               <Stack key={item}>
                 <Stack
@@ -131,6 +137,7 @@ export const NavBar = () => {
         </Stack>
         <Stack flexDirection="row" gap={2} sx={{ alignItems: "center" }}>
           <CustomInput
+            sx={{ display: { xs: "none", md: "flex" } }}
             type="search"
             onChange={(event) => {
               setSearchValue(event.target.value);
@@ -151,7 +158,12 @@ export const NavBar = () => {
               </Badge>
             </IconButton>
 
-            <Typography color="common.black" fontSize={14} fontWeight={700}>
+            <Typography
+              sx={{ display: { xs: "none", md: "flex" } }}
+              color="common.black"
+              fontSize={14}
+              fontWeight={700}
+            >
               Сагс
             </Typography>
           </Stack>
@@ -180,7 +192,7 @@ export const NavBar = () => {
               color="common.black"
               fontSize={14}
               fontWeight={700}
-              sx={{ cursor: "pointer" }}
+              sx={{ cursor: "pointer", display: { md: "flex", xs: "none" } }}
             >
               {isLogged ? name : "Нэвтрэх"}
             </Typography>
@@ -198,7 +210,7 @@ export const NavBar = () => {
         </Box>
       </Modal>
       <Drawer anchor="right" open={state} onClose={toggleDrawer}>
-        <Stack width="40vw" maxWidth={"500px"}>
+        <Stack width={{ xs: "90vw", md: "40vw" }} maxWidth={"500px"}>
           <Basket toggleDrawer={toggleDrawer} />
         </Stack>
       </Drawer>

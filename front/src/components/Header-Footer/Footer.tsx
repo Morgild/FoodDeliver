@@ -62,7 +62,10 @@ export const Footer = () => {
         </Stack>
         <Stack
           width={1}
-          sx={{ flexDirection: "row", justifyContent: "space-between" }}
+          sx={{
+            flexDirection: { xs: "column", md: "row" },
+            justifyContent: "space-between",
+          }}
         >
           {footerItems.map((item) => (
             <Stack

@@ -4,8 +4,6 @@ import Image from "next/image";
 import { FoodDetail } from "./FoodDetail";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import zIndex from "@mui/material/styles/zIndex";
-import { isBoolean } from "util";
 
 type ItemCardProps = {
   foodName: string;
@@ -69,7 +67,7 @@ export const ItemCard = (props: ItemCardProps) => {
     left: "50%",
     transform: "translate(-50%, -50%)",
     maxWidth: "800px",
-    width: "50%",
+    width: { xs: "100%", md: "50%" },
     bgcolor: "background.paper",
     border: "1px solid #DADCE0",
     boxShadow: 24,

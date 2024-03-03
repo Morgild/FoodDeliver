@@ -22,8 +22,12 @@ export default function ForgotPassword(props: ForgotPasswordProps) {
   };
   return (
     <Box
-      minWidth={"448px"}
-      sx={{ margin: "auto", marginTop: "111px", marginBottom: "75px" }}
+      sx={{
+        width: { xs: "350px", md: "450px" },
+        margin: "auto",
+        marginTop: "111px",
+        marginBottom: "75px",
+      }}
     >
       {step == "email" && <PasswordRefreshEmail stepChange={stepChange} />}
       {step == "code" && <PasswordRefreshCode stepChange={stepChange} />}
