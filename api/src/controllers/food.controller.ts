@@ -80,3 +80,46 @@ export const postCategory: RequestHandler = async (req, res) => {
     res.json(err);
   }
 };
+
+//delete category
+export const deleteCategory: RequestHandler = async (req, res) => {
+  try {
+    const { deleteCategory } = req.body;
+
+    const category = await categoryModel.findOne({
+      foodCategory: deleteCategory,
+    });
+    if (category) {
+      const { _id } = category;
+      const food = await categoryModel.findByIdAndDelete(category?._id);
+      return res.json({
+        message: `${category?.foodCategory} ангилал устгагдлаа`,
+      });
+    }
+  } catch (err) {
+    res.json(err);
+  }
+};
+
+//edit category
+export const editCategory: RequestHandler = async (req, res) => {
+  try {
+    const { editCategory, newCategory } = req.body;
+
+    const category = await categoryModel.findOne({
+      foodCategory: editCategory,
+    });
+
+    if (category) {
+      const cat = await categoryModel.findOneAndUpdate(
+        { _id: category._id },
+        { foodCategory: newCategory }
+      );
+      return res.json({
+        message: `${category?.foodCategory} ангилал шинэчлэгдлэж ${newCategory} боллоо.`,
+      });
+    }
+  } catch (err) {
+    res.json(err);
+  }
+};

@@ -77,6 +77,8 @@ type DataContextType = {
   searchValue: string;
   setSearchValue: Dispatch<SetStateAction<string>>;
   orderList: Order[];
+  deleteCategory: (deleteCategory: string) => void;
+  handleEditCategory: (editCategory: string, newCategory: string) => void;
 };
 
 const DataContext = createContext({} as DataContextType);
@@ -125,6 +127,61 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
       const { data } = await api.post(
         "food/postCategory",
         { foodCategory },
+        {
+          headers: { Authorization: localStorage.getItem("token") },
+        }
+      );
+      toast.success(data.message, {
+        position: "top-center",
+        hideProgressBar: true,
+      });
+      setRefresh(refresh + 1);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message ?? error.message, {
+          position: "top-center",
+          hideProgressBar: true,
+        });
+      }
+      console.log(error), "FFF";
+    }
+  };
+
+  //delete category
+  const deleteCategory = async (deleteCategory: string) => {
+    try {
+      const { data } = await api.post(
+        "food/deleteCategory",
+        { deleteCategory },
+        {
+          headers: { Authorization: localStorage.getItem("token") },
+        }
+      );
+      toast.success(data.message, {
+        position: "top-center",
+        hideProgressBar: true,
+      });
+      setRefresh(refresh + 1);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message ?? error.message, {
+          position: "top-center",
+          hideProgressBar: true,
+        });
+      }
+      console.log(error), "FFF";
+    }
+  };
+
+  //delete category
+  const handleEditCategory = async (
+    editCategory: string,
+    newCategory: string
+  ) => {
+    try {
+      const { data } = await api.post(
+        "food/editCategory",
+        { editCategory, newCategory },
         {
           headers: { Authorization: localStorage.getItem("token") },
         }
@@ -284,6 +341,8 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         getOrderList,
         sumBasket,
         orderList,
+        deleteCategory,
+        handleEditCategory,
       }}
     >
       {isReady ? children : <LoadingPage />}

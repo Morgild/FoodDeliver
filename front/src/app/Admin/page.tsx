@@ -37,7 +37,11 @@ export default function Admin() {
   const [editFoodPrice, setEditFoodPrice] = useState(0);
   const [editFoodDiscount, setEditFoodDiscount] = useState(0);
   const [editFoodPic, setEditFoodPic] = useState("");
-  const handleClose = () => setOpen(false);
+  const [editCategory, setEditCategory] = useState(false);
+  const handleClose = () => {
+    setOpen(false);
+    setEditCategory(false);
+  };
   const handleCloseFood = () => setOpenFood(false);
 
   useEffect(() => {
@@ -70,6 +74,9 @@ export default function Admin() {
                   categories={item.foodCategory}
                   selectedMenu={selectedMenu}
                   setSelectedMenu={setSelectedMenu}
+                  setOpen={setOpen}
+                  editCategory={editCategory}
+                  setEditCategory={setEditCategory}
                 />
               </Grid>
             );
@@ -158,7 +165,12 @@ export default function Admin() {
       </Stack>
       <Modal open={open} onClose={handleClose}>
         <Box sx={style}>
-          <CreateNewCategory handleClose={handleClose} />
+          <CreateNewCategory
+            handleClose={handleClose}
+            editCategory={editCategory}
+            setEditCategory={setEditCategory}
+            selectedMenu={selectedMenu}
+          />
         </Box>
       </Modal>
       <Modal open={openFood} onClose={handleCloseFood}>

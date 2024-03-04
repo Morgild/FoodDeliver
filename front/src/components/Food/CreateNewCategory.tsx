@@ -4,23 +4,31 @@ import { useData } from "../providers/DataProvider";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { toast } from "react-toastify";
+import { Dispatch, SetStateAction } from "react";
 const validationSchema = yup.object({
   foodCategory: yup.string(),
 });
 type CreateNewCategoryProps = {
   handleClose: () => void;
+  editCategory: boolean;
+  setEditCategory: Dispatch<SetStateAction<boolean>>;
+  selectedMenu: string;
 };
 export const CreateNewCategory = (props: CreateNewCategoryProps) => {
-  const { handleClose } = props;
-  const { postCategory } = useData();
+  const { handleClose, editCategory, setEditCategory, selectedMenu } = props;
+  const { postCategory, handleEditCategory } = useData();
 
   const formik = useFormik({
     initialValues: {
-      foodCategory: "",
+      foodCategory: editCategory ? selectedMenu : "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      postCategory(values.foodCategory);
+      if (!editCategory) {
+        postCategory(values.foodCategory);
+      } else {
+        handleEditCategory(selectedMenu, values.foodCategory);
+      }
     },
   });
   return (
@@ -39,7 +47,7 @@ export const CreateNewCategory = (props: CreateNewCategoryProps) => {
           fontWeight={700}
           textAlign={"center"}
         >
-          Create new category
+          {editCategory ? "Edit category" : "Create new category"}
         </Typography>
       </Stack>
       <Stack

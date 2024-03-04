@@ -1,5 +1,7 @@
 import { Router } from "express";
 import {
+  deleteCategory,
+  editCategory,
   foodPost,
   getCategories,
   getFoods,
@@ -12,5 +14,7 @@ foodRouter
   .get("/getFoods", getFoods)
   .post("/postFood", foodPost)
   .get("/getCategories", getCategories)
-  .post("/postCategory", postCategory);
+  .post("/postCategory", postCategory)
+  .post("/deleteCategory", deleteCategory)
+  .post("/editCategory", editCategory);
 export default foodRouter;
