@@ -64,7 +64,7 @@ export default function Admin() {
         <Grid container spacing={2}>
           {categories.map((item: any, index: number) => {
             return (
-              <Grid item width={1}>
+              <Grid key={index} item width={1}>
                 <FoodCategory
                   key={index}
                   categories={item.foodCategory}
