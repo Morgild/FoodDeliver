@@ -35,7 +35,7 @@ export const BasketItem = (props: BasketItemProps) => {
   return (
     <Stack flexDirection={"row"} p={2} gap={2} borderRadius={"8px"}>
       <Stack width={0.5} flexGrow={1} position={"relative"}>
-        <Image objectFit="fill" src={foodPic} fill alt="food image" />
+        <Image objectFit="cover" src={foodPic} fill alt="food image" />
         {Boolean(discount) && (
           <Typography
             color="common.white"
@@ -57,17 +57,21 @@ export const BasketItem = (props: BasketItemProps) => {
           </Typography>
         )}
       </Stack>
-      <Stack width={0.5} gap={1}>
+      <Stack width={0.5} gap={{ md: 1, xs: 0 }}>
         <Stack
           flexDirection={"row"}
           alignItems={"center"}
           justifyContent={"space-between"}
         >
-          <Stack gap={"2px"}>
-            <Typography fontSize={18} fontWeight={600}>
+          <Stack gap={{ md: "2px" }}>
+            <Typography fontSize={{ md: 18, xs: 14 }} fontWeight={600}>
               {foodName}
             </Typography>
-            <Typography fontSize={18} fontWeight={600} color={"primary.main"}>
+            <Typography
+              fontSize={{ md: 18, xs: 14 }}
+              fontWeight={600}
+              color={"primary.main"}
+            >
               {sumBasket}
             </Typography>
           </Stack>
@@ -80,7 +84,7 @@ export const BasketItem = (props: BasketItemProps) => {
             }}
           />
         </Stack>
-        <Typography>{foodIngredients}</Typography>
+        <Typography fontSize={{ md: 14, xs: 12 }}>{foodIngredients}</Typography>
         <Stack>
           <Stack width={1} gap={"12px"}></Stack>
           {!pathname.includes("/Order") && (
@@ -101,14 +105,14 @@ export const BasketItem = (props: BasketItemProps) => {
                 }}
                 bgcolor={"primary.main"}
                 borderRadius={"10px"}
-                p={"8px"}
+                p={{ md: 1, xs: 0.25 }}
                 color={"common.white"}
               >
                 <Remove />
               </Stack>
               <Typography
                 px={1}
-                fontSize={16}
+                fontSize={{ md: 16, xs: 12 }}
                 fontWeight={500}
                 color={"#171717"}
               >
@@ -128,7 +132,7 @@ export const BasketItem = (props: BasketItemProps) => {
                 }}
                 bgcolor={"primary.main"}
                 borderRadius={"10px"}
-                p={"8px"}
+                p={{ md: 1, xs: 0.25 }}
                 color={"common.white"}
               >
                 <Add />

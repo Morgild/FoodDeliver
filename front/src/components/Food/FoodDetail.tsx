@@ -49,9 +49,9 @@ export const FoodDetail = (props: FoodDetailProps) => {
         borderRadius={1}
         overflow={"hidden"}
         width={0.5}
-        sx={{ aspectRatio: 1 / 1 }}
+        // sx={{ aspectRatio: 1 / 1 }}
       >
-        <Image objectFit="fill" src={foodPic} alt="food image" fill />
+        <Image objectFit="cover" src={foodPic} alt="food image" fill />
         <Typography
           color="common.white"
           fontSize={18}
@@ -72,7 +72,7 @@ export const FoodDetail = (props: FoodDetailProps) => {
         </Typography>
       </Stack>
 
-      <Stack gap={2} width={0.5}>
+      <Stack gap={{ md: 2, xs: 1 }} width={0.5}>
         <Stack alignItems={"end"} width={1}>
           <Close
             onClick={() => {
@@ -82,11 +82,19 @@ export const FoodDetail = (props: FoodDetailProps) => {
           />
         </Stack>
         <Stack position={"relative"}>
-          <Typography fontSize={28} fontWeight={700} color={"common.black"}>
+          <Typography
+            fontSize={{ md: 28, sx: 24 }}
+            fontWeight={700}
+            color={"common.black"}
+          >
             {foodName}
           </Typography>
           <Stack flexDirection={"row"} gap={2} alignItems={"center"}>
-            <Typography color={"primary.main"} fontSize={18} fontWeight={600}>
+            <Typography
+              color={"primary.main"}
+              fontSize={{ md: 18, sx: 12 }}
+              fontWeight={600}
+            >
               {discount
                 ? numberFormatter.format((1 - discount / 100) * foodPrice)
                 : numberFormatter.format(foodPrice)}
@@ -94,7 +102,7 @@ export const FoodDetail = (props: FoodDetailProps) => {
             </Typography>
             <Typography
               color={"#171717"}
-              fontSize={16}
+              fontSize={{ md: 16, sx: 10 }}
               fontWeight={500}
               sx={{ textDecoration: "line-through" }}
             >
@@ -103,21 +111,27 @@ export const FoodDetail = (props: FoodDetailProps) => {
             </Typography>
           </Stack>
         </Stack>
-        <Stack width={1} gap={"12px"}>
-          <Typography fontSize={18} fontWeight={600} color={"common.black"}>
+        <Stack width={1} gap={{ md: "12px", xs: "6px" }}>
+          <Typography
+            fontSize={{ md: 18, xs: 14 }}
+            fontWeight={600}
+            color={"common.black"}
+          >
             Орц
           </Typography>
           <Typography
             borderRadius={1}
             padding={1}
             bgcolor={"#F6F6F6"}
-            fontSize={16}
+            fontSize={{ md: 16, xs: 12 }}
             fontWeight={400}
           >
             {foodIngredients}
           </Typography>
         </Stack>
-        <Typography>Тоо</Typography>
+        <Typography fontWeight={700} fontSize={{ md: 18, xs: 14 }}>
+          Тоо
+        </Typography>
         <Stack
           flexDirection={"row"}
           justifyContent={"space-between"}
@@ -129,7 +143,7 @@ export const FoodDetail = (props: FoodDetailProps) => {
             }}
             bgcolor={"primary.main"}
             borderRadius={"10px"}
-            p={"8px"}
+            p={{ md: 1, xs: 0.5 }}
             color={"common.white"}
           >
             <Remove />
@@ -143,7 +157,7 @@ export const FoodDetail = (props: FoodDetailProps) => {
             }}
             bgcolor={"primary.main"}
             borderRadius={"10px"}
-            p={"8px"}
+            p={{ md: 1, xs: 0.5 }}
             color={"common.white"}
           >
             <Add />

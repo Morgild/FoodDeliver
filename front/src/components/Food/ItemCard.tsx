@@ -67,7 +67,7 @@ export const ItemCard = (props: ItemCardProps) => {
     left: "50%",
     transform: "translate(-50%, -50%)",
     maxWidth: "800px",
-    width: { xs: "100%", md: "50%" },
+    width: { xs: "90%", md: "50%" },
     bgcolor: "background.paper",
     border: "1px solid #DADCE0",
     boxShadow: 24,

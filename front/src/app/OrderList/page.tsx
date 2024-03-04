@@ -21,7 +21,7 @@ export default function OrderList() {
       sx={{
         p: "42px",
         display: "flex",
-        flexDirection: "row",
+        flexDirection: { xs: "column", md: "row" },
         justifyContent: "space-around",
       }}
     >
@@ -33,8 +33,8 @@ export default function OrderList() {
           {orderList
             .sort(
               (a, b) =>
-                new Date(a.createdAt).getTime() -
-                new Date(b.createdAt).getTime()
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime()
             )
             .map((item, index) => (
               <OrderHistory

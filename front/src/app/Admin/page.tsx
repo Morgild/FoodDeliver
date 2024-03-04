@@ -56,26 +56,30 @@ export default function Admin() {
         pt={"26px"}
         pr={"24px"}
         pb={"120px"}
-        gap={5}
+        gap={{ md: 5, xs: 2 }}
       >
         <Typography fontSize={22} fontWeight={700}>
           Food menu
         </Typography>
-        {categories.map((item: any, index: number) => {
-          return (
-            <FoodCategory
-              key={index}
-              categories={item.foodCategory}
-              selectedMenu={selectedMenu}
-              setSelectedMenu={setSelectedMenu}
-            />
-          );
-        })}
+        <Grid container spacing={2}>
+          {categories.map((item: any, index: number) => {
+            return (
+              <Grid item width={1}>
+                <FoodCategory
+                  key={index}
+                  categories={item.foodCategory}
+                  selectedMenu={selectedMenu}
+                  setSelectedMenu={setSelectedMenu}
+                />
+              </Grid>
+            );
+          })}
+        </Grid>
         <Stack
           onClick={() => {
             setOpen(true);
           }}
-          width={"100%"}
+          width={1}
           borderRadius={1}
           border={1}
           borderColor={"#D6D8DB"}
@@ -91,6 +95,7 @@ export default function Admin() {
           </Typography>
         </Stack>
       </Stack>
+
       <Stack
         width={0.75}
         borderLeft={1}
