@@ -85,17 +85,20 @@ export const postCategory: RequestHandler = async (req, res) => {
 export const deleteCategory: RequestHandler = async (req, res) => {
   try {
     const { deleteCategory } = req.body;
-
+    console.log(deleteCategory);
     const category = await categoryModel.findOne({
       foodCategory: deleteCategory,
     });
-    if (category) {
-      const { _id } = category;
-      const food = await categoryModel.findByIdAndDelete(category?._id);
-      return res.json({
-        message: `${category?.foodCategory} ангилал устгагдлаа`,
+    if (!category) {
+      return res.status(401).json({
+        message: `Ангилал олдсонгүй`,
       });
     }
+
+    const food = await categoryModel.findByIdAndDelete(category._id);
+    return res.json({
+      message: `${category?.foodCategory} ангилал устгагдлаа`,
+    });
   } catch (err) {
     res.json(err);
   }
@@ -109,16 +112,19 @@ export const editCategory: RequestHandler = async (req, res) => {
     const category = await categoryModel.findOne({
       foodCategory: editCategory,
     });
-
-    if (category) {
-      const cat = await categoryModel.findOneAndUpdate(
-        { _id: category._id },
-        { foodCategory: newCategory }
-      );
-      return res.json({
-        message: `${category?.foodCategory} ангилал шинэчлэгдлэж ${newCategory} боллоо.`,
+    if (!category) {
+      return res.status(401).json({
+        message: `Ангилал олдсонгүй`,
       });
     }
+
+    const cat = await categoryModel.findOneAndUpdate(
+      { _id: category._id },
+      { foodCategory: newCategory }
+    );
+    return res.json({
+      message: `${category?.foodCategory} ангилал шинэчлэгдлэж ${newCategory} боллоо.`,
+    });
   } catch (err) {
     res.json(err);
   }

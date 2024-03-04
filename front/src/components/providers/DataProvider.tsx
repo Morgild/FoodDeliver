@@ -135,7 +135,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         position: "top-center",
         hideProgressBar: true,
       });
-      setRefresh(refresh + 1);
+      await setRefresh(refresh + 1);
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data.message ?? error.message, {

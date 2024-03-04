@@ -1,4 +1,4 @@
-import { DeleteOutline, EditOutlined } from "@mui/icons-material";
+import { Category, DeleteOutline, EditOutlined } from "@mui/icons-material";
 import { Stack, Typography } from "@mui/material";
 import { Dispatch, SetStateAction } from "react";
 import { useData } from "../providers/DataProvider";
@@ -11,7 +11,7 @@ type EditCategoryProps = {
 
 export const EditCategory = (props: EditCategoryProps) => {
   const { categories, setOpen, setEditCategory } = props;
-  const { deleteCategory, handleEditCategory } = useData();
+  const { deleteCategory } = useData();
   return (
     <Stack
       position="absolute"

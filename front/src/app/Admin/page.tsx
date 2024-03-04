@@ -27,8 +27,7 @@ export default function Admin() {
   const [open, setOpen] = useState(false);
   const [openFood, setOpenFood] = useState(false);
   const { isAdmin } = useAuth();
-  const { foods, searchValue } = useData();
-  const { categories } = useData();
+  const { foods, searchValue, categories } = useData();
   const [selectedMenu, setSelectedMenu] = useState("");
   const [editFood, setEditFood] = useState(false);
   const [editFoodName, setEditFoodName] = useState("");
