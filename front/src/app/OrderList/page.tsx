@@ -21,7 +21,7 @@ export default function OrderList() {
       sx={{
         p: "42px",
         display: "flex",
-        flexDirection: { xs: "column", md: "row-reverse" },
+        flexDirection: { xs: "column-reverse", md: "row" },
         justifyContent: "space-around",
         gap: { xs: 2, md: 0 },
       }}

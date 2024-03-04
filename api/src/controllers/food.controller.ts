@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import { foodModel } from "../models/food.model";
 import { categoryModel } from "../models/category.model";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 //return All food list
 export const getFoods: RequestHandler = async (req, res) => {
@@ -84,8 +85,21 @@ export const postCategory: RequestHandler = async (req, res) => {
 //delete category
 export const deleteCategory: RequestHandler = async (req, res) => {
   try {
+    const { authorization } = req.headers;
+    if (!authorization) {
+      return res
+        .status(401)
+        .json({ message: "Бүртгэлтэй хэрэглэгч биш байна." });
+    }
+
+    const { id, role } = jwt.verify(authorization, "secret-key") as JwtPayload;
+
+    if (role != "admin") {
+      return res
+        .status(401)
+        .json({ message: "Админ ангилал өөрчлөх боломжтой." });
+    }
     const { deleteCategory } = req.body;
-    console.log(deleteCategory);
     const category = await categoryModel.findOne({
       foodCategory: deleteCategory,
     });
@@ -107,6 +121,20 @@ export const deleteCategory: RequestHandler = async (req, res) => {
 //edit category
 export const editCategory: RequestHandler = async (req, res) => {
   try {
+    const { authorization } = req.headers;
+    if (!authorization) {
+      return res
+        .status(401)
+        .json({ message: "Бүртгэлтэй хэрэглэгч биш байна." });
+    }
+
+    const { id, role } = jwt.verify(authorization, "secret-key") as JwtPayload;
+
+    if (role != "admin") {
+      return res
+        .status(401)
+        .json({ message: "Админ ангилал өөрчлөх боломжтой." });
+    }
     const { editCategory, newCategory } = req.body;
 
     const category = await categoryModel.findOne({

@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import { orderModel } from "../models/order.model";
-import jwt, { JsonWebTokenError, JwtPayload } from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 //Get order list
 export const getOrders: RequestHandler = async (req, res) => {
