@@ -43,13 +43,13 @@ export const FoodDetail = (props: FoodDetailProps) => {
     });
   };
   return (
-    <Stack flexDirection={"row"} gap={"33px"} height={1}>
+    <Stack flexDirection={{ md: "row", xs: "column" }} gap={"33px"} height={1}>
       <Stack
         position={"relative"}
         borderRadius={1}
         overflow={"hidden"}
-        width={0.5}
-        // sx={{ aspectRatio: 1 / 1 }}
+        width={{ md: 0.5, xs: 1 }}
+        sx={{ aspectRatio: { xs: 2 / 1, md: 1 / 1 } }}
       >
         <Image objectFit="cover" src={foodPic} alt="food image" fill />
         <Typography
@@ -72,7 +72,7 @@ export const FoodDetail = (props: FoodDetailProps) => {
         </Typography>
       </Stack>
 
-      <Stack gap={{ md: 2, xs: 1 }} width={0.5}>
+      <Stack gap={{ md: 2, xs: 0.5 }} width={{ md: 0.5, xs: 1 }}>
         <Stack alignItems={"end"} width={1}>
           <Close
             onClick={() => {

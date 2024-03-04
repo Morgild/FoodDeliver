@@ -46,7 +46,7 @@ export default function Order() {
         justifyContent={"space-around"}
         gap={{ xs: 3 }}
       >
-        <Stack minWidth={"432px"} gap={3}>
+        <Stack width={{ md: "432px", xs: "350px" }} gap={3}>
           <Stack
             flexDirection={"row"}
             gap={2}
@@ -102,7 +102,7 @@ export default function Order() {
             />
           </Stack>
         </Stack>
-        <Stack width={"432px"} gap={3}>
+        <Stack width={{ md: "432px", xs: "350px" }} gap={3}>
           <Stack
             flexDirection={"row"}
             gap={2}

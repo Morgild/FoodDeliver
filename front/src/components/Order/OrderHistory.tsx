@@ -32,8 +32,9 @@ export const OrderHistory = (props: OrderHistoryProps) => {
       }}
     >
       <Stack
-        width={48}
-        height={48}
+        width={{ md: 48, xs: 36 }}
+        height={{ md: 48, xs: 36 }}
+        sx={{ aspectRatio: 1 / 1 }}
         border={1}
         borderRadius={"50%"}
         borderColor={!status ? "#0468C8" : "primary.main"}
@@ -42,11 +43,13 @@ export const OrderHistory = (props: OrderHistoryProps) => {
         bgcolor={status ? "primary.main" : "common.white"}
       >
         <Stack
-          width={24}
-          height={24}
+          width={{ md: 24, xs: 16 }}
+          height={{ md: 24, xs: 16 }}
           bgcolor={!status ? "#0468C8" : "primary.main"}
           borderRadius={"50%"}
           color={"common.white"}
+          justifyContent={"center"}
+          alignItems={"center"}
         >
           {status && <Check color="inherit" />}
         </Stack>

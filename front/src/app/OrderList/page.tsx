@@ -21,11 +21,17 @@ export default function OrderList() {
       sx={{
         p: "42px",
         display: "flex",
-        flexDirection: { xs: "column", md: "row" },
+        flexDirection: { xs: "column", md: "row-reverse" },
         justifyContent: "space-around",
+        gap: { xs: 2, md: 0 },
       }}
     >
-      <Box p={3} borderRadius={"16px"} boxShadow={1} minWidth={400}>
+      <Box
+        p={3}
+        borderRadius={"16px"}
+        boxShadow={1}
+        width={{ md: "432px", xs: "350px" }}
+      >
         <Stack gap={2}>
           <Typography fontSize={20} fontWeight={400}>
             Захиалгын түүх
@@ -45,7 +51,12 @@ export default function OrderList() {
             ))}
         </Stack>
       </Box>
-      <Box minWidth={400} p={3} borderRadius={"16px"} boxShadow={1}>
+      <Box
+        width={{ md: "432px", xs: "350px" }}
+        p={3}
+        borderRadius={"16px"}
+        boxShadow={1}
+      >
         <Stack gap={2}>
           <Typography fontSize={20} fontWeight={400}>
             Захиалгын дэлгэрэнгүй
