@@ -13,7 +13,7 @@ export default function OrderList() {
   const [selectedOrder, setSelectedOrder] = useState("");
 
   const foods = orderList.find((item) => item._id == selectedOrder)?.foods;
-
+  console.log(foods);
   if (!isReady) return <LoadingPage />;
   return (
     <Container
