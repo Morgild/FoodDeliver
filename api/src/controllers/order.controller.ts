@@ -63,7 +63,7 @@ export const postOrder: RequestHandler = async (req, res) => {
     const { id } = jwt.verify(authorization, "secret-key") as JwtPayload;
 
     const { order, deliveryAddress } = req.body;
-    console.log(order, deliveryAddress);
+
     const newOrder = await orderModel.create({
       userID: id,
       deliveryAddress,
@@ -73,6 +73,44 @@ export const postOrder: RequestHandler = async (req, res) => {
     });
 
     return res.json({ message: "Шинэ захиалга амжилттай нэмэгдлээ" });
+  } catch (err) {
+    res.json(err);
+  }
+};
+
+//Change order status
+export const changeOrderStatus: RequestHandler = async (req, res) => {
+  try {
+    const { authorization } = req.headers;
+
+    if (!authorization) {
+      return res
+        .status(401)
+        .json({ message: "Нэвтэрсний дараа өөрчлөлт хийх боломжтой." });
+    }
+
+    const { id } = jwt.verify(authorization, "secret-key") as JwtPayload;
+
+    const { selectedOrderID, newStatus } = req.body;
+
+    const orderExist = await orderModel.findOne({ _id: selectedOrderID });
+
+    if (!orderExist) {
+      {
+        return res
+          .status(401)
+          .json({ message: "Өөрчлөлт хийх захиалга олдсонгүй" });
+      }
+    }
+
+    const newOrder = await orderModel.findOneAndUpdate(
+      {
+        _id: selectedOrderID,
+      },
+      { deliveryStatus: newStatus }
+    );
+
+    return res.json({ message: "Захиалгын төлөв өөрчлөгдлөө" });
   } catch (err) {
     res.json(err);
   }

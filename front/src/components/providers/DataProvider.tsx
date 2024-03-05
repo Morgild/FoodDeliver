@@ -81,6 +81,7 @@ type DataContextType = {
   orderList: Order[];
   deleteCategory: (deleteCategory: string) => void;
   handleEditCategory: (editCategory: string, newCategory: string) => void;
+  changeOrderStatus: (selectedCategoryID: string, newStatus: string) => void;
 };
 
 const DataContext = createContext({} as DataContextType);
@@ -305,6 +306,38 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  //change order status
+  const changeOrderStatus = async (
+    selectedOrderID: string,
+    newStatus: string
+  ) => {
+    try {
+      const { data } = await api.post(
+        "/order/changeOrderStatus",
+        {
+          selectedOrderID,
+          newStatus,
+        },
+        {
+          headers: { Authorization: localStorage.getItem("token") },
+        }
+      );
+      toast.success(data.message, {
+        position: "top-center",
+        hideProgressBar: true,
+      });
+      refreshF();
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message ?? error.message, {
+          position: "top-center",
+          hideProgressBar: true,
+        });
+      }
+      console.log(error), "FFF";
+    }
+  };
+
   useEffect(() => {
     setIsReady(false);
     getCategories();
@@ -368,6 +401,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         allOrders,
         deleteCategory,
         handleEditCategory,
+        changeOrderStatus,
       }}
     >
       {isReady ? children : <LoadingPage />}

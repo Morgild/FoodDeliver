@@ -1,33 +1,32 @@
-import { Grid, Stack, Typography } from "@mui/material";
-import { Dispatch, SetStateAction } from "react";
+import {
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  MenuItem,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useData } from "../providers/DataProvider";
-import { useFormik } from "formik";
-import * as yup from "yup";
 import Image from "next/image";
-import { CustomInput } from "../CustomInput";
-const validationSchema = yup.object({
-  deliveryStatus: yup.string().required(),
-});
-const status = ["Амжилттай", "Хүлээгдэж буй"];
+
+import { CheckBox, DeliveryDining, RamenDining } from "@mui/icons-material";
+import { CustomSelect } from "./CustomSelect";
+
 type OrderDetailProps = {
   selectedOrder: string;
   setSelectedOrder: Dispatch<SetStateAction<string>>;
 };
 export const AllOrderDetail = (props: OrderDetailProps) => {
-  const { allOrders, numberFormatter } = useData();
+  const { allOrders, numberFormatter, changeOrderStatus } = useData();
   const { selectedOrder } = props;
   const foods = allOrders.find((item) => item._id == selectedOrder)?.foods;
   const selected = allOrders.find((item) => item._id == selectedOrder);
   const address = allOrders.find(
     (item) => item._id == selectedOrder
   )?.deliveryAddress;
-  const formik = useFormik({
-    initialValues: {
-      deliveryStatus: selected?.deliveryStatus,
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {},
-  });
+  const [changeStatus, setChangeStatus] = useState(selected?.deliveryStatus);
+
   return (
     <Stack gap={1}>
       <Typography color={"primary.main"} fontSize={22} fontWeight={600}>
@@ -45,46 +44,61 @@ export const AllOrderDetail = (props: OrderDetailProps) => {
         </Typography>
         <Typography>{selected?.userID}</Typography>
       </Stack>
-      <Stack flexDirection={"row"} gap={1}>
+      <Stack flexDirection={"row"} alignItems={"center"} gap={1}>
         <Typography fontSize={18} fontWeight={600}>
           Delivery Status:
         </Typography>
-        <Typography>{selected?.deliveryStatus}</Typography>
+        <Stack
+          flexDirection={"row"}
+          bgcolor={"#D6D8DB"}
+          p={0.5}
+          borderRadius={2}
+        >
+          <Stack
+            onClick={() => {
+              changeOrderStatus(selectedOrder, "Хүлээгдэж буй");
+            }}
+            flexDirection={"row"}
+            gap={1}
+            bgcolor={
+              selected?.deliveryStatus == "Амжилттай" ? "#D6D8DB" : "#0468C8"
+            }
+            borderRadius={2}
+            p={1}
+            color={"common.white"}
+            sx={{ cursor: "pointer" }}
+          >
+            <DeliveryDining />
+            <Typography>Хүлээгдэж буй</Typography>
+          </Stack>
+          <Stack
+            onClick={() => {
+              changeOrderStatus(selectedOrder, "Амжилттай");
+            }}
+            flexDirection={"row"}
+            gap={1}
+            bgcolor={
+              selected?.deliveryStatus == "Амжилттай"
+                ? "primary.main"
+                : "#D6D8DB"
+            }
+            borderRadius={2}
+            p={1}
+            color={"common.white"}
+            sx={{ cursor: "pointer" }}
+          >
+            <RamenDining />
+            <Typography>Амжилттай</Typography>
+          </Stack>
+        </Stack>
       </Stack>
-      <CustomInput
-        select
-        placeholder="Хоолны ангилал сонгоно уу"
-        label="Хоолны ангилал"
-        name="foodCategory"
-        value={formik.values.deliveryStatus}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        error={
-          formik.touched.deliveryStatus && Boolean(formik.errors.deliveryStatus)
-        }
-        helperText={
-          formik.touched.deliveryStatus && formik.errors.deliveryStatus
-        }
-        SelectProps={{
-          native: true,
-        }}
-      >
-        <option value={selected?.deliveryStatus} selected disabled>
-          {selected?.deliveryStatus}
-        </option>
-        {status.map((item, index) => (
-          <option key={index} value={item}>
-            {item}
-          </option>
-        ))}
-      </CustomInput>
 
       {address &&
         address?.map((item, index) => (
           <Stack key={index} flexDirection={"column"} gap={2}>
             <Stack flexDirection={"row"} gap={2}>
               <Typography fontSize={18} fontWeight={600}>
-                Delivery Address:
+                Delivery address:
               </Typography>
               <Typography>
                 {item.district}, {item.khoroo}, {item.bair}, {item.additional}

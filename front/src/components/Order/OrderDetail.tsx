@@ -25,13 +25,15 @@ export const OrderDetail = (props: OrderDetailProps) => {
         setSelectedOrder(_id);
       }}
       flexDirection={"row"}
-      gap={2}
+      gap={1}
       alignItems={"center"}
       bgcolor={"common.white"}
       boxShadow={_id == selectedOrder ? 2 : 0}
       borderRadius={2}
       p={1}
       sx={{ cursor: "pointer" }}
+      width={1}
+      overflow={"hidden"}
     >
       <Stack
         width={{ md: 36, xs: 24 }}

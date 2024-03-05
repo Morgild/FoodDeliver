@@ -112,7 +112,7 @@ export default function Admin() {
             })}
           </Grid>
         ) : (
-          <Stack gap={1}>
+          <Grid container spacing={1}>
             {allOrders
               .sort(
                 (a, b) =>
@@ -120,14 +120,16 @@ export default function Admin() {
                   new Date(a.createdAt).getTime()
               )
               .map((item, index) => (
-                <OrderDetail
-                  key={index}
-                  {...item}
-                  selectedOrder={selectedOrder}
-                  setSelectedOrder={setSelectedOrder}
-                />
+                <Grid item xs={6} md={12}>
+                  <OrderDetail
+                    key={index}
+                    {...item}
+                    selectedOrder={selectedOrder}
+                    setSelectedOrder={setSelectedOrder}
+                  />
+                </Grid>
               ))}
-          </Stack>
+          </Grid>
         )}
         {tab && (
           <Stack
