@@ -120,7 +120,7 @@ export default function Admin() {
                   new Date(a.createdAt).getTime()
               )
               .map((item, index) => (
-                <Grid item xs={6} md={12}>
+                <Grid key={index} item xs={6} md={12}>
                   <OrderDetail
                     key={index}
                     {...item}

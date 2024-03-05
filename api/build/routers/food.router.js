@@ -7,5 +7,7 @@ foodRouter
     .get("/getFoods", food_controller_1.getFoods)
     .post("/postFood", food_controller_1.foodPost)
     .get("/getCategories", food_controller_1.getCategories)
-    .post("/postCategory", food_controller_1.postCategory);
+    .post("/postCategory", food_controller_1.postCategory)
+    .post("/deleteCategory", food_controller_1.deleteCategory)
+    .post("/editCategory", food_controller_1.editCategory);
 exports.default = foodRouter;

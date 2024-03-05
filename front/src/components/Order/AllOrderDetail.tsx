@@ -1,17 +1,9 @@
-import {
-  Checkbox,
-  FormControlLabel,
-  Grid,
-  MenuItem,
-  Stack,
-  Typography,
-} from "@mui/material";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Grid, Stack, Typography } from "@mui/material";
+import { Dispatch, SetStateAction } from "react";
 import { useData } from "../providers/DataProvider";
 import Image from "next/image";
 
-import { CheckBox, DeliveryDining, RamenDining } from "@mui/icons-material";
-import { CustomSelect } from "./CustomSelect";
+import { DeliveryDining, RamenDining } from "@mui/icons-material";
 
 type OrderDetailProps = {
   selectedOrder: string;
@@ -25,7 +17,6 @@ export const AllOrderDetail = (props: OrderDetailProps) => {
   const address = allOrders.find(
     (item) => item._id == selectedOrder
   )?.deliveryAddress;
-  const [changeStatus, setChangeStatus] = useState(selected?.deliveryStatus);
 
   return (
     <Stack gap={1}>
@@ -118,6 +109,7 @@ export const AllOrderDetail = (props: OrderDetailProps) => {
           foods?.map((item: any, index: number) => {
             return (
               <Grid
+                key={index}
                 item
                 flexDirection={"row"}
                 p={2}
