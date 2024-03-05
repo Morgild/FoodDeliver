@@ -1,5 +1,6 @@
 "use client";
 import { LoadingPage } from "@/components/LoadingPage";
+import { OrderDetail } from "@/components/Order/OrderDetail";
 import { OrderHistory } from "@/components/Order/OrderHistory";
 import { OrderHistoryFoods } from "@/components/Order/OrderHistoryFoods";
 import { useAuth } from "@/components/providers/AuthProvider";
@@ -13,7 +14,7 @@ export default function OrderList() {
   const [selectedOrder, setSelectedOrder] = useState("");
 
   const foods = orderList.find((item) => item._id == selectedOrder)?.foods;
-  console.log(foods);
+
   if (!isReady) return <LoadingPage />;
   return (
     <Container

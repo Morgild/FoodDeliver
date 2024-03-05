@@ -53,6 +53,7 @@ type Order = {
 };
 
 type DataContextType = {
+  numberFormatter: Intl.NumberFormat;
   getCategories: () => void;
   postCategory: (foodCategory: string) => void;
   postFood: (
@@ -76,6 +77,7 @@ type DataContextType = {
   sumBasket: number;
   searchValue: string;
   setSearchValue: Dispatch<SetStateAction<string>>;
+  allOrders: Order[];
   orderList: Order[];
   deleteCategory: (deleteCategory: string) => void;
   handleEditCategory: (editCategory: string, newCategory: string) => void;
@@ -91,6 +93,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   const { isReady, setIsReady, isLogged } = useAuth();
   const [searchValue, setSearchValue] = useState("");
   const [orderList, setOrderList] = useState<Order[]>([]);
+  const [allOrders, setAllOrders] = useState<Order[]>([]);
   const router = useRouter();
 
   //refresh Function
@@ -289,6 +292,19 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  //get All Orders
+  const getAllOrders = async () => {
+    try {
+      const { data } = await api.get("order/getAllOrders", {
+        headers: { Authorization: localStorage.getItem("token") },
+      });
+      setAllOrders(data);
+      setRefresh(refresh + 1);
+    } catch (error) {
+      console.log(error), "FFF";
+    }
+  };
+
   useEffect(() => {
     setIsReady(false);
     getCategories();
@@ -298,6 +314,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     getOrderList();
+    getAllOrders();
   }, [isLogged, refresh]);
 
   useEffect(() => {
@@ -322,9 +339,16 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
     );
   }, 0);
 
+  const numberFormatter = new Intl.NumberFormat("en-US", {
+    style: "decimal",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
+
   return (
     <DataContext.Provider
       value={{
+        numberFormatter,
         getCategories,
         categories,
         setCategories,
@@ -341,6 +365,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         getOrderList,
         sumBasket,
         orderList,
+        allOrders,
         deleteCategory,
         handleEditCategory,
       }}

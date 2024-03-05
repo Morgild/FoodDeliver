@@ -4,6 +4,9 @@ import { CreateNewFood } from "@/components/Food/CreateNewFood";
 import { FoodCategory } from "@/components/Food/FoodCategory";
 import { ItemCard } from "@/components/Food/ItemCard";
 import { LoadingPage } from "@/components/LoadingPage";
+import { AllOrderDetail } from "@/components/Order/AllOrderDetail";
+import { OrderDetail } from "@/components/Order/OrderDetail";
+import { OrderHistory } from "@/components/Order/OrderHistory";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { useData } from "@/components/providers/DataProvider";
 import { Add } from "@mui/icons-material";
@@ -27,7 +30,7 @@ export default function Admin() {
   const [open, setOpen] = useState(false);
   const [openFood, setOpenFood] = useState(false);
   const { isAdmin } = useAuth();
-  const { foods, searchValue, categories } = useData();
+  const { foods, searchValue, categories, orderList, allOrders } = useData();
   const [selectedMenu, setSelectedMenu] = useState("");
   const [editFood, setEditFood] = useState(false);
   const [editFoodName, setEditFoodName] = useState("");
@@ -37,18 +40,23 @@ export default function Admin() {
   const [editFoodDiscount, setEditFoodDiscount] = useState(0);
   const [editFoodPic, setEditFoodPic] = useState("");
   const [editCategory, setEditCategory] = useState(false);
+  const [tab, setTab] = useState(true);
+  const [selectedOrder, setSelectedOrder] = useState("");
   const handleClose = () => {
     setOpen(false);
     setEditCategory(false);
   };
   const handleCloseFood = () => setOpenFood(false);
 
-  useEffect(() => {
-    if (!isAdmin) {
-      router.push("/");
-    }
-  });
-  if (!isAdmin) return <LoadingPage />;
+  const orders = orderList.find((item) => item._id == selectedOrder)?.foods;
+  // console.log(orders);
+  // useEffect(() => {
+  //   if (!isAdmin) {
+  //     router.push("/");
+  //   }
+  // });
+  // if (!isAdmin) return <LoadingPage />;
+  // console.log(allOrders);
   return (
     <Container
       sx={{ display: "flex", flexDirection: { xs: "column", md: "row" } }}
@@ -61,45 +69,87 @@ export default function Admin() {
         pb={"120px"}
         gap={{ md: 5, xs: 2 }}
       >
-        <Typography fontSize={22} fontWeight={700}>
-          Food menu
-        </Typography>
-        <Grid container spacing={2}>
-          {categories.map((item: any, index: number) => {
-            return (
-              <Grid key={index} item width={1}>
-                <FoodCategory
-                  key={index}
-                  categories={item.foodCategory}
-                  selectedMenu={selectedMenu}
-                  setSelectedMenu={setSelectedMenu}
-                  setOpen={setOpen}
-                  editCategory={editCategory}
-                  setEditCategory={setEditCategory}
-                />
-              </Grid>
-            );
-          })}
-        </Grid>
-        <Stack
-          onClick={() => {
-            setOpen(true);
-          }}
-          width={1}
-          borderRadius={1}
-          border={1}
-          borderColor={"#D6D8DB"}
-          padding={"8px 16px"}
-          flexDirection={"row"}
-          sx={{ cursor: "pointer" }}
-          gap={1}
-          color={"#5E6166"}
-        >
-          <Add color="inherit" />
-          <Typography fontSize={18} fontWeight={500} color={"inherit"}>
-            Create new category
+        <Stack flexDirection={"row"} gap={2}>
+          <Typography
+            onClick={() => {
+              setTab(true);
+            }}
+            fontSize={22}
+            color={tab ? "primary.main" : "#D6D8DB"}
+            fontWeight={tab ? 700 : 400}
+            sx={{ cursor: "pointer" }}
+          >
+            Food menu
+          </Typography>
+          <Typography
+            onClick={() => {
+              setTab(false);
+            }}
+            fontSize={22}
+            color={!tab ? "primary.main" : "#D6D8DB"}
+            fontWeight={tab ? 400 : 700}
+            sx={{ cursor: "pointer" }}
+          >
+            Order
           </Typography>
         </Stack>
+        {tab ? (
+          <Grid container spacing={2}>
+            {categories.map((item: any, index: number) => {
+              return (
+                <Grid key={index} item width={1}>
+                  <FoodCategory
+                    key={index}
+                    categories={item.foodCategory}
+                    selectedMenu={selectedMenu}
+                    setSelectedMenu={setSelectedMenu}
+                    setOpen={setOpen}
+                    editCategory={editCategory}
+                    setEditCategory={setEditCategory}
+                  />
+                </Grid>
+              );
+            })}
+          </Grid>
+        ) : (
+          <Stack gap={1}>
+            {allOrders
+              .sort(
+                (a, b) =>
+                  new Date(b.createdAt).getTime() -
+                  new Date(a.createdAt).getTime()
+              )
+              .map((item, index) => (
+                <OrderDetail
+                  key={index}
+                  {...item}
+                  selectedOrder={selectedOrder}
+                  setSelectedOrder={setSelectedOrder}
+                />
+              ))}
+          </Stack>
+        )}
+        {tab && (
+          <Stack
+            onClick={() => {
+              setOpen(true);
+            }}
+            width={1}
+            borderRadius={1}
+            border={1}
+            borderColor={"#D6D8DB"}
+            padding={"8px 16px"}
+            flexDirection={"row"}
+            sx={{ cursor: "pointer" }}
+            gap={1}
+            color={"#5E6166"}
+          >
+            <Add color="inherit" />
+            <Typography fontSize={18} fontWeight={500} color={"inherit"}>
+              Create new category
+            </Typography>
+          </Stack>
+        )}
       </Stack>
 
       <Stack
@@ -111,56 +161,65 @@ export default function Admin() {
         pb={5}
         gap={4}
       >
-        <Stack py={2} flexDirection={"row"} justifyContent={"space-between"}>
-          <Typography fontSize={22} fontWeight={700} color={"#272727"}>
-            {selectedMenu}
-          </Typography>
-          <Stack
-            onClick={() => {
-              setOpenFood(true);
-              setEditFood(false);
-            }}
-            bgcolor={"primary.main"}
-            px={2}
-            py={1}
-            borderRadius={"4px"}
-            sx={{ cursor: "pointer" }}
-          >
-            <Typography color={"common.white"} fontSize={16} fontWeight={400}>
-              Add new food
+        {tab && (
+          <Stack py={2} flexDirection={"row"} justifyContent={"space-between"}>
+            <Typography fontSize={22} fontWeight={700} color={"#272727"}>
+              {selectedMenu}
             </Typography>
+            <Stack
+              onClick={() => {
+                setOpenFood(true);
+                setEditFood(false);
+              }}
+              bgcolor={"primary.main"}
+              px={2}
+              py={1}
+              borderRadius={"4px"}
+              sx={{ cursor: "pointer" }}
+            >
+              <Typography color={"common.white"} fontSize={16} fontWeight={400}>
+                Add new food
+              </Typography>
+            </Stack>
           </Stack>
-        </Stack>
-        <Grid container spacing={3}>
-          {foods
-            .filter((food) => {
-              return food.foodCategory.includes(selectedMenu);
-            })
-            .filter((food) =>
-              food.foodName.toLowerCase().includes(searchValue.toLowerCase())
-            )
-            .map((item: any, index: number) => (
-              <Grid item key={index} xs={12} md={5} lg={4}>
-                <ItemCard
-                  foodName={item.foodName}
-                  foodPrice={item.foodPrice}
-                  discount={item.discount}
-                  foodPic={item.foodPic}
-                  foodIngredients={item.foodIngredients}
-                  foodCategory={item.foodCategory}
-                  setOpenFood={setOpenFood}
-                  editFood={editFood}
-                  setEditFood={setEditFood}
-                  setEditFoodName={setEditFoodName}
-                  setEditFoodCategory={setEditFoodCategory}
-                  setEditFoodIngredients={setEditFoodIngredients}
-                  setEditFoodPrice={setEditFoodPrice}
-                  setEditFoodDiscount={setEditFoodDiscount}
-                  setEditFoodPic={setEditFoodPic}
-                />
-              </Grid>
-            ))}
-        </Grid>
+        )}
+        {tab ? (
+          <Grid container spacing={3}>
+            {foods
+              .filter((food) => {
+                return food.foodCategory.includes(selectedMenu);
+              })
+              .filter((food) =>
+                food.foodName.toLowerCase().includes(searchValue.toLowerCase())
+              )
+              .map((item: any, index: number) => (
+                <Grid item key={index} xs={12} md={5} lg={4}>
+                  <ItemCard
+                    foodName={item.foodName}
+                    foodPrice={item.foodPrice}
+                    discount={item.discount}
+                    foodPic={item.foodPic}
+                    foodIngredients={item.foodIngredients}
+                    foodCategory={item.foodCategory}
+                    setOpenFood={setOpenFood}
+                    editFood={editFood}
+                    setEditFood={setEditFood}
+                    setEditFoodName={setEditFoodName}
+                    setEditFoodCategory={setEditFoodCategory}
+                    setEditFoodIngredients={setEditFoodIngredients}
+                    setEditFoodPrice={setEditFoodPrice}
+                    setEditFoodDiscount={setEditFoodDiscount}
+                    setEditFoodPic={setEditFoodPic}
+                  />
+                </Grid>
+              ))}
+          </Grid>
+        ) : (
+          <AllOrderDetail
+            selectedOrder={selectedOrder}
+            setSelectedOrder={setSelectedOrder}
+          />
+        )}
       </Stack>
       <Modal open={open} onClose={handleClose}>
         <Box sx={style}>

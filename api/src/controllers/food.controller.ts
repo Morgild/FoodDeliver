@@ -133,7 +133,7 @@ export const editCategory: RequestHandler = async (req, res) => {
     if (role != "admin") {
       return res
         .status(401)
-        .json({ message: "Админ ангилал өөрчлөх боломжтой." });
+        .json({ message: "Зөвхөн админ ангилал өөрчлөх боломжтой." });
     }
     const { editCategory, newCategory } = req.body;
 

@@ -2,6 +2,33 @@ import { RequestHandler } from "express";
 import { orderModel } from "../models/order.model";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
+//Get All Order
+export const getAllOrders: RequestHandler = async (req, res) => {
+  try {
+    const { authorization } = req.headers;
+
+    if (!authorization) {
+      return res.status(401).json({
+        message: "Бүртгэлгүй хэрэглэгч байна. Та бүртгүүлээд дахин оролдоно уу",
+      });
+    }
+    const { id, role } = jwt.verify(authorization, "secret-key") as JwtPayload;
+
+    if (role != "admin") {
+      return res.status(401).json({
+        message:
+          "Захиалгын жагсаалтуудыг харахын тулд админ эрхээр нэвтэрнэ үү",
+      });
+    }
+
+    const order = await orderModel.find({});
+
+    return res.json(order);
+  } catch (err) {
+    res.json(err);
+  }
+};
+
 //Get order list
 export const getOrders: RequestHandler = async (req, res) => {
   try {
