@@ -1,6 +1,8 @@
 import { RequestHandler } from "express";
 import { orderModel } from "../models/order.model";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import nodemailer from "nodemailer";
+import { UserModel } from "../models";
 
 //Get All Order
 export const getAllOrders: RequestHandler = async (req, res) => {
@@ -91,7 +93,7 @@ export const changeOrderStatus: RequestHandler = async (req, res) => {
 
     const { id } = jwt.verify(authorization, "secret-key") as JwtPayload;
 
-    const { selectedOrderID, newStatus } = req.body;
+    const { selectedOrderID, newStatus, userID } = req.body;
 
     const orderExist = await orderModel.findOne({ _id: selectedOrderID });
 
@@ -109,6 +111,36 @@ export const changeOrderStatus: RequestHandler = async (req, res) => {
       },
       { deliveryStatus: newStatus }
     );
+
+    const user = await UserModel.findOne({ _id: userID });
+
+    if (!user) {
+      {
+        return res
+          .status(401)
+          .json({ message: "Захиалга хийсэн хэрэглэгчийн мэдээлэл олдсонгүй" });
+      }
+    }
+
+    const userEmail = user.email;
+
+    if (newStatus == "Амжилттай") {
+      const transporter = nodemailer.createTransport({
+        service: "Gmail",
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: { user: "morgild@gmail.com", pass: "rcdxbzdydfabwvzc" },
+      });
+      const mailOptions = {
+        from: "morgild@gmail.com",
+        to: userEmail,
+        subject: "Food Delivery Status Update",
+        text: `Таны ${selectedOrderID} дугаартай захиалга амжилттай хүргэгдлээ:`,
+      };
+
+      await transporter.sendMail(mailOptions);
+    }
 
     return res.json({ message: "Захиалгын төлөв өөрчлөгдлөө" });
   } catch (err) {

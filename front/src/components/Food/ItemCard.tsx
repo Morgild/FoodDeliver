@@ -171,9 +171,6 @@ export const ItemCard = (props: ItemCardProps) => {
             mt: "14px",
             p: 0,
             width: 1,
-            "&:last-child": {
-              pb: 0,
-            },
           }}
         >
           <Typography color="common.black" fontSize={20} fontWeight={590}>
@@ -186,7 +183,7 @@ export const ItemCard = (props: ItemCardProps) => {
               sx={{ color: "primary.main" }}
             >
               {discount
-                ? numberFormatter.format((1 - discount / 100) * foodPrice)
+                ? numberFormatter.format((1 - discount * 0.01) * foodPrice)
                 : numberFormatter.format(foodPrice)}
               ₮
             </Typography>

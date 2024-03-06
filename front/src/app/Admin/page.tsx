@@ -142,6 +142,7 @@ export default function Admin() {
             borderColor={"#D6D8DB"}
             padding={"8px 16px"}
             flexDirection={"row"}
+            alignItems={"center"}
             sx={{ cursor: "pointer" }}
             gap={1}
             color={"#5E6166"}

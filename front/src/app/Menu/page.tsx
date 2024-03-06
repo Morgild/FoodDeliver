@@ -1,4 +1,5 @@
 "use client";
+import { Empty } from "@/components/Empty";
 import { FoodCategory } from "@/components/Food/FoodCategory";
 import { ItemCard } from "@/components/Food/ItemCard";
 import { MenuSingle } from "@/components/Food/MenuSingle";
@@ -9,6 +10,17 @@ import { useState } from "react";
 export default function Menu() {
   const [selectedMenu, setSelectedMenu] = useState("");
   const { foods, categories, searchValue } = useData();
+  const searchFound = foods
+    .filter((food) => {
+      return food.foodCategory.includes(selectedMenu);
+    })
+    .filter((food) =>
+      food.foodName.toLowerCase().includes(searchValue.toLowerCase())
+    );
+
+  if (!searchFound.length) {
+    return <Empty />;
+  }
   return (
     <Container
       maxWidth="lg"
