@@ -15,6 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.changeOrderStatus = exports.postOrder = exports.getOrders = exports.getAllOrders = void 0;
 const order_model_1 = require("../models/order.model");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const nodemailer_1 = __importDefault(require("nodemailer"));
+const models_1 = require("../models");
 //Get All Order
 const getAllOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -91,7 +93,7 @@ const changeOrderStatus = (req, res) => __awaiter(void 0, void 0, void 0, functi
                 .json({ message: "Нэвтэрсний дараа өөрчлөлт хийх боломжтой." });
         }
         const { id } = jsonwebtoken_1.default.verify(authorization, "secret-key");
-        const { selectedOrderID, newStatus } = req.body;
+        const { selectedOrderID, newStatus, userID } = req.body;
         const orderExist = yield order_model_1.orderModel.findOne({ _id: selectedOrderID });
         if (!orderExist) {
             {
@@ -103,6 +105,31 @@ const changeOrderStatus = (req, res) => __awaiter(void 0, void 0, void 0, functi
         const newOrder = yield order_model_1.orderModel.findOneAndUpdate({
             _id: selectedOrderID,
         }, { deliveryStatus: newStatus });
+        const user = yield models_1.UserModel.findOne({ _id: userID });
+        if (!user) {
+            {
+                return res
+                    .status(401)
+                    .json({ message: "Захиалга хийсэн хэрэглэгчийн мэдээлэл олдсонгүй" });
+            }
+        }
+        const userEmail = user.email;
+        if (newStatus == "Амжилттай") {
+            const transporter = nodemailer_1.default.createTransport({
+                service: "Gmail",
+                host: "smtp.gmail.com",
+                port: 465,
+                secure: true,
+                auth: { user: "morgild@gmail.com", pass: "rcdxbzdydfabwvzc" },
+            });
+            const mailOptions = {
+                from: "morgild@gmail.com",
+                to: userEmail,
+                subject: "Food Delivery Status Update",
+                text: `Таны ${selectedOrderID} дугаартай захиалга амжилттай хүргэгдлээ:`,
+            };
+            yield transporter.sendMail(mailOptions);
+        }
         return res.json({ message: "Захиалгын төлөв өөрчлөгдлөө" });
     }
     catch (err) {
