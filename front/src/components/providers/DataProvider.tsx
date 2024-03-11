@@ -304,7 +304,6 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         headers: { Authorization: localStorage.getItem("token") },
       });
       setAllOrders(data);
-      setRefresh(refresh + 1);
     } catch (error) {
       console.log(error), "FFF";
     }
