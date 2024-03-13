@@ -40,7 +40,7 @@ export const CustomInput = (props: TextFieldProps) => {
   
         inputProps={{
           style: {
-            padding: "8px",
+            padding: "8px"
           },
         }}
         InputProps={{
@@ -59,9 +59,9 @@ export const CustomInput = (props: TextFieldProps) => {
             </InputAdornment>
           ),
           startAdornment: type === "search" && (
-            <InputAdornment position="start">
-              <IconButton onClick={handleShowPassword}>
-                <Search />
+            <InputAdornment  position="start">
+              <IconButton sx={{width:'6px', height:'6px'}}  onClick={handleShowPassword}>
+                <Search  />
               </IconButton>
             </InputAdornment>
           ),
