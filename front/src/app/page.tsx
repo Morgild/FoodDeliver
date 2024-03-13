@@ -9,9 +9,9 @@ import { Onsale } from "@/components/Home/OnSale";
 import { LoadingPage } from "@/components/LoadingPage";
 
 export default function Home() {
-  const { isLogged, isReady } = useAuth();
+  const { isLogged, isReady, isAdmin } = useAuth();
   const { foods, categories } = useData();
-  if (!isReady) return <LoadingPage />;
+
   const foodCategories = foods.map((item) => {
     return item.foodCategory;
   });
@@ -25,6 +25,8 @@ export default function Home() {
     }
     return distinct;
   };
+
+  if (!isReady) return <LoadingPage />;
 
   return (
     <>

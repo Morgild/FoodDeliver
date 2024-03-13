@@ -48,15 +48,14 @@ export default function Admin() {
   };
   const handleCloseFood = () => setOpenFood(false);
 
-  const orders = orderList.find((item) => item._id == selectedOrder)?.foods;
-  // console.log(orders);
-  // useEffect(() => {
-  //   if (!isAdmin) {
-  //     router.push("/");
-  //   }
-  // });
-  // if (!isAdmin) return <LoadingPage />;
-  // console.log(allOrders);
+  useEffect(() => {
+    if (!isAdmin) {
+      router.push("/");
+    }
+  });
+
+  if (!isAdmin) return <LoadingPage />;
+
   return (
     <Container
       sx={{ display: "flex", flexDirection: { xs: "column", md: "row" } }}
