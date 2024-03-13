@@ -43,7 +43,7 @@ export const AllOrderDetail = (props: OrderDetailProps) => {
           Delivery Status:
         </Typography>
         <Stack
-          flexDirection={"row"}
+          flexDirection={{ xs: "column", md: "row" }}
           alignItems={"center"}
           bgcolor={"#D6D8DB"}
           p={0.5}
@@ -58,6 +58,7 @@ export const AllOrderDetail = (props: OrderDetailProps) => {
               );
             }}
             flexDirection={"row"}
+            width={1}
             gap={1}
             bgcolor={
               selected?.deliveryStatus == "Амжилттай" ? "#D6D8DB" : "#0468C8"
@@ -82,6 +83,7 @@ export const AllOrderDetail = (props: OrderDetailProps) => {
               );
             }}
             flexDirection={"row"}
+            width={1}
             gap={1}
             bgcolor={
               selected?.deliveryStatus == "Амжилттай"

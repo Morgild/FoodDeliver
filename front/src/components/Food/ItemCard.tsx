@@ -4,6 +4,7 @@ import Image from "next/image";
 import { FoodDetail } from "./FoodDetail";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { useData } from "../providers/DataProvider";
 
 type ItemCardProps = {
   foodName: string;
@@ -45,13 +46,7 @@ export const ItemCard = (props: ItemCardProps) => {
   const [hover, setHover] = useState(false);
   const [inAdminPage, setInAdminPage] = useState(false);
   const pathname = usePathname();
-
-  //number Formatter
-  const numberFormatter = new Intl.NumberFormat("en-US", {
-    style: "decimal",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  });
+  const { numberFormatter } = useData();
 
   useEffect(() => {
     if (pathname == "/Admin") {

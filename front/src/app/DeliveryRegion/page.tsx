@@ -24,13 +24,14 @@ export default function DeliveryRegion() {
         gap: "22px",
       }}
     >
-      <Stack
-        width={0.5}
-        position={"relative"}
-        sx={{ aspectRatio: 3 / 2 }}
-        boxShadow={1}
-      >
-        <Image src={"/map.png"} alt="map" fill sizes="small" />
+      <Stack width={1} position={"relative"} boxShadow={1}>
+        <iframe
+          width="100%"
+          height="616"
+          src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=Gurvan%20gol%20building,%20Ulaanbaatar,%20Mongolia+(Pinecone%20LLC)&amp;t=p&amp;z=15&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+        >
+          <a href="https://www.gps.ie/">gps trackers</a>
+        </iframe>
       </Stack>
       <TitleGreenStar title="Хүргэлтийн бүс дэх хаягууд" />
       <Stack flexDirection={{ xs: "column", md: "row" }} gap={3}>

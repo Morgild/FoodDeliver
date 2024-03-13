@@ -15,16 +15,10 @@ type BasketItemProps = {
   discount?: number;
 };
 
-const numberFormatter = new Intl.NumberFormat("en-US", {
-  style: "decimal",
-  minimumFractionDigits: 0,
-  maximumFractionDigits: 0,
-});
-
 export const BasketItem = (props: BasketItemProps) => {
   const { foodName, foodPic, foodIngredients, foodCount, foodPrice, discount } =
     props;
-  const { basket, setBasket } = useData();
+  const { basket, setBasket, numberFormatter } = useData();
   const router = useRouter();
   const pathname = usePathname();
   const sumBasket = numberFormatter.format(
