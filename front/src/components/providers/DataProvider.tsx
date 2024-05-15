@@ -344,8 +344,11 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     setIsReady(false);
-    getCategories();
-    getFoods();
+    const fetchData = async () => {
+      await getCategories();
+      await getFoods();
+    };
+    fetchData();
     setIsReady(true);
   }, [refresh, isReady]);
 

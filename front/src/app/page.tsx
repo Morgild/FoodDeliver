@@ -7,6 +7,7 @@ import { useAuth } from "@/components/providers/AuthProvider";
 import { useData } from "@/components/providers/DataProvider";
 import { Onsale } from "@/components/Home/OnSale";
 import { LoadingPage } from "@/components/LoadingPage";
+import { useEffect } from "react";
 
 export default function Home() {
   const { isLogged, isReady, isAdmin } = useAuth();
@@ -41,14 +42,10 @@ export default function Home() {
       >
         <WhiteCards />
         <Onsale />
-        {isReady ? (
-          findDistinctCategories(foodCategories).map(
-            (item: any, index: number) => (
-              <HomeFoods key={index} foodCategory={item} />
-            )
+        {findDistinctCategories(foodCategories).map(
+          (item: any, index: number) => (
+            <HomeFoods key={index} foodCategory={item} />
           )
-        ) : (
-          <LoadingPage />
         )}
       </Container>
     </>
