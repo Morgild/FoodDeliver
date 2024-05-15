@@ -347,9 +347,9 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
     const fetchData = async () => {
       await getCategories();
       await getFoods();
-      setIsReady(true);
     };
     fetchData();
+    setIsReady(true);
   }, [refresh, isReady]);
 
   useEffect(() => {
