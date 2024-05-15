@@ -26,8 +26,6 @@ export default function Home() {
     return distinct;
   };
 
-  if (!isReady) return <LoadingPage />;
-
   return (
     <>
       <HomeCarousel />
@@ -43,11 +41,14 @@ export default function Home() {
       >
         <WhiteCards />
         <Onsale />
-
-        {findDistinctCategories(foodCategories).map(
-          (item: any, index: number) => (
-            <HomeFoods key={index} foodCategory={item} />
+        {isReady ? (
+          findDistinctCategories(foodCategories).map(
+            (item: any, index: number) => (
+              <HomeFoods key={index} foodCategory={item} />
+            )
           )
+        ) : (
+          <LoadingPage />
         )}
       </Container>
     </>
