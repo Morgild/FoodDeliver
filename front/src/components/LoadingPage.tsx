@@ -7,9 +7,10 @@ export const LoadingPage = () => {
       height={"100vw"}
       bgcolor={"common.white"}
       justifyContent={"center"}
-      alignItems={"center"}
+      alignItems={"start"}
     >
-      <LinearProgress />
+             <Typography fontsize={24}>Please Wait</Typography>
+      <Typography fontsize={24}>...Loading Data</Typography>
       <CircularProgress />
     </Stack>
   );
