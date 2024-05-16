@@ -350,7 +350,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
        setIsReady(true);
     };
     fetchData();
-  }, [refresh, isReady]);
+  }, [refresh, isLogged]);
 
   useEffect(() => {
     getOrderList();
