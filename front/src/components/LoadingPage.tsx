@@ -4,11 +4,10 @@ export const LoadingPage = () => {
   return (
     <Stack
       width={"100vw"}
-      height={"100vw"}
+      height={"100vh"}
       bgcolor={"common.white"}
-      justifyContent={"start"}
+      justifyContent={"center"}
       alignItems={"center"}
-      pt={4}
     >
       <CircularProgress />
     </Stack>
