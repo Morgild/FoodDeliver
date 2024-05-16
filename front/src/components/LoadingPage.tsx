@@ -6,8 +6,9 @@ export const LoadingPage = () => {
       width={"100vw"}
       height={"100vw"}
       bgcolor={"common.white"}
-      justifyContent={"center"}
-      alignItems={"start"}
+      justifyContent={"start"}
+      alignItems={"center"}
+      pt={4}
     >
       <CircularProgress />
     </Stack>
