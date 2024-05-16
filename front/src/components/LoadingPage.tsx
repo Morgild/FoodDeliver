@@ -1,4 +1,4 @@
-import { CircularProgress, LinearProgress, Stack } from "@mui/material";
+import { CircularProgress, LinearProgress, Stack,Typography } from "@mui/material";
 
 export const LoadingPage = () => {
   return (
@@ -9,7 +9,7 @@ export const LoadingPage = () => {
       justifyContent={"center"}
       alignItems={"start"}
     >
-             <Typography fontsize={24}>Please Wait</Typography>
+      <Typography fontsize={24}>Please Wait</Typography>
       <Typography fontsize={24}>...Loading Data</Typography>
       <CircularProgress />
     </Stack>
