@@ -4,6 +4,7 @@ export default function Dashboard() {
   return (
     <>
       <iframe
+        style={{ width: "100%", height: "100%" }}
         title="Monartex"
         width="100%"
         height="100vh"
