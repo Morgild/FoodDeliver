@@ -81,7 +81,11 @@ type DataContextType = {
   orderList: Order[];
   deleteCategory: (deleteCategory: string) => void;
   handleEditCategory: (editCategory: string, newCategory: string) => void;
-  changeOrderStatus: (selectedCategoryID: string, newStatus: string) => void;
+  changeOrderStatus: (
+    selectedCategoryID: string,
+    newStatus: string,
+    userID: string
+  ) => void;
 };
 
 const DataContext = createContext({} as DataContextType);
@@ -287,7 +291,6 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         headers: { Authorization: localStorage.getItem("token") },
       });
       setOrderList(data);
-      setRefresh(refresh + 1);
     } catch (error) {
       console.log(error), "FFF";
     }
@@ -300,7 +303,6 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         headers: { Authorization: localStorage.getItem("token") },
       });
       setAllOrders(data);
-      setRefresh(refresh + 1);
     } catch (error) {
       console.log(error), "FFF";
     }
@@ -309,7 +311,8 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   //change order status
   const changeOrderStatus = async (
     selectedOrderID: string,
-    newStatus: string
+    newStatus: string,
+    userID: string
   ) => {
     try {
       const { data } = await api.post(
@@ -317,6 +320,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         {
           selectedOrderID,
           newStatus,
+          userID,
         },
         {
           headers: { Authorization: localStorage.getItem("token") },
@@ -339,11 +343,14 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   };
 
   useEffect(() => {
-    setIsReady(false);
-    getCategories();
-    getFoods();
-    setIsReady(true);
-  }, [refresh, isReady]);
+    const fetchData = async () => {
+       setIsReady(false);
+      await getCategories();
+      await getFoods();
+       setIsReady(true);
+    };
+    fetchData();
+  }, [refresh, isLogged]);
 
   useEffect(() => {
     getOrderList();

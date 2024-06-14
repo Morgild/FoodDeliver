@@ -7,14 +7,8 @@ import { usePathname, useRouter } from "next/navigation";
 
 type BasketProps = { toggleDrawer: () => void };
 
-const numberFormatter = new Intl.NumberFormat("en-US", {
-  style: "decimal",
-  minimumFractionDigits: 0,
-  maximumFractionDigits: 0,
-});
-
 export const Basket = (props: BasketProps) => {
-  const { basket } = useData();
+  const { basket, numberFormatter } = useData();
   const router = useRouter();
   const pathname = usePathname();
   const { toggleDrawer } = props;

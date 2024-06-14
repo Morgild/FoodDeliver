@@ -48,15 +48,14 @@ export default function Admin() {
   };
   const handleCloseFood = () => setOpenFood(false);
 
-  const orders = orderList.find((item) => item._id == selectedOrder)?.foods;
-  // console.log(orders);
-  // useEffect(() => {
-  //   if (!isAdmin) {
-  //     router.push("/");
-  //   }
-  // });
-  // if (!isAdmin) return <LoadingPage />;
-  // console.log(allOrders);
+  useEffect(() => {
+    if (!isAdmin) {
+      router.push("/");
+    }
+  });
+
+  if (!isAdmin) return <LoadingPage />;
+
   return (
     <Container
       sx={{ display: "flex", flexDirection: { xs: "column", md: "row" } }}
@@ -142,6 +141,7 @@ export default function Admin() {
             borderColor={"#D6D8DB"}
             padding={"8px 16px"}
             flexDirection={"row"}
+            alignItems={"center"}
             sx={{ cursor: "pointer" }}
             gap={1}
             color={"#5E6166"}

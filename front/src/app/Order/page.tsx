@@ -9,14 +9,9 @@ import { ArrowBackIos, Check } from "@mui/icons-material";
 
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { useState } from "react";
-const numberFormatter = new Intl.NumberFormat("en-US", {
-  style: "decimal",
-  minimumFractionDigits: 0,
-  maximumFractionDigits: 0,
-});
 
 export default function Order() {
-  const { basket, sumBasket, postOrder } = useData();
+  const { basket, sumBasket, postOrder, numberFormatter } = useData();
   const [district, setDistrict] = useState("");
   const [khoroo, setKhoroo] = useState("");
   const [bair, setBair] = useState("");

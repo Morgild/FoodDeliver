@@ -7,11 +7,12 @@ import { useAuth } from "@/components/providers/AuthProvider";
 import { useData } from "@/components/providers/DataProvider";
 import { Onsale } from "@/components/Home/OnSale";
 import { LoadingPage } from "@/components/LoadingPage";
+import { useEffect } from "react";
 
 export default function Home() {
-  const { isLogged, isReady } = useAuth();
+  const { isLogged, isReady, isAdmin } = useAuth();
   const { foods, categories } = useData();
-  if (!isReady) return <LoadingPage />;
+
   const foodCategories = foods.map((item) => {
     return item.foodCategory;
   });
@@ -41,7 +42,6 @@ export default function Home() {
       >
         <WhiteCards />
         <Onsale />
-
         {findDistinctCategories(foodCategories).map(
           (item: any, index: number) => (
             <HomeFoods key={index} foodCategory={item} />

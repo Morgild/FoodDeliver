@@ -4,6 +4,7 @@ import { useData } from "../providers/DataProvider";
 import Image from "next/image";
 
 import { DeliveryDining, RamenDining } from "@mui/icons-material";
+import { Empty } from "../Empty";
 
 type OrderDetailProps = {
   selectedOrder: string;
@@ -17,7 +18,9 @@ export const AllOrderDetail = (props: OrderDetailProps) => {
   const address = allOrders.find(
     (item) => item._id == selectedOrder
   )?.deliveryAddress;
-
+  if (!selectedOrder) {
+    return <Empty />;
+  }
   return (
     <Stack gap={1}>
       <Typography color={"primary.main"} fontSize={22} fontWeight={600}>
@@ -40,16 +43,22 @@ export const AllOrderDetail = (props: OrderDetailProps) => {
           Delivery Status:
         </Typography>
         <Stack
-          flexDirection={"row"}
+          flexDirection={{ xs: "column", md: "row" }}
+          alignItems={"center"}
           bgcolor={"#D6D8DB"}
           p={0.5}
           borderRadius={2}
         >
           <Stack
             onClick={() => {
-              changeOrderStatus(selectedOrder, "Хүлээгдэж буй");
+              changeOrderStatus(
+                selectedOrder,
+                "Хүлээгдэж буй",
+                selected?.userID || ""
+              );
             }}
             flexDirection={"row"}
+            width={1}
             gap={1}
             bgcolor={
               selected?.deliveryStatus == "Амжилттай" ? "#D6D8DB" : "#0468C8"
@@ -58,15 +67,23 @@ export const AllOrderDetail = (props: OrderDetailProps) => {
             p={1}
             color={"common.white"}
             sx={{ cursor: "pointer" }}
+            alignItems={"center"}
           >
             <DeliveryDining />
-            <Typography>Хүлээгдэж буй</Typography>
+            <Typography noWrap textOverflow={"ellipsis"}>
+              Хүлээгдэж буй
+            </Typography>
           </Stack>
           <Stack
             onClick={() => {
-              changeOrderStatus(selectedOrder, "Амжилттай");
+              changeOrderStatus(
+                selectedOrder,
+                "Амжилттай",
+                selected?.userID || ""
+              );
             }}
             flexDirection={"row"}
+            width={1}
             gap={1}
             bgcolor={
               selected?.deliveryStatus == "Амжилттай"

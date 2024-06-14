@@ -35,7 +35,7 @@ export const EditCategory = (props: EditCategoryProps) => {
         }}
       >
         <EditOutlined color="inherit" />
-        <Typography>Edit name</Typography>
+        <Typography display={{xs:'hidden', md:"block"}}>Edit name</Typography>
       </Stack>
       <Stack
         flexDirection={"row"}
@@ -47,7 +47,7 @@ export const EditCategory = (props: EditCategoryProps) => {
         }}
       >
         <DeleteOutline color={"inherit"} />
-        <Typography color={"#DF1F29"}>Delete Category</Typography>
+        <Typography style={{display:"hidden"}} color={"#DF1F29"}>Delete Category</Typography>
       </Stack>
     </Stack>
   );

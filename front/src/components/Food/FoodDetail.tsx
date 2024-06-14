@@ -26,16 +26,11 @@ export const FoodDetail = (props: FoodDetailProps) => {
     foodCategory,
   } = props;
   const { isLogged } = useAuth();
-  const { basket, setBasket } = useData();
+  const { basket, setBasket, numberFormatter } = useData();
   const [foodCount, setFoodCount] = useState(1);
   const [foodTotal, setFoodTotal] = useState(0);
   const [inBasket, setInBasket] = useState(false);
 
-  const numberFormatter = new Intl.NumberFormat("en-US", {
-    style: "decimal",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  });
   const changeFoodCount = (change: number) => {
     setFoodCount((prev) => {
       if (change < 0 && prev == 1) return prev;

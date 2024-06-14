@@ -44,7 +44,7 @@ export const SignIn = (props: TextFieldProps & SignInProps) => {
           <CustomInput
             label="Имэйл"
             type="text"
-            placeholder="Имэйл хайгаа оруулна уу"
+            placeholder="admin@admin.mn"
             name="email"
             value={formik.values.email}
             onChange={formik.handleChange}
@@ -55,7 +55,7 @@ export const SignIn = (props: TextFieldProps & SignInProps) => {
           <CustomInput
             label="Нууц үг"
             type="password"
-            placeholder="Нууц үг"
+            placeholder="admin123"
             name="password"
             value={formik.values.password}
             onChange={formik.handleChange}
